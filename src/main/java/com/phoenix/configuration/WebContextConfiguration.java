@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan( basePackageClasses = WebContextConfiguration.class )
+@ComponentScan( basePackageClasses = WebContextConfiguration.class, basePackages = "com.phoenix.controllers")
 public class WebContextConfiguration implements WebMvcConfigurer {
 
     /**
