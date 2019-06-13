@@ -79,6 +79,7 @@ public class ThymeleafConfiguration {
      */
     @Bean(name = "ThymeleafViewResolver")
     public ViewResolver thymeleafViewResolver() {
+
         //Create thymeleaf implementation of spring view resolver
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 
