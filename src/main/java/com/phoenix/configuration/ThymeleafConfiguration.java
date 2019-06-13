@@ -2,8 +2,10 @@ package com.phoenix.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -63,6 +65,9 @@ public class ThymeleafConfiguration {
         //You must enable its in that template engine.
         engine.addTemplateResolver(this.templateResolver());
 
+        //Add message source to template resolver
+        engine.setMessageSource(this.createMessageSource());
+
         //Return
         return engine;
     }
@@ -84,6 +89,23 @@ public class ThymeleafConfiguration {
 
         //Return
         return resolver;
+    }
+
+    /**
+     * Create {@link MessageSource} implementation. Message source load internalized messages from property file.
+     * This messages used as text in HTML tags.
+     * @return - {@link ResourceBundleMessageSource} configured object.
+     */
+    @Bean(name = "messageSource")
+    public MessageSource createMessageSource() {
+
+        ResourceBundleMessageSource msg_src = new ResourceBundleMessageSource();
+
+        //Set parameters
+        msg_src.setBasename("static/lang/localization");
+        msg_src.setDefaultEncoding("UTF-8");
+
+        return msg_src;
     }
 
     //Spring autowiring

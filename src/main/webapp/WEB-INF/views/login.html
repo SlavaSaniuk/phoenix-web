@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Sign In </title>
+    <title th:text="#{login.title}">  </title>
     <!-- Import CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
 </head>
 <body>
-    <h3 class="test"> Please, Sign In </h3>
+    <h3 class="test" th:text="#{login.welcome}">  </h3>
+    <a th:href="@{/login/}+'?Change-Locale=ru'"> Change locale </a>
 </body>
 </html>

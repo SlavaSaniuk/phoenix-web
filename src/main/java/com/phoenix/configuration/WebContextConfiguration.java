@@ -1,9 +1,16 @@
 package com.phoenix.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
@@ -47,5 +54,49 @@ public class WebContextConfiguration implements WebMvcConfigurer {
         //Redirect from root to view page
        registry.addRedirectViewController("/", "/login");
        registry.addRedirectViewController("/index", "/login");
+    }
+
+    /**
+     * Method add custom user defined interceptors to spring web engine.
+     * @param registry - registry of interceptors.
+     */
+    public void addInterceptors(InterceptorRegistry registry) {
+        //Add locales change interceptor
+        registry.addInterceptor(this.createLocaleChangeInterceptor());
+    }
+
+    /**
+     * Spring interceptor which used to change user request locale.
+     * Interceptor catch all user HTTP request and look for "Change-Locale" parameter.
+     * If parameter is set, interceptor set parameter value to user session and the next web page
+     * will be translated to parameter value language. If parameter value is unknown or not supported
+     * Spring will be use a default locale defined in {@link org.springframework.web.servlet.LocaleResolver} bean.
+     * @return - {@link LocaleChangeInterceptor} configured bean.
+     */
+    @Bean(name = "localeChangeInterceptor")
+    public LocaleChangeInterceptor createLocaleChangeInterceptor() {
+
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+
+        //Set change localization trigger
+        interceptor.setParamName("Change-Locale");
+
+        return interceptor;
+    }
+
+    /**
+     * Spring LocaleResolver bean used to resolve user locale.
+     * Default locale can be change by using a {@link LocaleChangeInterceptor} bean.
+     * @return - {@link SessionLocaleResolver} configured bean, which hold user locale in session attribute.
+     */
+    @Bean
+    public LocaleResolver createLocaleResolver() {
+
+        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
+
+        //Set default locale (US)
+        resolver.setDefaultLocale(Locale.ENGLISH);
+
+        return resolver;
     }
 }
