@@ -9,8 +9,20 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+/**
+ * Main Spring web application class (Runner).
+ * Class contains {@link Main#onStartup(ServletContext servletContext)} method which created all applications context, servlet context
+ * and mapping them to web application context.
+ */
 public class Main implements WebApplicationInitializer {
 
+    /**
+     * Method called on Spring web application startup.
+     * Defined two application (Root, Web) context and register coniguration classes to it's.
+     * Map java ee servlet context to web context and create dispatcher servlet.
+     * @param servletContext - Application automatic created servlet context.
+     * @throws ServletException - If {@link ServletContext} is not created.
+     */
     public void onStartup(ServletContext servletContext) throws ServletException {
 
         //Create root context
