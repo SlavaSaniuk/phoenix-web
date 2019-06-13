@@ -11,6 +11,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * Spring web application web context main configuration class (Marked with {@link Configuration} annotation).
+ * WebContextConfiguration class implements {@link WebMvcConfigurer} interface and override its default methods for
+ * configuring web context.
+ * {@link ThymeleafConfiguration} class used to configure Thymeleaf template engine but for cleaning code and clarity
+ * of understanding we manually register it in {@link org.thymeleaf.context.WebContext} application web context
+ * after {@link WebContextConfiguration} class.
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan( basePackageClasses = WebContextConfiguration.class, basePackages = "com.phoenix.controllers")
