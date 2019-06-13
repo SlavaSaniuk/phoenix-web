@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -89,10 +88,10 @@ public class WebContextConfiguration implements WebMvcConfigurer {
      * Default locale can be change by using a {@link LocaleChangeInterceptor} bean.
      * @return - {@link SessionLocaleResolver} configured bean, which hold user locale in session attribute.
      */
-    @Bean
+    @Bean(name = "localeResolver")
     public LocaleResolver createLocaleResolver() {
 
-        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
+        SessionLocaleResolver resolver = new SessionLocaleResolver();
 
         //Set default locale (US)
         resolver.setDefaultLocale(Locale.ENGLISH);
