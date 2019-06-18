@@ -15,10 +15,7 @@ import javax.servlet.ServletRegistration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Main Spring web application class (Runner).
@@ -27,8 +24,7 @@ import java.util.Properties;
  */
 public class Main implements WebApplicationInitializer {
 
-    //Logger
-    private static Logger LOGGER;
+    private static Logger LOGGER; //Logger
 
     /**
      * Method called on Spring web application startup.
@@ -39,31 +35,33 @@ public class Main implements WebApplicationInitializer {
      */
     public void onStartup(ServletContext servletContext) throws ServletException {
 
+        //Main application properties
+        Properties APPLICATION_PROPERTIES;
+
         //Initialize slf4j logger
+        //Load application configuration properties
         try{
             LOGGER = this.configureLogger();
+            APPLICATION_PROPERTIES = this.initApplicationProperties();
         }catch (NullPointerException | IOException exc) {
-            LOGGER.error(exc.getMessage());
-            exc.printStackTrace();
-            throw new ServletException(" Application can't initialize logger.");
+            throw new ServletException(exc.getMessage());
         }
 
-        //Create root context
+         //Create root context
         AnnotationConfigWebApplicationContext root_ctx = new AnnotationConfigWebApplicationContext();
         LOGGER.info("Create \'Root\' application context");
+        //Register context in context loader listener
+        servletContext.addListener(new ContextLoaderListener(root_ctx));
+        LOGGER.info("Root application context was created");
 
         //Set active profiles
-        this.setActiveProperties(root_ctx.getEnvironment());
-        LOGGER.info("Application active profiles: " + Arrays.toString(root_ctx.getEnvironment().getActiveProfiles()));
+        this.setActiveProperties(APPLICATION_PROPERTIES, root_ctx.getEnvironment());
 
         //Register configuration classes
         root_ctx.register(com.phoenix.configuration.RootContextConfiguration.class);
         root_ctx.refresh();
-
         LOGGER.info("RootContextConfiguration configuration class was registered in root application context");
-        //Register in context loader listener
-        servletContext.addListener(new ContextLoaderListener(root_ctx));
-        LOGGER.info("Root application context was created");
+
 
         //Create web application context
         AnnotationConfigWebApplicationContext web_ctx = new AnnotationConfigWebApplicationContext();
@@ -116,7 +114,51 @@ public class Main implements WebApplicationInitializer {
         return LoggerFactory.getLogger(this.getClass());
     }
 
-    private void setActiveProperties(ConfigurableEnvironment env) {
+    /*
+        Method read configuration properties from application.properties file under
+        "resource/configuration-files" directory. Configuration property from this properties
+        object used to to set as properties values in Spring configurations methods.
+     */
+    private Properties initApplicationProperties() throws NullPointerException, IOException {
+
+        Properties props = new Properties();
+
+        //Get application.properties configuration file
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("configuration-files" + File.separator +"application.properties");
+        if (in == null) throw new NullPointerException();
+
+        LOGGER.info("Load application configuration properties from application.properties file.");
+        //Load properties from file
+        props.load(in);
+
+        //Close input stream
+        in.close();
+
+        //Assert that configuration file is empty
+        if (props.isEmpty()) {
+            LOGGER.warn("Application configuration file is empty");
+            return props;
+        }
+
+        //Log all not empty loaded  properties
+        Set<Map.Entry<Object, Object>> entries = props.entrySet();
+        LOGGER.debug("All application configuration properties: ");
+        for (Map.Entry<Object, Object> entry : entries) {
+            if (entry.getValue().toString().equals("")) continue;
+            LOGGER.debug("KEY: " + entry.getKey().toString());
+            LOGGER.debug("VALUE: " + entry.getValue().toString());
+            LOGGER.debug("");
+        }
+
+        //Return
+        return props;
+    }
+
+    /*
+        Set active profiles values to Spring Environment of Root application context.
+        Active profiles contains in application.properties file with key "com.phoenix.application.active_profiles".
+     */
+    private void setActiveProperties(Properties a_application_properties, ConfigurableEnvironment env) {
 
         //Available profiles
         List<String> available_profiles = new ArrayList<>();
@@ -124,38 +166,31 @@ public class Main implements WebApplicationInitializer {
         available_profiles.add("PRODUCTION");
         available_profiles.add("TEST");
 
-        //Get application configuration file
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("configuration-files" + File.separator +"log4j.properties");
-        if (in == null) {
-            LOGGER.warn("Can't to find \"application.properties\" file under resource/configuration-files/ directory ");
-            LOGGER.warn("Set application active profile to default value.");
+        //Get active profile from properties
+        String active_profile = a_application_properties.getProperty("com.phoenix.application.active_profile");
+
+        //Assert if "com.phoenix.application.active_profile" property is not found in properties
+        if (active_profile == null) {
+            LOGGER.warn("Property \"com.phoenix.application.active_profile\" is not found in properties file. Application will use default (DEVELOPMENT) profile.");
             env.setActiveProfiles(available_profiles.get(0));
             return;
         }
 
-        //Create configuration properties
-        Properties application_properties = new Properties();
-        try {
-            application_properties.load(in); //Load properties from file
-            in.close(); //Close input stream
-        } catch (IOException exc) {
-            LOGGER.warn(exc.getMessage());
-            LOGGER.warn("Set application active profile to default value.");
+        //TO UPPER CASE
+        active_profile = active_profile.toUpperCase();
+
+        //Assert if "com.phoenix.application.active_profile" property is not set or set with invalid value
+        if (active_profile.equals("") || !available_profiles.contains(active_profile)) {
+            LOGGER.warn("Property \"com.phoenix.application.active_profile\" is not set or set with invalid value. Application will use default (DEVELOPMENT) profile.");
             env.setActiveProfiles(available_profiles.get(0));
             return;
         }
 
-        //Set active profile
-        String active_profile = application_properties.getProperty("com.phoenix.application.active_profile");
-
-        //Assert active profile is set in incorrect or null value
-        if (active_profile == null || !available_profiles.contains(active_profile.toUpperCase())) {
-            LOGGER.warn("Property \'com.phoenix.application.active_profile\' is not set or set is in incorrect value. Application will use default (DEVELOPMENT) profile.");
-            env.setActiveProfiles(available_profiles.get(0));
-        }else {
-            LOGGER.info("Set application active profile to " +active_profile +" value.");
-            env.setActiveProfiles(active_profile);
-        }
+        //Then
+        env.setActiveProfiles(active_profile);
+        LOGGER.info("Application active profile: " + Arrays.toString(env.getActiveProfiles()));
 
     }
+
+
 }
