@@ -25,6 +25,31 @@ import java.util.*;
 public class Main implements WebApplicationInitializer {
 
     private static Logger LOGGER; //Logger
+    /**
+     * Main configuration applications properties.
+     * Use APPLICATION_PROPERTIES.getProperty method
+     * to get configuration property.
+     */
+    private static Properties APPLICATION_PROPERTIES;
+
+    /**
+     * Constructor configure application logger framework (slf4j) {@link Main#LOGGER} and
+     * initialize application configuration properties {@link Main#APPLICATION_PROPERTIES}.
+     */
+    public Main() {
+        try{
+            LOGGER = this.configureLogger();
+            APPLICATION_PROPERTIES = this.initApplicationProperties();
+        }catch (IOException exc) {
+            if (LOGGER != null) {
+                LOGGER.error(exc.getMessage(), exc);
+            }else {
+                System.out.println(exc.getMessage());
+                exc.printStackTrace();
+            }
+            System.exit(1);
+        }
+    }
 
     /**
      * Method called on Spring web application startup.
@@ -34,18 +59,6 @@ public class Main implements WebApplicationInitializer {
      * @throws ServletException - If {@link ServletContext} is not created.
      */
     public void onStartup(ServletContext servletContext) throws ServletException {
-
-        //Main application properties
-        Properties APPLICATION_PROPERTIES;
-
-        //Initialize slf4j logger
-        //Load application configuration properties
-        try{
-            LOGGER = this.configureLogger();
-            APPLICATION_PROPERTIES = this.initApplicationProperties();
-        }catch (NullPointerException | IOException exc) {
-            throw new ServletException(exc.getMessage());
-        }
 
          //Create root context
         AnnotationConfigWebApplicationContext root_ctx = new AnnotationConfigWebApplicationContext();
@@ -61,7 +74,6 @@ public class Main implements WebApplicationInitializer {
         root_ctx.register(com.phoenix.configuration.RootContextConfiguration.class);
         root_ctx.refresh();
         LOGGER.info("RootContextConfiguration configuration class was registered in root application context");
-
 
         //Create web application context
         AnnotationConfigWebApplicationContext web_ctx = new AnnotationConfigWebApplicationContext();

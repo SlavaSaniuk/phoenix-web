@@ -25,6 +25,13 @@
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
         </fileset>
+        <fileset id="fileset" name="Spring root context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/RootContextConfiguration.java</file>
+        </fileset>
+        <fileset id="fileset2" name="Spring Web context" removed="false">
+          <dependency>fileset</dependency>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
+        </fileset>
       </configuration>
     </facet>
   </component>
