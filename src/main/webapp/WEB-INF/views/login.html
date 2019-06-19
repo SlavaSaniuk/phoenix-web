@@ -6,13 +6,14 @@
     <title data-th-text="#{login.title}">  </title>
     <!-- Import CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{styles/login.css}">
 </head>
 <body>
     <h3 class="test" th:text="#{login.welcome}">  </h3>
     <a th:href="@{/login(Change-Locale=ru)}"> Change locale </a>
 
     <div>
-        <form method="post" th:action="@{/login}">
+        <form method="post" th:action="@{/login}" class="login-form">
             <input type="text" th:placeholder="#{login.form.user-login}" />
             <input type="password" th:placeholder="#{login.form.user-password}" />
             <input type="submit" th:value="#{login.form.submit}" />
