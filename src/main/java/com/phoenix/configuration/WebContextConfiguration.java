@@ -1,5 +1,7 @@
 package com.phoenix.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,13 @@ import java.util.Locale;
 @EnableWebMvc
 @ComponentScan( basePackageClasses = WebContextConfiguration.class, basePackages = "com.phoenix.controllers")
 public class WebContextConfiguration implements WebMvcConfigurer {
+
+    //LOGGER
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebContextConfiguration.class);
+
+    public WebContextConfiguration() {
+        LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
+    }
 
     /**
      * Configure a handler to delegate unhandled requests by forwarding to the

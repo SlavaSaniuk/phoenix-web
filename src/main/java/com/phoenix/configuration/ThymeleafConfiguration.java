@@ -1,5 +1,7 @@
 package com.phoenix.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -19,8 +21,15 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 public class ThymeleafConfiguration {
 
+    //LOGGER
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThymeleafConfiguration.class);
+
     //Spring beans
     private ApplicationContext application_context;
+
+    public ThymeleafConfiguration() {
+        LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
+    }
 
     /**
      * Template resolver. Search and return template views under ''prefix' name 'suffix' folder.

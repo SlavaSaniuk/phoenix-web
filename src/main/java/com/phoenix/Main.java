@@ -61,36 +61,31 @@ public class Main implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
 
          //Create root context
-        AnnotationConfigWebApplicationContext root_ctx = new AnnotationConfigWebApplicationContext();
         LOGGER.info("Create \'Root\' application context");
-        //Register context in context loader listener
-        servletContext.addListener(new ContextLoaderListener(root_ctx));
-        LOGGER.info("Root application context was created");
+        AnnotationConfigWebApplicationContext root_ctx = new AnnotationConfigWebApplicationContext();
 
         //Set active profiles
         this.setActiveProperties(APPLICATION_PROPERTIES, root_ctx.getEnvironment());
 
         //Register configuration classes
         root_ctx.register(com.phoenix.configuration.RootContextConfiguration.class);
-        root_ctx.refresh();
         LOGGER.info("RootContextConfiguration configuration class was registered in root application context");
 
+        //Register context in context loader listener
+        LOGGER.info("Register Root application context in ContextLoaderListener");
+        servletContext.addListener(new ContextLoaderListener(root_ctx));
+        LOGGER.info("Root application context was created");
+
+
         //Create web application context
-        AnnotationConfigWebApplicationContext web_ctx = new AnnotationConfigWebApplicationContext();
         LOGGER.info("Create \'Web\' application context");
-        //Set servlet context to this context
-        web_ctx.setServletContext(servletContext);
-        //Set parent context
-        web_ctx.setParent(root_ctx);
-        web_ctx.refresh();
-        LOGGER.info("Web application context set as child to Root application context");
+        AnnotationConfigWebApplicationContext web_ctx = new AnnotationConfigWebApplicationContext();
+
         //Register configuration classes
         web_ctx.register(com.phoenix.configuration.WebContextConfiguration.class);
+        LOGGER.info("WebContextConfiguration configuration class was registered in web application context");
         web_ctx.register(com.phoenix.configuration.ThymeleafConfiguration.class);
-        web_ctx.refresh();
-        LOGGER.info("WebContextConfiguration configuration class was registered in root application context");
-        LOGGER.info("ThymeleafConfiguration configuration class was registered in root application context");
-        LOGGER.info("Web application context was created");
+        LOGGER.info("ThymeleafConfiguration configuration class was registered in web application context");
 
         //Register dispatcher servlet
         ServletRegistration.Dynamic dispatcher_servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(web_ctx));
@@ -98,6 +93,7 @@ public class Main implements WebApplicationInitializer {
         dispatcher_servlet.setLoadOnStartup(1);
         LOGGER.info("Dispatcher servlet was created and registered");
 
+        LOGGER.info("Web application context was created");
     }
 
     /*
