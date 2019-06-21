@@ -3,6 +3,7 @@ package com.phoenix.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * Main Spring web application root context configuration class.
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * all services and its configurations.
  */
 @Configuration
+@Import(PersistenceConfiguration.class)
 public class RootContextConfiguration {
 
     //LOGGER
