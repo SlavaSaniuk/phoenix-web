@@ -1,14 +1,14 @@
 package com.phoenix.configuration;
 
 import com.phoenix.exceptions.FileCorruptException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -45,6 +45,7 @@ public class PersistenceConfiguration {
      */
     @Bean("developmentDataSource")
     @Description("DataSource for DEVELOPMENT profile")
+    @Profile("DEVELOPMENT")
     public DataSource developmentDataSource() {
 
         LOGGER.debug("Create DEVELOPMENT DataSource bean");
@@ -106,7 +107,21 @@ public class PersistenceConfiguration {
         return ds;
     }
 
+    @Bean("productionDataSource")
+    @Description("DataSource for PRODUCTION profile")
+    @Profile("PRODUCTION")
+    public DataSource productionDataSource() {
 
+        LOGGER.info("Creating a PRODUCTION DataSource bean");
+        try {
+            Context init_ctx = new InitialContext();
+            Context env_ctx = (Context) init_ctx.lookup("java:comp/env");
+            return (DataSource) env_ctx.lookup(env.getProperty(""));
+        } catch (NamingException exc) {
+
+        }
+        return null;
+    }
 
 
 
