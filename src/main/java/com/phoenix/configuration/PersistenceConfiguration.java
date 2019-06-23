@@ -3,6 +3,7 @@ package com.phoenix.configuration;
 import com.phoenix.exceptions.FileCorruptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,72 +56,57 @@ public class PersistenceConfiguration {
         try {
             String database_url = env.getProperty("com.phoenix.persistence.datasource.development.database_url");
             if (database_url == null ) throw new FileCorruptException("persistence.properties");
-            if (database_url.isEmpty()) throw  new IllegalArgumentException("Properties \"com.phoenix.persistence.datasource.development.database_url\" is not set.");
+            if (database_url.isEmpty()) throw  new IllegalArgumentException("Property \"com.phoenix.persistence.datasource.development.database_url\" is not set.");
             ds.setUrl(database_url);
             LOGGER.debug("DataSource URL parameter is installed to: " +database_url +" value");
         }catch (FileCorruptException exc) {
             LOGGER.error(exc.toString());
             LOGGER.error("Please, replace corrupted file with new persistence.properties file.");
-            System.exit(1);
+            throw new BeanCreationException("Property \"com.phoenix.persistence.datasource.development.database_url\" is not set.");
         }catch (IllegalArgumentException exc) {
             LOGGER.error(exc.toString());
             LOGGER.error("Please. set \"com.phoenix.persistence.datasource.development.database_url\" in persistence.properties file.");
-            System.exit(1);
+            throw new BeanCreationException("Property \"com.phoenix.persistence.datasource.development.database_url\" is not set.");
         }
 
         //Set driver class name
-        try {
-            String driver_class_name = env.getProperty("com.phoenix.persistence.datasource.development.driver_class");
-            if (driver_class_name == null ) throw new FileCorruptException("persistence.properties");
-            if (driver_class_name.isEmpty()) {
-                LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.driver_class\" in \"persistence.properties\" file is not set. "
-                        +"Application will use DEFAULT MySQL \"com.mysql.cj.jdbc.Driver\" driver.");
-                driver_class_name = "com.mysql.cj.jdbc.Driver";
-            }
-            ds.setDriverClassName(driver_class_name);
-            LOGGER.debug("DataSource driverClassName parameter is installed to: " +driver_class_name +" value");
-        }catch (FileCorruptException exc) {
-            LOGGER.error(exc.toString());
-            LOGGER.error("Please, replace corrupted file with new persistence.properties file.");
-            System.exit(1);
+        String driver_class_name = env.getProperty("com.phoenix.persistence.datasource.development.driver_class");
+        if (driver_class_name == null || driver_class_name.isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.driver_class\" in \"persistence.properties\" file is not set. "
+                    +"Application will use DEFAULT MySQL \"com.mysql.cj.jdbc.Driver\" driver.");
+            driver_class_name = "com.mysql.cj.jdbc.Driver";
         }
+        ds.setDriverClassName(driver_class_name);
+        LOGGER.debug("DataSource driverClassName parameter is installed to: " +driver_class_name +" value");
+
+
 
         //Set user name
-        try {
-            String user_name = env.getProperty("com.phoenix.persistence.datasource.development.user_name");
-            if (user_name == null ) throw new FileCorruptException("persistence.properties");
-            if (user_name.isEmpty()) {
-                LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.user_name\" in \"persistence.properties\" file is not set. "
-                        +"Application will use DEFAULT \"root\" account.");
-                user_name = "root";
-            }
-            ds.setUsername(user_name);
-            LOGGER.debug("DataSource Username parameter is installed to: " +user_name +" value");
-        }catch (FileCorruptException exc) {
-            LOGGER.error(exc.toString());
-            LOGGER.error("Please, replace corrupted file with new persistence.properties file.");
-            System.exit(1);
+        String user_name = env.getProperty("com.phoenix.persistence.datasource.development.user_name");
+        if (user_name == null || user_name.isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.user_name\" in \"persistence.properties\" file is not set. "
+                    +"Application will use DEFAULT \"root\" account.");
+            user_name = "root";
         }
+        ds.setUsername(user_name);
+        LOGGER.debug("DataSource Username parameter is installed to: " +user_name +" value");
+
 
         //Set password
-        try {
-            String user_password = env.getProperty("com.phoenix.persistence.datasource.development.user_password");
-            if (user_password == null ) throw new FileCorruptException("persistence.properties");
-            if (user_password.isEmpty()) {
-                LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.user_password\" in \"persistence.properties\" file is not set. "
-                        +"Application will use DEFAULT empty password account.");
-            }
-            ds.setPassword(user_password);
-            LOGGER.debug("DataSource driverClassName parameter is installed in empty value");
-        }catch (FileCorruptException exc) {
-            LOGGER.error(exc.toString());
-            LOGGER.error("Please, replace corrupted file with new persistence.properties file.");
-            System.exit(1);
+        String user_password = env.getProperty("com.phoenix.persistence.datasource.development.user_password");
+        if (user_password == null || user_password.isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.datasource.development.user_password\" in \"persistence.properties\" file is not set. "
+                    +"Application will use DEFAULT empty password account.");
+            user_password = "";
         }
+        ds.setPassword(user_password);
+        LOGGER.debug("DataSource user_password parameter is installed in empty value");
 
         LOGGER.debug("Configuring development DataSource is created");
-         return ds;
+        return ds;
     }
+
+
 
 
 
