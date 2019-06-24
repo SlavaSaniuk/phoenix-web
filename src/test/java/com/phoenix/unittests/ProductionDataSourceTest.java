@@ -17,16 +17,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ProductionDataSourceTest {
+class ProductionDataSourceTest {
 
     @Mock private Environment env;
     @Mock private Context ctx;
     @InjectMocks private PersistenceConfiguration cfg;
-    private final DataSource ds = new DriverManagerDataSource();
 
     @Test
     void productionDataSource_notBoundInJNDIContext_ShouldThrowBeanCreationException() throws NamingException {
@@ -44,7 +42,7 @@ public class ProductionDataSourceTest {
     }
 
     @Test
-    void productionDataSource_jndiNamePropertyNotFound_ShouldThrowBeanCreationException() throws NamingException {
+    void productionDataSource_jndiNamePropertyNotFound_ShouldThrowBeanCreationException() {
         Mockito.when(env.getProperty("com.phoenix.persistence.datasource.production.jndi-name")).thenReturn(null);
         Assertions.assertThrows(BeanCreationException.class, () -> this.cfg.productionDataSource(ctx));
     }
