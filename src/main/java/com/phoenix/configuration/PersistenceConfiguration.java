@@ -2,8 +2,6 @@ package com.phoenix.configuration;
 
 import com.phoenix.exceptions.FileCorruptException;
 import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -12,6 +10,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Configuration
@@ -46,7 +45,7 @@ public class PersistenceConfiguration {
     @Bean("developmentDataSource")
     @Description("DataSource for DEVELOPMENT profile")
     @Profile("DEVELOPMENT")
-    public DataSource developmentDataSource() {
+    public DataSource developmentDataSource() throws BeanCreationException {
 
         LOGGER.debug("Create DEVELOPMENT DataSource bean");
         DriverManagerDataSource ds = new DriverManagerDataSource();
@@ -110,17 +109,26 @@ public class PersistenceConfiguration {
     @Bean("productionDataSource")
     @Description("DataSource for PRODUCTION profile")
     @Profile("PRODUCTION")
-    public DataSource productionDataSource() {
-
-        LOGGER.info("Creating a PRODUCTION DataSource bean");
+    @Autowired
+    public DataSource productionDataSource(Context jndi_context) throws BeanCreationException {
+        LOGGER.info("Start to create PRODUCTION DataSource bean");
+        DataSource ds;
+        String jndi_name = this.env.getProperty("com.phoenix.persistence.datasource.production.jndi-name");
         try {
-            Context init_ctx = new InitialContext();
-            Context env_ctx = (Context) init_ctx.lookup("java:comp/env");
-            return (DataSource) env_ctx.lookup(env.getProperty(""));
-        } catch (NamingException exc) {
-
+            if (jndi_name == null) throw new FileCorruptException("persistence.properties");
+            if (jndi_name.isEmpty()) {
+                jndi_name = "jdbc/phoenix";
+                LOGGER.warn("Property \"com.phoenix.persistence.datasource.production.jndi-name\" is not set. Application will use DEFAULT " +jndi_name +" value." );
+            }
+            ds = (DataSource) jndi_context.lookup(jndi_name);
+        }catch (FileCorruptException exc) {
+            LOGGER.error(exc.toString());
+            throw new BeanCreationException("Property \"com.phoenix.persistence.datasource.production.jndi-name\" is not set.", exc);
+        }catch (NamingException exc) {
+            LOGGER.error(exc.toString(), exc);
+            throw new BeanCreationException("DataSource with JNDI name: " +jndi_name +" was not found to JNDI context.", exc);
         }
-        return null;
+        return ds;
     }
 
 
