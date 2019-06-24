@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/">
+
+    <Resource name="jdbc/phoenix"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="phoenix-web"
+              password="12345678"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:36548/phoenix"
+              maxTotal="8"
+              maxIdle="4"  />
+
+</Context>
