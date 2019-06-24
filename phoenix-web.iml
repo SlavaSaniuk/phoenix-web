@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" version="4">
+<module version="4">
   <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Root Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/RootContextConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/PersistenceConfiguration.java</file>
+        </fileset>
+        <fileset id="fileset2" name="Web Application Context" removed="false">
+          <dependency>fileset</dependency>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
+        </fileset>
+      </configuration>
+    </facet>
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
@@ -13,19 +26,6 @@
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
         </sourceRoots>
-      </configuration>
-    </facet>
-    <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Root Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/PersistenceConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/RootContextConfiguration.java</file>
-        </fileset>
-        <fileset id="fileset2" name="Web Application Context" removed="false">
-          <dependency>fileset</dependency>
-          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
-        </fileset>
       </configuration>
     </facet>
   </component>
