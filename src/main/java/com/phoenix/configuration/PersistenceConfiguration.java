@@ -9,12 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.naming.NamingException;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Properties;
 
+/**
+ * Configuration class used to configure application persistence frameworks.
+ * Class annotated with {@link Configuration} annotation and imported in {@link RootContextConfiguration} class.
+ * Class has a all {@link DataSource} beans definition. Based on active persistence profile application will create only one configured {@link DataSource}
+ * JPA {@link LocalContainerEntityManagerFactoryBean} uses this DataSource to exchange all data with database. In this application JPA use Hibernate as
+ * its provider.
+ */
 @Configuration
 @PropertySource(value = "classpath:/configuration-files/persistence.properties")
+@EnableTransactionManagement
 public class PersistenceConfiguration {
 
     //LOGGER
@@ -106,7 +122,15 @@ public class PersistenceConfiguration {
         return ds;
     }
 
-    @Bean("productionDataSource")
+    /**
+     * Production {@link DataSource} bean. Application server create a DataSource controlled by him.
+     * Production DataSource create a connection pool because this DataSource most powerful than {@link PersistenceConfiguration#developmentDataSource()}.
+     * @param jndi_context - {@link Context} bean, used to lookup in JNDI context.
+     * @return - Configured {@link DataSource} bean.
+     * @throws BeanCreationException - If property "com.phoenix.persistence.datasource.production.jndi-name" is not found,
+     * not set or set in invalid value.
+     */
+    @Bean(value = "productionDataSource")
     @Description("DataSource for PRODUCTION profile")
     @Profile("PRODUCTION")
     @Autowired
@@ -131,8 +155,115 @@ public class PersistenceConfiguration {
         return ds;
     }
 
+    /**
+     * {@link LocalContainerEntityManagerFactoryBean} bean is the factory for {@link javax.persistence.EntityManager} beans.
+     * EntityManagerFactoryBean use active DataSource, scanning {@link com.phoenix.models} package on persistence units (entities)
+     * and used Hibernate as default JPa provider.
+     * @param ds - Active {@link DataSource} bean.
+     * @return - Configured {@link LocalContainerEntityManagerFactoryBean} bean.
+     */
+    @Bean
+    @Description("JPA Entity manager factory")
+    @Autowired
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
 
+        LOGGER.info("Start to create LocalContainerEntityManagerFactory bean");
+        final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 
+        //Set DataSource
+        emf.setDataSource(ds);
 
+        //Implements JPA Vendor adapter interface
+        JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        emf.setJpaVendorAdapter(adapter);
+
+        //Set persistence units scans
+        emf.setPackagesToScan("com.phoenix.models");
+
+        //Set additional hibernate properties
+        emf.setJpaProperties(this.loadHibernateProperties());
+
+        LOGGER.info("LocalContainerEntityManagerFactory bean was created");
+        return emf;
+    }
+
+    /**
+     * {@link PlatformTransactionManager} bean used to handle database transactions.
+     * @param emf - {@link EntityManagerFactory} factory that are created
+     * in {@link PersistenceConfiguration#entityManagerFactory(DataSource)} bean.
+     * @return - {@link JpaTransactionManager} bean.
+     */
+    @Bean
+    @Description("Transaction manager for single entity manager factory")
+    @Autowired
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        final JpaTransactionManager tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(emf);
+
+        return tm;
+    }
+
+    /**
+     * Method load configuration properties from "persistence.properties" file.
+     * These properties start with "com.phoenix.persistence.hibernate.*" key.
+     * All these properties has a default values.
+     * @return - Configuration {@link Properties} object.
+     */
+    private Properties loadHibernateProperties() {
+        //Create properties object
+        Properties props = new Properties();
+
+        LOGGER.info("Load Hibernate configuration properties from \"persistence,properties\" file");
+
+        //Set Hibernate dialect property
+        String dialect = this.env.getProperty("com.phoenix.persistence.hibernate.dialect");
+        if (dialect == null || dialect.isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.hibernate.dialect\" is not set. Application will use default MySQL 8 dialect.");
+            dialect = "org.hibernate.dialect.MySQL8Dialect";
+        }
+        LOGGER.debug("Hibernate dialect property: " +dialect);
+        props.setProperty("hibernate.dialect", dialect);
+
+        //Set Hibernate show_sql property
+        String show_sql = this.env.getProperty("com.phoenix.persistence.hibernate.show_sql");
+        if (show_sql == null || show_sql.isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.hibernate.show_sql\" is not set. Application will use default false value.");
+            show_sql = "false";
+        }
+        LOGGER.debug("Hibernate show_sql property: " +show_sql);
+        props.setProperty("hibernate.show_sql", show_sql);
+
+        //Set Hibernate generate statistic property
+        String gen_stat = this.env.getProperty("com.phoenix.persistence.hibernate.generate_statistics");
+        if (gen_stat  == null || gen_stat .isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.hibernate.generate_statistics\" is not set. Application will use default true value.");
+            gen_stat  = "true";
+        }
+        LOGGER.debug("Hibernate generate_statistics property: " +gen_stat);
+        props.setProperty("hibernate.generate_statistics", gen_stat );
+
+        //Set Hibernate use_sql_comments property
+        String sql_comm = this.env.getProperty("com.phoenix.persistence.hibernate.use_sql_comments");
+        if (sql_comm  == null || sql_comm .isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.hibernate.use_sql_comments\" is not set. Application will use default true value.");
+            sql_comm  = "true";
+        }
+        LOGGER.debug("Hibernate use_sql_comments property: " +sql_comm);
+        props.setProperty("hibernate.use_sql_comments", sql_comm);
+
+        //Set Hibernate hbm2dll.auto property
+        String hbm2dll = this.env.getProperty("com.phoenix.persistence.hibernate.hbm2ddl.auto");
+        if (hbm2dll == null || hbm2dll .isEmpty()) {
+            LOGGER.warn("Property \"com.phoenix.persistence.hibernate.hbm2ddl.auto\" is not set. Application will use default update value.");
+            hbm2dll  = "update";
+        }
+        LOGGER.debug("Hibernate hbm2ddl.auto property: " +hbm2dll);
+        props.setProperty("hibernate.hbm2ddl.auto", hbm2dll);
+
+        props.setProperty("hibernate.default_entity_mode", "pojo");
+        LOGGER.info("All hibernate configuration properties are loaded");
+
+        return props;
+    }
 
 }
