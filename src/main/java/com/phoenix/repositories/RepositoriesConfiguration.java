@@ -9,6 +9,10 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * {@link RepositoriesConfiguration} configuration class contains CRUD, JPA repositories beans of whole application.
+ * Spring automatically create a repositories implementations.
+ */
 @Configuration
 public class RepositoriesConfiguration {
 
