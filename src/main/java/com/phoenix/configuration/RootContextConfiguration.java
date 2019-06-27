@@ -25,13 +25,22 @@ public class RootContextConfiguration {
     //LOGGER
     private static final Logger LOGGER = LoggerFactory.getLogger(RootContextConfiguration.class);
 
+    /**
+     * Default constructor. Inform about loading of this configuration file.
+     */
     public RootContextConfiguration() {
         LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
     }
 
+    /**
+     * JNDI native context bean. Used for getting object from JNDI.
+     * For example for getting tomcat controlled production datasource.
+     * @return - Configured {@link Context} with link on "java:comp/env" subcontext.
+     * @throws BeanCreationException - If JNDI context in can't to found JNDI required object.
+     */
     @Bean("jndiContext")
     @Profile("PRODUCTION")
-    public Context jndiContext() {
+    public Context jndiContext() throws BeanCreationException {
         Context env;
         try {
             Context init_ctx = new InitialContext();
