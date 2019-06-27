@@ -29,6 +29,9 @@ public class WebContextConfiguration implements WebMvcConfigurer {
     //LOGGER
     private static final Logger LOGGER = LoggerFactory.getLogger(WebContextConfiguration.class);
 
+    /**
+     * Default constructor. Inform about loading of this configuration file.
+     */
     public WebContextConfiguration() {
         LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
     }
