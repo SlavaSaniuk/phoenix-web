@@ -1,6 +1,7 @@
-package com.phoenix.integration;
+package com.phoenix.integration.repositoriestest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
+import com.phoenix.integration.TestDataSourceConfig;
 import com.phoenix.models.User;
 import com.phoenix.repositories.RepositoriesConfiguration;
 import com.phoenix.repositories.UserRepository;

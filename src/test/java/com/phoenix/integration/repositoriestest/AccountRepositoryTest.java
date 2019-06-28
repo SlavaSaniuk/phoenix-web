@@ -1,6 +1,7 @@
-package com.phoenix.integration;
+package com.phoenix.integration.repositoriestest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
+import com.phoenix.integration.TestDataSourceConfig;
 import com.phoenix.models.Account;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.repositories.RepositoriesConfiguration;
@@ -59,4 +60,8 @@ class AccountRepositoryTest {
         Assertions.assertEquals(expected, this.repository.findAccountByAccountEmail(expected).getAccountEmail());
     }
 
+    @Test
+    void findAccountByEmail_notExistedEmail_shouldReturnNull() {
+        Assertions.assertNull(this.repository.findAccountByAccountEmail("asdasdasdsad"));
+    }
 }

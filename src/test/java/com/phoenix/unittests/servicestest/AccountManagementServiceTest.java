@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityExistsException;
+
 @ExtendWith(MockitoExtension.class)
 class AccountManagementServiceTest {
 
@@ -22,10 +24,8 @@ class AccountManagementServiceTest {
     AccountManager manager;
 
     @Test
-    void registerAccount_setAccount_shouldReturnGeneratedId() {
+    void registerAccount_NewAccount_shouldReturnGeneratedId() {
         Account acc = new Account();
-        acc.setAccountEmail(Mockito.anyString());
-        acc.setAccountPassword(Mockito.anyString());
 
         int expected_id = 23;
         Account returned = new Account();
@@ -41,6 +41,8 @@ class AccountManagementServiceTest {
 
         Account input = new Account();
 
+        Mockito.when(repository.save(input)).thenThrow(EntityExistsException.class);
 
+        Assertions.assertThrows(EntityExistsException.class, ()-> this.manager.registerAccount(input, new User()));
     }
 }

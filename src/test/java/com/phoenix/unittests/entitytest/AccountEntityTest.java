@@ -1,4 +1,4 @@
-package com.phoenix.unittests;
+package com.phoenix.unittests.entitytest;
 
 import com.phoenix.models.Account;
 import org.junit.jupiter.api.Assertions;
