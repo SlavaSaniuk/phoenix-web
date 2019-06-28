@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+import org.springframework.data.repository.query.QueryLookupStrategy;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,9 @@ public class RepositoriesConfiguration {
     @PersistenceContext
     EntityManager em; //Autowired
 
+    //Factory that's create a repository implementation
+    private JpaRepositoryFactory factory;
+
     /**
      * Default constructor. Inform about loading of this configuration class.
      */
@@ -37,11 +41,7 @@ public class RepositoriesConfiguration {
      */
     @Bean("UserRepository")
     public UserRepository userRepository() {
-
-        JpaRepositoryFactory factory = new JpaRepositoryFactory(this.em);
-
-        LOGGER.debug("Creating " +UserRepository.class.getName() +" implementation.");
-        LOGGER.debug("Return " +UserRepository.class.getName() +" repository bean.");
+        LOGGER.debug("Create " +UserRepository.class.getName() +" repository bean.");
         return factory.getRepository(UserRepository.class);
     }
 
@@ -52,10 +52,17 @@ public class RepositoriesConfiguration {
      */
     @Bean("AccountRepository")
     public AccountRepository accountRepository() {
-        JpaRepositoryFactory factory = new JpaRepositoryFactory(this.em);
-        LOGGER.debug("Creating " +AccountRepository.class.getName() +" implementation.");
-        LOGGER.debug("Return " +AccountRepository.class.getName() +" repository bean.");
+        LOGGER.debug("Create " +AccountRepository.class.getName() +" repository bean.");
         return factory.getRepository(AccountRepository.class);
+    }
+
+    @PersistenceContext
+    private void setEntityManager(EntityManager em) {
+        LOGGER.debug("Get " +em.getClass().getName() +" from persistence context.");
+        this.em = em;
+        LOGGER.debug("Create " +JpaRepositoryFactory.class.getName() +" factory for repositories.");
+        this.factory = new JpaRepositoryFactory(this.em);
+        this.factory.setQueryLookupStrategyKey(QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND);
     }
 
 }
