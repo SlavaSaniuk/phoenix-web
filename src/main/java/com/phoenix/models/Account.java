@@ -27,12 +27,13 @@ public class Account {
 
     //Getters and setters
     public int getAccountId() {        return account_id;    }
+    public void setAccountId(int account_id) {        this.account_id = account_id;    }
 
     public String getAccountEmail() {        return account_email;    }
-    public void setAccountEmail(@Valid String account_email)  {
+    public void setAccountEmail(@NotNull @NotEmpty String account_email)  {
         this.account_email = account_email;
     }
 
     public String getAccountPassword() {        return account_password;    }
-    public void setAccountPassword(@Valid String account_password) {        this.account_password = account_password;    }
+    public void setAccountPassword(@NotNull @NotEmpty  String account_password) {        this.account_password = account_password;    }
 }
