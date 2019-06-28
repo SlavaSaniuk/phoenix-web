@@ -25,7 +25,7 @@ class UserRepositoryTest {
     private UserRepository repository;
 
     @Autowired
-    public void setRepository(UserRepository repository) {
+    void setRepository(UserRepository repository) {
         this.repository = repository;
     }
 
