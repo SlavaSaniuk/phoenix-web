@@ -1,5 +1,6 @@
 package com.phoenix.models;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -24,6 +25,12 @@ public class Account {
     @NotEmpty
     private String account_password;
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "account_owner_user_id", nullable = false,
+            unique = true, updatable = false)
+    @MapsId
+    private User account_owner;
+
 
     //Getters and setters
     public int getAccountId() {        return account_id;    }
@@ -36,4 +43,7 @@ public class Account {
 
     public String getAccountPassword() {        return account_password;    }
     public void setAccountPassword(@NotNull @NotEmpty  String account_password) {        this.account_password = account_password;    }
+
+    public User getAccountOwner() {        return account_owner;    }
+    public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
 }
