@@ -1,6 +1,7 @@
 package com.phoenix.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user")
@@ -26,4 +27,17 @@ public class User {
 
     public Account getUserAccount() {        return user_account;    }
     public void setUserAccount(Account user_account) {        this.user_account = user_account;    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return user_id == user.user_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user_id);
+    }
 }

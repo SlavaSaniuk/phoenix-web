@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account")
@@ -46,4 +47,17 @@ public class Account {
 
     public User getAccountOwner() {        return account_owner;    }
     public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return account_id == account.account_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(account_id);
+    }
 }
