@@ -1,5 +1,6 @@
 package com.phoenix.repositories;
 
+import com.phoenix.models.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +33,7 @@ public class RepositoriesConfiguration {
     /**
      * {@link UserRepository} bean. Spring automatically create this interface
      * implementation and return it as spring bean.
-     * @return - {@link UserRepository} bean.
+     * @return - {@link UserRepository} repository bean.
      */
     @Bean("UserRepository")
     public UserRepository userRepository() {
@@ -40,8 +41,21 @@ public class RepositoriesConfiguration {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(this.em);
 
         LOGGER.debug("Creating " +UserRepository.class.getName() +" implementation.");
-        LOGGER.debug("Return " +UserRepository.class.getName() +" created bean.");
+        LOGGER.debug("Return " +UserRepository.class.getName() +" repository bean.");
         return factory.getRepository(UserRepository.class);
+    }
+
+    /**
+     * {@link AccountRepository} bean. Spring automatically create this interface
+     *      * implementation and return it as spring bean
+     * @return {@link AccountRepository} repository bean.
+     */
+    @Bean("AccountRepository")
+    public AccountRepository accountRepository() {
+        JpaRepositoryFactory factory = new JpaRepositoryFactory(this.em);
+        LOGGER.debug("Creating " +AccountRepository.class.getName() +" implementation.");
+        LOGGER.debug("Return " +AccountRepository.class.getName() +" repository bean.");
+        return factory.getRepository(AccountRepository.class);
     }
 
 }
