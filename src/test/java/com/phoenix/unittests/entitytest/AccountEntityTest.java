@@ -1,6 +1,7 @@
 package com.phoenix.unittests.entitytest;
 
 import com.phoenix.models.Account;
+import com.phoenix.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -89,6 +90,14 @@ class AccountEntityTest {
 
         Set<ConstraintViolation<Account>> violations = hibernate_validator.validate(account);
         Assertions.assertEquals(4, violations.size());
+    }
+
+    @Test
+    void setAccountOwner_newUser_shouldBeSetted() {
+        User test = new User();
+        Account account = new Account();
+        account.setAccountOwner(test);
+        Assertions.assertEquals(test, account.getAccountOwner());
     }
 
 }
