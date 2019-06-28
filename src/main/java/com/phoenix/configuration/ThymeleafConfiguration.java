@@ -27,6 +27,9 @@ public class ThymeleafConfiguration {
     //Spring beans
     private ApplicationContext application_context;
 
+    /**
+     * Default constructor. Inform about loading of this configuration file.
+     */
     public ThymeleafConfiguration() {
         LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
     }
