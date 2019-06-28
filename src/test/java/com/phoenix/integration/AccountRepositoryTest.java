@@ -1,11 +1,14 @@
 package com.phoenix.integration;
 
 import com.phoenix.configuration.PersistenceConfiguration;
-import com.phoenix.models.User;
+import com.phoenix.models.Account;
+import com.phoenix.repositories.AccountRepository;
 import com.phoenix.repositories.RepositoriesConfiguration;
-import com.phoenix.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
+
 
 @SpringJUnitConfig(classes = {
         TestDataSourceConfig.class,
@@ -21,29 +24,20 @@ import java.util.List;
         RepositoriesConfiguration.class
 })
 @ActiveProfiles("TEST")
-class UserRepositoryTest {
-
-    private UserRepository repository;
+class AccountRepositoryTest {
 
     @Resource
-    void setRepository(UserRepository repository) {
-        this.repository = repository;
-    }
+    private AccountRepository repository;
 
-    @Test
-    @Transactional
+    @ParameterizedTest
+    @ValueSource(strings = {"test@test.com","Jhony@mail.us", "Herbert@gmail.ru"})
     @Commit
-    void save_savesNewUser_ShouldGenerateId() {
-        User user = new User();
-        Assertions.assertNotEquals(0, this.repository.save(user));
+    @Transactional
+    void saveAccount_defaultAccount_shouldReturnGeneratedAccountId(String a_email) {
+        Account test = new Account();
+        test.setAccountEmail(a_email);
+        test.setAccountPassword("12345678");
+
+        Assertions.assertNotEquals(0, this.repository.save(test).getAccountId());
     }
-
-    @Test
-    void findAll_getAllUser_shouldReturnList() {
-        List<User> users = (List<User>) this.repository.findAll();
-        Assertions.assertNotEquals(0, users.size());
-    }
-
-
-
 }
