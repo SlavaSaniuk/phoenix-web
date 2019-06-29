@@ -9,6 +9,7 @@ import com.phoenix.services.ServicesConfiguration;
 import com.phoenix.services.accounting.AccountManagementService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ class AccountManagementServiceTestCase {
 
     @Test
     @Transactional
+    @Commit
     void registerAccount_newAccount_shouldReturnGeneratedId() {
 
         Account test = new Account();
@@ -41,6 +43,7 @@ class AccountManagementServiceTestCase {
 
     @Test
     @Transactional
+    @Commit
     void registerAccount_accountAlreadyRegistered_shouldThrowEntityAlreadyExist() {
 
         String same_email = "ams2@test.com";
