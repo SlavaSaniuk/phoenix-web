@@ -1,20 +1,22 @@
 package com.phoenix.models;
 
-import javax.jws.soap.SOAPBinding;
+import java.util.Objects;
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Entity
 @Table(name = "account")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id", nullable = false)
     private int account_id;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "account_id", nullable = false,
+            unique = true, updatable = false)
+    @MapsId
+    private User account_owner;
 
     @Column(name = "account_email", nullable = false, unique = true)
     @NotNull(message = "Account email field must not be null.")
@@ -26,11 +28,6 @@ public class Account {
     @NotEmpty
     private String account_password;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "account_owner_user_id", nullable = false,
-            unique = true, updatable = false)
-    @MapsId
-    private User account_owner;
 
 
     //Getters and setters
