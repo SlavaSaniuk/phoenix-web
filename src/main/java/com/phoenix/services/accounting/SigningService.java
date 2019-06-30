@@ -1,10 +1,10 @@
 package com.phoenix.services.accounting;
 
-import com.phoenix.exceptions.EmailAlreadyRegisterException;
+import com.phoenix.models.Account;
 
 public interface SigningService{
 
-    boolean signIn();
+    boolean signIn(Account account);
 
-    int signUp() throws EmailAlreadyRegisterException;
+    int signUp(Account account);
 }
