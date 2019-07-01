@@ -18,6 +18,8 @@
             <input type="password" th:placeholder="#{login.form.user-password}" />
             <input type="submit" th:value="#{login.form.submit}" />
         </form>
+        <p th:text="#{login.link.registration.msg}"> Don't have account? </p>
+        <a th:href="@{/registration.html}" th:text="#{login.link.registration}"> Sign Up</a>
     </div>
 
 </body>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{registration.title}"> Sign Up </title>
+</head>
+<body>
+    <h3 th:text="#{registration.welcome}"> Please, sign up </h3>
+
+    <div>
+        <form>
+            <label> <input type="text" id="account_email" placeholder="Your email" th:placeholder="#{registration.form.account-email}" /> </label>
+            <label> <input type="text" id="account_password" placeholder="Your password" th:placeholder="#{registration.form.account-password}"/></label>
+            <input type="submit" value="sign up" th:value="#{registration.form.submit}">
+        </form>
+        <p th:text="#{registration.link.login.msg}"> Already registered? </p>
+        <a th:href="@{/login.html}" th:text="#{registration.link.login}"> Sign In </a>
+
+    </div>
+
+</body>
+</html>
