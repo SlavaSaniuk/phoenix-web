@@ -40,9 +40,9 @@ public class SignAuthenticator implements SigningService {
     public int signUp(Account account) throws EmailAlreadyRegisterException, JpaEngineException {
 
         User created_user = this.repository.save(new User());
-        if (created_user.getUserId() == 0) throw new JpaEngineException("JPA can't to save new user entity");
-
         int generated_id = created_user.getUserId();
+        if (generated_id == 0) throw new JpaEngineException("JPA can't to save new user entity");
+
         int account_id;
         try {
             account_id = this.ams.registerAccount(account, created_user);
