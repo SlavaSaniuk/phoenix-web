@@ -10,18 +10,23 @@
 
     <div>
         <form action="#" th:action="@{/registration}" th:object="${account}" method="post">
+
             <label> <input type="text" id="account_email" placeholder="Your email"
                            th:placeholder="#{registration.form.account-email}" th:field="*{accountEmail}" />
             </label>
-            <div th:if="${#fields.hasErrors('accountEmail')}" th:text="udf"> </div>
-
             <label> <input type="text" id="account_password" placeholder="Your password"
-                           th:placeholder="#{registration.form.account-password}" th:field="*{accountPassword}" /></label>
+                           th:placeholder="#{registration.form.account-password}" th:field="*{accountPassword}" />
+            </label>
             <input type="submit" value="sign up" th:value="#{registration.form.submit}" />
 
+            <div th:if="${#fields.hasErrors('*')}" >
+                <p th:each="er : ${#fields.errors()}" th:text="${er}"></p>
+            </div>
         </form>
+
         <p th:text="#{registration.link.login.msg}"> Already registered? </p>
         <a th:href="@{/login.html}" th:text="#{registration.link.login}"> Sign In </a>
+
     </div>
 
 </body>
