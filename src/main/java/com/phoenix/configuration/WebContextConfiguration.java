@@ -1,17 +1,20 @@
 package com.phoenix.configuration;
 
+import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
 
 /**
  * Spring web application web context main configuration class (Marked with {@link Configuration} annotation).
@@ -118,4 +121,25 @@ public class WebContextConfiguration implements WebMvcConfigurer {
 
         return resolver;
     }
+
+    @Override
+    public Validator getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(this.validationMessageSource());
+        return validator;
+    }
+
+    @Bean("validationMessageSource")
+    public MessageSource validationMessageSource() {
+
+        ReloadableResourceBundleMessageSource msg_src = new ReloadableResourceBundleMessageSource();
+
+        //Set parameters
+        msg_src.setCacheSeconds(60);
+        msg_src.setBasename("classpath:static/lang/validation");
+        msg_src.setDefaultEncoding("UTF-8");
+
+        return msg_src;
+    }
+
 }

@@ -3,7 +3,6 @@ package com.phoenix.models;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "account")
@@ -19,13 +18,11 @@ public class Account {
     private User account_owner;
 
     @Column(name = "account_email", nullable = false, unique = true)
-    @NotNull(message = "Account email field must not be null.")
-    @NotEmpty(message = "Account email field must not be empty")
+    @NotEmpty(message = "{notempty.Account.email}")
     private String account_email;
 
     @Column(name = "account_password", nullable = false)
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = "{notempty.Account.password}")
     private String account_password;
 
 
@@ -35,12 +32,12 @@ public class Account {
     public void setAccountId(int account_id) {        this.account_id = account_id;    }
 
     public String getAccountEmail() {        return account_email;    }
-    public void setAccountEmail(@NotNull @NotEmpty String account_email)  {
+    public void setAccountEmail(@NotEmpty String account_email)  {
         this.account_email = account_email;
     }
 
     public String getAccountPassword() {        return account_password;    }
-    public void setAccountPassword(@NotNull @NotEmpty  String account_password) {        this.account_password = account_password;    }
+    public void setAccountPassword(@NotEmpty  String account_password) {        this.account_password = account_password;    }
 
     public User getAccountOwner() {        return account_owner;    }
     public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }

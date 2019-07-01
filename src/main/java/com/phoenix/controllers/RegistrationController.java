@@ -2,16 +2,16 @@ package com.phoenix.controllers;
 
 import com.phoenix.models.Account;
 import com.phoenix.services.accounting.SigningService;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
@@ -46,20 +46,20 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/registration")
-    public String handleRegistrationRequest(@Valid @ModelAttribute("account")  Account account, BindingResult result) {
+    public ModelAndView handleRegistrationRequest(@Valid @ModelAttribute("account")  Account account, BindingResult result) {
 
-
+        //Create mav
+        ModelAndView mav = new ModelAndView();
 
         //Validate form input
         if (result.hasFieldErrors()) {
-            for (FieldError err : result.getFieldErrors())
-                System.out.println(err.toString());
-            LOGGER.error("ERRORS");
-            return "registration"; //Exit from method
-
+            LOGGER.debug("Account field validation failed");
+            mav.setViewName("registration");
+            return mav; //Exit from method
         }
 
-        return "user";
+        mav.setViewName("user");
+        return mav;
     }
 
 }
