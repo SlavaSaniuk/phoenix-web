@@ -16,7 +16,19 @@
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Root Application Context" removed="false" profiles="DEVELOPMENT">
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/PersistenceConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/repositories/RepositoriesConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/RootContextConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/services/ServicesConfiguration.java</file>
+        </fileset>
+        <fileset id="fileset2" name="Web Application Context" removed="false">
+          <dependency>fileset</dependency>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">

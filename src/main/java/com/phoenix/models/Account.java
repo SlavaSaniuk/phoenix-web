@@ -4,6 +4,11 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * Account entity. Database holds all application account in relation form in 'account' table.
+ * When new account registered in application, application automatically create new {@link User} entity
+ * and generate it its unique ID, which is the same as {@link Account#account_id}.
+ */
 @Entity
 @Table(name = "account")
 public class Account {

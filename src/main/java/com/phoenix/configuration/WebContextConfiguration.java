@@ -122,13 +122,11 @@ public class WebContextConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
-    @Override
-    public Validator getValidator() {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(this.validationMessageSource());
-        return validator;
-    }
-
+    /**
+     * {@link MessageSource} bean. User as messages provider for validation logic
+     * in application. Basename link on "classpath:static/lang/validation" resource bundle.
+     * @return - {@link ReloadableResourceBundleMessageSource} configured bean.
+     */
     @Bean("validationMessageSource")
     public MessageSource validationMessageSource() {
 
@@ -140,6 +138,13 @@ public class WebContextConfiguration implements WebMvcConfigurer {
         msg_src.setDefaultEncoding("UTF-8");
 
         return msg_src;
+    }
+
+    @Override
+    public Validator getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(this.validationMessageSource());
+        return validator;
     }
 
 }

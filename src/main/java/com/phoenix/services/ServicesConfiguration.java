@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * {@link Configuration} application class. Class define all business login services beans.
+ */
 @Configuration
 public class ServicesConfiguration {
 
@@ -22,25 +25,33 @@ public class ServicesConfiguration {
     private UserRepository user_repository;
     private AccountRepository account_repository;
 
+    /**
+     * Default constructor. Uses to logging about start of initialization services beans.
+     */
     //Constructor
     public ServicesConfiguration() {
         LOGGER.info("Start to initialize " +getClass().getName() +" configuration class");
     }
 
-
-
+    /**
+     * {@link AccountManagementService} service bean. {@link AccountManager} implements this bean.
+     * @return - {@link AccountManagementService} bean.
+     */
     @Bean("AccountManager")
     public AccountManagementService accountManagementService() {
         return new AccountManager(this.account_repository);
     }
 
+    /**
+     * {@link SigningService} service bean. {@link SignAuthenticator} implements this bean.
+     * @return - {@link SigningService} bean.
+     */
     @Bean("SingingService")
     public SigningService signingService() {
         SignAuthenticator service = new SignAuthenticator(this.user_repository);
         service.setAccountManagementService(this.accountManagementService());
         return service;
     }
-
 
     //Spring autowiring
     @Autowired

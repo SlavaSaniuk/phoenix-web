@@ -1,6 +1,5 @@
 package com.phoenix.repositories;
 
-import com.phoenix.models.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -56,8 +55,12 @@ public class RepositoriesConfiguration {
         return factory.getRepository(AccountRepository.class);
     }
 
+    /**
+     * JPA {@link EntityManager} autowiring.
+     * @param em - {@link EntityManager} for default unit.
+     */
     @PersistenceContext
-    private void setEntityManager(EntityManager em) {
+    public void setEntityManager(EntityManager em) {
         LOGGER.debug("Get " +em.getClass().getName() +" from persistence context.");
         this.em = em;
         LOGGER.debug("Create " +JpaRepositoryFactory.class.getName() +" factory for repositories.");

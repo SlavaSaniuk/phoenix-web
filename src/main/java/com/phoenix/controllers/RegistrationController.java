@@ -22,6 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Locale;
 
+/**
+ * {@link RegistrationController} web http controller which handle GET/POST request on "/registration" URL.
+ * {@link RegistrationController#getRegistrationPage()} set to rendering "registration.html" page, and
+ * {@link RegistrationController#handleRegistrationRequest(Account, BindingResult, HttpServletRequest)} register users in application.
+ */
 @Controller
 public class RegistrationController {
 
@@ -33,6 +38,10 @@ public class RegistrationController {
     private MessageSource msg_src; //autowired via setters
     private LocaleResolver locale_resolver; //autowired via setters
 
+    /**
+     * Default constructor. Used to log about its creation and mapping {@link SigningService} bean.
+     * @param a_service - {@link SigningService} bean implementation (Default: {@link com.phoenix.services.accounting.SignAuthenticator}).
+     */
     //Constructor
     @Autowired
     public RegistrationController(SigningService a_service) {
@@ -41,12 +50,22 @@ public class RegistrationController {
         this.service = a_service;
     }
 
-
+    /**
+     * {@link Account} entity. Used to set email and password fields in registration view.
+     * {@link RegistrationController#getRegistrationPage()} contains this entity as model attribute, and
+     * {@link RegistrationController#handleRegistrationRequest(Account, BindingResult, HttpServletRequest)} get it's from POST request.
+     * @return - empty account entity.
+     */
     @ModelAttribute("account")
     public Account createAccountModel() {
         return new Account();
     }
 
+    /**
+     * Method handle {@link RequestMethod#GET} request on "/registration" url. Simply contain in your
+     * {@link ModelAndView} view name (registration) to render registration form.
+     * @return {@link ModelAndView} with "registration" view name.
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/registration")
     public ModelAndView getRegistrationPage() {
 
@@ -56,6 +75,15 @@ public class RegistrationController {
         return mav;
     }
 
+    /**
+     * Method handle {@link RequestMethod#POST} request on "/registration" URL. {@link javax.validation.Validator} validate {@link Account} parameter
+     * and if parameter is not valid return back to registration page. {@link BindingResult} contains all errors if account parameters is non valid,
+     * or {@link Account#getAccountEmail()} already registered. {@link HttpServletRequest} contains user locale in his {@link javax.servlet.http.HttpSession} field.
+     * @param account - {@link Account} user account to register.
+     * @param result {@link BindingResult} result of account validation.
+     * @param req - {@link HttpServletRequest} user POST request on this URL
+     * @return {@link ModelAndView} with "user" view name, or "registration" if account is not valid.
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/registration")
     public ModelAndView handleRegistrationRequest(@Valid @ModelAttribute("account")  Account account, BindingResult result,  HttpServletRequest req) {
 
@@ -88,6 +116,10 @@ public class RegistrationController {
         return mav;
     }
 
+    /**
+     * Spring autowiring method to set {@link MessageSource} in validator.
+     * @param a_src - validation {@link MessageSource}.
+     */
     @Autowired
     @Qualifier("validationMessageSource")
     public void setMessageSource(MessageSource a_src) {
@@ -95,6 +127,11 @@ public class RegistrationController {
         this.msg_src = a_src;
     }
 
+    /**
+     * Spring autowiring to set {@link org.springframework.web.servlet.i18n.SessionLocaleResolver} bean
+     * {@link LocaleResolver} resolve user locale on {@link HttpServletRequest} parameter.
+     * @param a_resolver - Configured {@link LocaleResolver}
+     */
     @Autowired
     public void setLocaleResolver(LocaleResolver a_resolver){
         LOGGER.debug("Autowire " +LocaleResolver.class.getName() + " to " +getClass().getName() +" HTTP controller.");
