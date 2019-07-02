@@ -1,5 +1,7 @@
 package com.phoenix.configuration;
 
+import com.phoenix.repositories.RepositoriesConfiguration;
+import com.phoenix.services.ServicesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -19,7 +21,9 @@ import javax.naming.NamingException;
  * all services and its configurations.
  */
 @Configuration
-@Import(PersistenceConfiguration.class)
+@Import({PersistenceConfiguration.class,
+                RepositoriesConfiguration.class,
+                ServicesConfiguration.class})
 public class RootContextConfiguration {
 
     //LOGGER
