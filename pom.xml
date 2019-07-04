@@ -7,11 +7,8 @@
     <groupId>by.bsac</groupId>
     <artifactId>phoenix-web</artifactId>
     <version>0.1</version>
-    <modules>
 
-    </modules>
-
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
