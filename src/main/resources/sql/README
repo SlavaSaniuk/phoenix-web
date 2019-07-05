@@ -1,0 +1,10 @@
+File 'mysql-empty-v0.1.sql' is the empty phoenix database dump for MySQL server.
+'mysql-empty-v0.1.sql' contains table definition:
+    *user
+    *account
+
+File 'mysql-empty-actual.sql' is the empty phoenix database dump for MySQL server.
+'mysql-empty-actual.sql' contains table definition:
+    *user
+    *account
+    *user_detail
