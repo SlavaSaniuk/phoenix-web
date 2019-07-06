@@ -79,4 +79,12 @@ class AccountManagementServiceTestCase {
         System.out.println(test.getAccountPasswordSalt());
         Assertions.assertFalse(test.getAccountPasswordSalt().isEmpty());
     }
+
+    @Test
+    void prepareAccount_validAccount_shouldResetAccountPassword() {
+        Account test = new Account();
+        test.setAccountPassword("12345678");
+        test = this.ams.prepareAccount(test);
+        Assertions.assertNull(test.getAccountPassword());
+    }
 }
