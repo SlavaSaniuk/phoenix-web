@@ -16,7 +16,7 @@ class PasswordHasherTestCase {
     }
 
     @Test
-    void hash_saltIsNull_shouldThrowIllegalArgumentException() {
+    void hash_saltIsNull_shouldAutomaticallyGenerateSalt() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> hasher.hash("test", null));
     }
 
@@ -28,22 +28,24 @@ class PasswordHasherTestCase {
     @Test
     void hash_setWordAndSalt_shouldReturnFixedLengthHash() {
         String hash = hasher.hash("test", "asdsaddas");
-        System.out.println(hash);
         Assertions.assertEquals(40, hash.length());
     }
 
     @Test
     void hash_setWordAndSalt_shouldReturnNotNullHash() {
         String hash = hasher.hash("test", "asdsaddas");
-        System.out.println(hash);
         Assertions.assertNotNull(hash);
     }
 
     @Test
     void hash_setWordAndSalt_shouldReturnNotEmptyHash() {
         String hash = hasher.hash("test", "asdsaddas");
-        System.out.println(hash);
         Assertions.assertFalse(hash.isEmpty());
+    }
+
+    @Test
+    void hash_setOnlyWord_shouldReturnGeneratedHash() {
+        Assertions.assertFalse(hasher.hash("test").isEmpty());
     }
 
 }
