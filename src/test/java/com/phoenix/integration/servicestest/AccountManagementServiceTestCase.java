@@ -21,7 +21,7 @@ import javax.persistence.EntityExistsException;
         TestDataSourceConfig.class,
         PersistenceConfiguration.class,
         RepositoriesConfiguration.class,
-        ServicesConfiguration.class
+        ServicesConfiguration.class,
 })
 @ActiveProfiles("TEST")
 class AccountManagementServiceTestCase {
@@ -60,5 +60,23 @@ class AccountManagementServiceTestCase {
 
         Assertions.assertThrows(EntityExistsException.class, ()-> this.ams.registerAccount(invalid, new User()));
 
+    }
+
+    @Test
+    void prepareAccount_validAccount_shouldReturnAccountWithGeneratedPasswordHash() {
+        Account test = new Account();
+        test.setAccountPassword("12345678");
+        test = this.ams.prepareAccount(test);
+        System.out.println(test.getAccountPasswordHash());
+        Assertions.assertFalse(test.getAccountPasswordHash().isEmpty());
+    }
+
+    @Test
+    void prepareAccount_validAccount_shouldReturnAccountWithGeneratedPasswordSalt() {
+        Account test = new Account();
+        test.setAccountPassword("12345678");
+        test = this.ams.prepareAccount(test);
+        System.out.println(test.getAccountPasswordSalt());
+        Assertions.assertFalse(test.getAccountPasswordSalt().isEmpty());
     }
 }
