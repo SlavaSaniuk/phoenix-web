@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@Deprecated
 @SpringJUnitConfig(classes = ConfigurationForServicesTests.class)
 class PasswordHashingTestCase {
 

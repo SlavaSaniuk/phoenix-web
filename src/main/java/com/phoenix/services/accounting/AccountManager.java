@@ -4,6 +4,7 @@ import com.phoenix.models.Account;
 import com.phoenix.models.User;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.security.hashing.HashingService;
+import com.phoenix.services.security.hashing.PasswordHasher;
 import javax.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,10 @@ public class AccountManager implements AccountManagementService {
     @Override
     public Account prepareAccount(Account a_account) {
 
-        //Generate password hash & salt
-        //Generate password salt
-        a_account.setAccountPasswordSalt(this.hasher.generateSalt());
-        //Generate password hash
+
+
+
+
 
         return a_account;
     }
