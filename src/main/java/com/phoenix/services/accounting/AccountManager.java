@@ -4,10 +4,8 @@ import com.phoenix.models.Account;
 import com.phoenix.models.User;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.security.hashing.HashingService;
-import com.phoenix.services.security.hashing.PasswordHasher;
 import javax.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
