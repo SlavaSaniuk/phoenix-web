@@ -18,8 +18,6 @@ public class Hasher extends AbstractHashingServiceImpl {
 
     public Hasher() {
         super();
-        LOGGER.info("Start to create " +HashingService.class.getName() +" implementation.");
-        LOGGER.info("Create " +getClass().getName() +" bean.");
     }
 
     @Override
@@ -39,7 +37,7 @@ public class Hasher extends AbstractHashingServiceImpl {
     public String generateSalt() {        return super.generateSalt(super.hash_length);    }
     public int getSaltLength() {        return super.hash_length;    }
 
-    public String  getHashAlgorithm() {        return hash_algorithm;    }
+    public String getHashAlgorithm() {        return this.hash_algorithm;        }
     public void setHashAlgorithm(HashAlgorithms algorithm) {
         switch (algorithm) {
             case MD5:
