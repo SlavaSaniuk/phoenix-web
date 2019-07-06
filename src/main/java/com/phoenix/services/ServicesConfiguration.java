@@ -6,7 +6,6 @@ import com.phoenix.services.accounting.AccountManagementService;
 import com.phoenix.services.accounting.AccountManager;
 import com.phoenix.services.accounting.SignAuthenticator;
 import com.phoenix.services.accounting.SigningService;
-import com.phoenix.services.security.hashing.HashingServiceFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +51,6 @@ public class ServicesConfiguration {
         SignAuthenticator service = new SignAuthenticator(this.user_repository);
         service.setAccountManagementService(this.accountManagementService());
         return service;
-    }
-
-    @Bean("HashingService")
-    public HashingServiceFactoryBean hashingServiceFactory() {
-        HashingServiceFactoryBean factory = new HashingServiceFactoryBean();
-        return factory;
     }
 
     //Spring autowiring
