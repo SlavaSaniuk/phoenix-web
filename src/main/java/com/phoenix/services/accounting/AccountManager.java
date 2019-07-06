@@ -7,6 +7,7 @@ import com.phoenix.services.security.hashing.HashingService;
 import com.phoenix.services.security.hashing.PasswordHasher;
 import javax.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,17 +40,19 @@ public class AccountManager implements AccountManagementService {
     @Override
     public Account prepareAccount(Account a_account) {
 
+        //Generate account password hash and salt
+        String password_hash = this.hasher.hash(a_account.getAccountPassword());
+        String password_salt = this.hasher.generateSalt();
 
+        //Reset account password
+        a_account.setAccountPassword(null);
 
-
-
+        //Set generated hashes to entity
+        a_account.setAccountPasswordHash(this.hasher.hash(password_hash + password_salt));
+        a_account.setAccountPasswordSalt(password_salt);
 
         return a_account;
     }
-
-
-
-
 
     @Autowired
     public void setHashingService(HashingService service) {
