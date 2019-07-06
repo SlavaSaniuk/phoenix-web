@@ -86,4 +86,18 @@ class HashServiceTestCase {
         Assertions.assertEquals(64, salt.length());
     }
 
+    @Test
+    void setHashAlgorithm_manuallySetHashAlgorithm_shouldUseAlgorithmSpecificValues() {
+
+        Hasher hasher = new Hasher();
+        hasher.setHashAlgorithm(HashAlgorithms.SHA_512);
+
+        String hash = hasher.hash("This is a test");
+
+        Assertions.assertEquals("SHA-512", hasher.getHashAlgorithm());
+        Assertions.assertEquals(64, hasher.getSaltLength());
+        Assertions.assertEquals(128, hash.length());
+
+    }
+
 }
