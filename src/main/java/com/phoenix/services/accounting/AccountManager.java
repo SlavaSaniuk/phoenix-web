@@ -3,6 +3,7 @@ package com.phoenix.services.accounting;
 import com.phoenix.models.Account;
 import com.phoenix.models.User;
 import com.phoenix.repositories.AccountRepository;
+import com.phoenix.services.security.hashing.HashingService;
 import javax.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ public class AccountManager implements AccountManagementService {
 
     //Beans
     private AccountRepository repository;
+    private HashingService hasher;
 
 
     @Autowired
@@ -31,5 +33,25 @@ public class AccountManager implements AccountManagementService {
 
         //Persist account
         return this.repository.save(a_account).getAccountId();
+    }
+
+    @Override
+    public Account prepareAccount(Account a_account) {
+
+        //Generate password hash & salt
+        //Generate password salt
+        a_account.setAccountPasswordSalt(this.hasher.generateSalt());
+        //Generate password hash
+
+        return a_account;
+    }
+
+
+
+
+
+    @Autowired
+    public void setHashingService(HashingService service) {
+        this.hasher = service;
     }
 }

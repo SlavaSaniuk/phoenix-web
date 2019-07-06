@@ -36,7 +36,7 @@ public class Hasher extends AbstractHashingServiceImpl {
 
     }
 
-    public String generateSalt() {        return super.generateSalt(super.hash_length);    }
+    public String generateSalt() {         return super.generateSalt();       }
     public int getSaltLength() {        return super.hash_length;    }
 
     public String  getHashAlgorithm() {        return hash_algorithm;    }

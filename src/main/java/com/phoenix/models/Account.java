@@ -26,15 +26,21 @@ public class Account {
     @NotEmpty(message = "{notempty.Account.email}")
     private String account_email;
 
-    @Column(name = "account_password", nullable = false)
     @NotEmpty(message = "{notempty.Account.password}")
-    private String account_password;
+    private transient String account_password;
 
+    @Column(name = "account_password_hash", nullable = false)
+    private String account_password_hash;
 
+    @Column(name = "account_password_salt", nullable = false)
+    private String account_password_salt;
 
     //Getters and setters
     public int getAccountId() {        return account_id;    }
     public void setAccountId(int account_id) {        this.account_id = account_id;    }
+
+    public User getAccountOwner() {        return account_owner;    }
+    public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
 
     public String getAccountEmail() {        return account_email;    }
     public void setAccountEmail(@NotEmpty String account_email)  {
@@ -44,8 +50,11 @@ public class Account {
     public String getAccountPassword() {        return account_password;    }
     public void setAccountPassword(@NotEmpty  String account_password) {        this.account_password = account_password;    }
 
-    public User getAccountOwner() {        return account_owner;    }
-    public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
+    public String getAccountPasswordHash() {        return account_password_hash;    }
+    public void setAccountPasswordHash(String account_password_hash) {        this.account_password_hash = account_password_hash;    }
+
+    public String getAccountPasswordSalt() {        return account_password_salt;    }
+    public void setAccountPasswordSalt(String account_password_salt) {        this.account_password_salt = account_password_salt;    }
 
     @Override
     public boolean equals(Object o) {
