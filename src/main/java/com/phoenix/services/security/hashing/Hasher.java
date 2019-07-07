@@ -1,6 +1,6 @@
 package com.phoenix.services.security.hashing;
 
-import com.phoenix.services.utility.ConversionUtility;
+import com.phoenix.services.utilities.ConversionUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,8 +14,14 @@ public class Hasher extends AbstractHashingServiceImpl {
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(Hasher.class);
 
+    /**
+     * Hash algorithm.
+     */
     private String hash_algorithm; //Hash function
 
+    /**
+     * Create new hasher object.
+     */
     public Hasher() {
         super();
     }
@@ -34,10 +40,22 @@ public class Hasher extends AbstractHashingServiceImpl {
 
     }
 
-    public String generateSalt() {         return super.generateSalt();       }
+    /**
+     * Return hash salt length.
+     * @return - hash salt length.
+     */
     public int getSaltLength() {        return super.hash_length;    }
 
+    /**
+     * Return current used bt this hasher hash algorithm.
+     * @return - hash algorithm.
+     */
     public String getHashAlgorithm() {        return this.hash_algorithm;        }
+
+    /**
+     * Method set hath algorithm to current {@link Hasher}.
+     * @param algorithm - {@link HashAlgorithms} hash algorithm.
+     */
     public void setHashAlgorithm(HashAlgorithms algorithm) {
         switch (algorithm) {
             case MD5:
