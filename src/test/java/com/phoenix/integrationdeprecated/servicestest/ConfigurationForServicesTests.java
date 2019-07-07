@@ -1,4 +1,4 @@
-package com.phoenix.integration.servicestest;
+package com.phoenix.integrationdeprecated.servicestest;
 
 import com.phoenix.services.security.hashing.HashAlgorithms;
 import com.phoenix.services.security.hashing.HashingService;

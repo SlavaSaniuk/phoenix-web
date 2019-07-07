@@ -1,7 +1,7 @@
-package com.phoenix.integration.repositoriestest;
+package com.phoenix.integrationdeprecated.repositoriestest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
-import com.phoenix.integration.TestDataSourceConfig;
+import com.phoenix.integrationdeprecated.TestDataSourceConfig;
 import com.phoenix.models.Account;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.repositories.RepositoriesConfiguration;

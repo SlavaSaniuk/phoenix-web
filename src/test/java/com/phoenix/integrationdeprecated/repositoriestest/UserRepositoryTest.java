@@ -1,13 +1,12 @@
-package com.phoenix.integration.repositoriestest;
+package com.phoenix.integrationdeprecated.repositoriestest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
-import com.phoenix.integration.TestDataSourceConfig;
+import com.phoenix.integrationdeprecated.TestDataSourceConfig;
 import com.phoenix.models.User;
 import com.phoenix.repositories.RepositoriesConfiguration;
 import com.phoenix.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

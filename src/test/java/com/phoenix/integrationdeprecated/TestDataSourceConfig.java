@@ -1,4 +1,4 @@
-package com.phoenix.integration;
+package com.phoenix.integrationdeprecated;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;

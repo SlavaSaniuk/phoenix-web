@@ -1,6 +1,7 @@
 package com.phoenix.integrationtests.configurationfortests;
 
 import java.util.Properties;
+import javax.persistence.ValidationMode;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
@@ -38,11 +39,12 @@ public class PersistenceTestConfiguration {
         emf.setPackagesToScan("com.phoenix.models");
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         emf.setJpaProperties(this.jpaTestProperties());
+        emf.setValidationMode(ValidationMode.NONE);
 
         return emf;
     }
 
-    @Bean
+    @Bean("transactionManager")
     public PlatformTransactionManager platformTransactionManager() {
         JpaTransactionManager manager = new JpaTransactionManager();
         manager.setEntityManagerFactory(this.entityManagerFactory().getObject());

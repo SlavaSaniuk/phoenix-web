@@ -1,9 +1,9 @@
-package com.phoenix.integration.controllerstest;
+package com.phoenix.integrationdeprecated.controllerstest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
 import com.phoenix.configuration.WebContextConfiguration;
 import com.phoenix.controllers.RegistrationController;
-import com.phoenix.integration.TestDataSourceConfig;
+import com.phoenix.integrationdeprecated.TestDataSourceConfig;
 import com.phoenix.repositories.RepositoriesConfiguration;
 import com.phoenix.services.ServicesConfiguration;
 import org.junit.jupiter.api.BeforeEach;

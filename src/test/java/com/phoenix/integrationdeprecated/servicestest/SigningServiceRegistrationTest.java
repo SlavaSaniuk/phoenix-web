@@ -1,8 +1,8 @@
-package com.phoenix.integration.servicestest;
+package com.phoenix.integrationdeprecated.servicestest;
 
 import com.phoenix.configuration.PersistenceConfiguration;
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
-import com.phoenix.integration.TestDataSourceConfig;
+import com.phoenix.integrationdeprecated.TestDataSourceConfig;
 import com.phoenix.models.Account;
 import com.phoenix.repositories.RepositoriesConfiguration;
 import com.phoenix.services.ServicesConfiguration;
