@@ -1,4 +1,4 @@
-package com.phoenix.services.utility;
+package com.phoenix.services.utilities;
 
 /**
  * Utility class define static methods to convert different
