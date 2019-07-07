@@ -45,14 +45,17 @@ public class RootContextConfiguration {
     @Bean("jndiContext")
     @Profile("PRODUCTION")
     public Context jndiContext() throws BeanCreationException {
+        LOGGER.info("Create " +Context.class.getName() +" JNDI context bean.");
         Context env;
         try {
             Context init_ctx = new InitialContext();
+            LOGGER.debug(Context.class.getName() +": LOOKUP is set to 'java:comp/env' value.");
             env = (Context) init_ctx.lookup("java:comp/env");
         }catch (NamingException exc) {
             LOGGER.error(exc.getMessage());
             throw new BeanCreationException("Can't to initialize a JNDI context.", exc);
         }
+        LOGGER.debug(Context.class.getName() +" was created.");
         return env;
     }
 }
