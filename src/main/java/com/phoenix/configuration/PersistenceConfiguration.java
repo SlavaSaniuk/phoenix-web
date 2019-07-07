@@ -2,6 +2,7 @@ package com.phoenix.configuration;
 
 import com.phoenix.exceptions.FileCorruptException;
 import javax.naming.Context;
+import javax.persistence.ValidationMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -182,6 +183,9 @@ public class PersistenceConfiguration {
 
         //Set additional hibernate properties
         emf.setJpaProperties(this.loadHibernateProperties());
+
+        //Disable hibernate entity validation
+        emf.setValidationMode(ValidationMode.NONE);
 
         LOGGER.info("LocalContainerEntityManagerFactory bean was created");
         return emf;

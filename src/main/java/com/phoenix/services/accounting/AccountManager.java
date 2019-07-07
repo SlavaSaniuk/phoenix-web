@@ -15,7 +15,6 @@ public class AccountManager implements AccountManagementService {
     private AccountRepository repository;
     private HashingService hasher;
 
-
     @Autowired
     public AccountManager(AccountRepository a_repository) {
             this.repository = a_repository;
@@ -27,6 +26,9 @@ public class AccountManager implements AccountManagementService {
         //Found account with same name
         Account founded = this.repository.findAccountByAccountEmail(a_account.getAccountEmail());
         if (founded != null) throw new EntityExistsException("Account already registered.");
+
+        //Prepare account to persist
+        a_account = this.prepareAccount(a_account);
 
         a_account.setAccountOwner(a_user);
         a_user.setUserAccount(a_account);

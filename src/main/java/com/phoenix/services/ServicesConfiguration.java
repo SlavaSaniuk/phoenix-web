@@ -43,7 +43,12 @@ public class ServicesConfiguration {
      */
     @Bean("AccountManager")
     public AccountManagementService accountManagementService() {
-        return new AccountManager(this.account_repository);
+        LOGGER.info("Create " +AccountManagementService.class.getName() +" service bean");
+        AccountManager manager = new AccountManager(this.account_repository);
+        LOGGER.debug("Manually set " +HashingService.class.getName() +" service bean to " +AccountManagementService.class.getName());
+        manager.setHashingService(this.passwordHashingService());
+        LOGGER.debug(AccountManagementService.class.getName() +" successfully created");
+        return manager;
     }
 
     /**
@@ -57,7 +62,7 @@ public class ServicesConfiguration {
         return service;
     }
 
-    @Bean("passwordHasher")
+    @Bean("HasherForPasswords")
     public HashingService passwordHashingService() {
         Hasher hasher = new Hasher();
         hasher.setHashAlgorithm(HashAlgorithms.SHA_512);
