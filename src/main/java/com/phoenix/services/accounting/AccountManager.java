@@ -64,6 +64,7 @@ public class AccountManager implements AccountManagementService {
         return a_account;
     }
 
+    //Getters and Setters
     /**
      * Set {@link HashingService) service bean.
      * @param service - {@link HashingService} bean.
