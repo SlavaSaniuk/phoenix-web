@@ -2,6 +2,7 @@ package com.phoenix.models;
 
 import java.util.Objects;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -24,6 +25,7 @@ public class Account {
 
     @Column(name = "account_email", nullable = false, unique = true)
     @NotEmpty(message = "{notempty.Account.email}")
+    @Email(message = "{validemail.Account.email}")
     private String account_email;
 
     @NotEmpty(message = "{notempty.Account.password}")
