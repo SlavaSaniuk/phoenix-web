@@ -2,6 +2,7 @@ package com.phoenix.configuration;
 
 import com.phoenix.repositories.RepositoriesConfiguration;
 import com.phoenix.services.ServicesConfiguration;
+import com.phoenix.validation.ValidationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -22,8 +23,9 @@ import javax.naming.NamingException;
  */
 @Configuration
 @Import({PersistenceConfiguration.class,
-                RepositoriesConfiguration.class,
-                ServicesConfiguration.class})
+        RepositoriesConfiguration.class,
+        ServicesConfiguration.class,
+        ValidationConfiguration.class})
 public class RootContextConfiguration {
 
     //LOGGER
