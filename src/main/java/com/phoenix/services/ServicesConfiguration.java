@@ -43,11 +43,16 @@ public class ServicesConfiguration {
      */
     @Bean("AccountManager")
     public AccountManagementService accountManagementService() {
-        LOGGER.info("Create " +AccountManagementService.class.getName() +" service bean");
+        LOGGER.info("Create " +AccountManagementService.class.getName() +" service bean.");
+
+        LOGGER.debug(AccountManagementService.class.getName() +" is implemented by " +AccountManager.class.getName() +" class.");
+        LOGGER.debug(AccountManager.class.getName() +": Set " +AccountRepository.class.getName() +" repository bean.");
         AccountManager manager = new AccountManager(this.account_repository);
-        LOGGER.debug("Manually set " +HashingService.class.getName() +" service bean to " +AccountManagementService.class.getName());
+
+        LOGGER.debug(AccountManager.class.getName() +": Set " +HashingService.class.getName() +" service bean.");
         manager.setHashingService(this.passwordHashingService());
-        LOGGER.debug(AccountManagementService.class.getName() +" successfully created");
+
+        LOGGER.debug(AccountManagementService.class.getName() +" was created.");
         return manager;
     }
 
@@ -57,21 +62,44 @@ public class ServicesConfiguration {
      */
     @Bean("SingingService")
     public SigningService signingService() {
+        LOGGER.info("Create " +SigningService.class.getName() +" service bean.");
+
+        LOGGER.debug(SigningService.class.getName() +" is implemented by " +SignAuthenticator.class.getName() +" class.");
+        LOGGER.debug(SignAuthenticator.class.getName() +": set " +UserRepository.class.getName() +" repository bean.");
         SignAuthenticator service = new SignAuthenticator(this.user_repository);
+
+        LOGGER.debug(SignAuthenticator.class.getName() +": set " +AccountManagementService.class.getName() +"service bean.");
         service.setAccountManagementService(this.accountManagementService());
+
+        LOGGER.debug(SigningService.class.getName() +" was created.");
         return service;
     }
 
-    @Bean("HasherForPasswords")
+    /**
+     * {@link HashingService} service bean. {@link Hasher} implements this bean.
+     * @return - {@link HashingService} bean.
+     */
+    @Bean("PasswordHasher")
     public HashingService passwordHashingService() {
+        LOGGER.info("Create " +HashingService.class.getName() +" service bean.");
+
+        LOGGER.debug(HashingService.class.getName() +" is implemented by " +Hasher.class.getName() +" class.");
         Hasher hasher = new Hasher();
+
+        LOGGER.debug(Hasher.class.getName() +": Set SHA-512 hash algorithm.");
         hasher.setHashAlgorithm(HashAlgorithms.SHA_512);
+
+        LOGGER.debug(HashingService.class.getName() +" was created.");
         return hasher;
     }
 
     //Spring autowiring
     @Autowired
-    private void setUserRepository(UserRepository user_repository) {        this.user_repository = user_repository;    }
+    private void setUserRepository(UserRepository user_repository) {
+        LOGGER.debug("AUTOWIRING: " +UserRepository.class.getName() +" in " +getClass().getName());
+        this.user_repository = user_repository;    }
     @Autowired
-    public void setAccountRepository(AccountRepository account_repository) {        this.account_repository = account_repository;    }
+    public void setAccountRepository(AccountRepository account_repository) {
+        LOGGER.debug("AUTOWIRING: " +AccountRepository.class.getName() +" in " +getClass().getName());
+        this.account_repository = account_repository;    }
 }

@@ -1,11 +1,14 @@
 package com.phoenix.services.security.hashing;
 
-import com.phoenix.services.utility.ConversionUtility;
+import com.phoenix.services.utilities.ConversionUtility;
 
 import java.security.SecureRandom;
 
 abstract class AbstractHashingServiceImpl implements HashingService{
 
+    /**
+     * length of hash string.
+     */
     int hash_length;
 
     @Override

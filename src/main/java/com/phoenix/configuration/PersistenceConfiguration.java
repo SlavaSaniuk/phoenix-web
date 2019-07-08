@@ -168,26 +168,32 @@ public class PersistenceConfiguration {
     @Autowired
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
 
-        LOGGER.info("Start to create LocalContainerEntityManagerFactory bean");
+        LOGGER.info("Create " +LocalContainerEntityManagerFactoryBean.class.getName() +" persistence bean.");
         final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 
         //Set DataSource
+        LOGGER.debug("Set " +DataSource.class.getName() +" to " +LocalContainerEntityManagerFactoryBean.class.getName());
         emf.setDataSource(ds);
 
         //Implements JPA Vendor adapter interface
+        LOGGER.debug("Create " +HibernateJpaVendorAdapter.class.getName() +" object.");
         JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        LOGGER.debug("Set " +JpaVendorAdapter.class.getName() +" to " +LocalContainerEntityManagerFactoryBean.class.getName());
         emf.setJpaVendorAdapter(adapter);
 
         //Set persistence units scans
+        LOGGER.debug(LocalContainerEntityManagerFactoryBean.class.getName() +": Set packages to scan.");
         emf.setPackagesToScan("com.phoenix.models");
 
         //Set additional hibernate properties
+        LOGGER.debug(LocalContainerEntityManagerFactoryBean.class.getName() +": Load additional Hibernate configuration properties.");
         emf.setJpaProperties(this.loadHibernateProperties());
 
         //Disable hibernate entity validation
+        LOGGER.debug(LocalContainerEntityManagerFactoryBean.class.getName() +": Disable entity validation mode.");
         emf.setValidationMode(ValidationMode.NONE);
 
-        LOGGER.info("LocalContainerEntityManagerFactory bean was created");
+        LOGGER.debug(LocalContainerEntityManagerFactoryBean.class.getName() +" was created.");
         return emf;
     }
 
@@ -201,9 +207,14 @@ public class PersistenceConfiguration {
     @Description("Transaction manager for single entity manager factory")
     @Autowired
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        LOGGER.info("Create " +PlatformTransactionManager.class.getName() +" persistence bean.");
+
+        LOGGER.debug(PlatformTransactionManager.class.getName() +" is implemented by " +JpaTransactionManager.class.getName());
         final JpaTransactionManager tm = new JpaTransactionManager();
+        LOGGER.debug("Set " +EntityManagerFactory.class.getName() +" to " +PlatformTransactionManager.class.getName() +" bean.");
         tm.setEntityManagerFactory(emf);
 
+        LOGGER.debug(PlatformTransactionManager.class.getName() +" was created.");
         return tm;
     }
 

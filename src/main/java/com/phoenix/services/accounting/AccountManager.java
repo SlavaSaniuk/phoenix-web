@@ -5,27 +5,29 @@ import com.phoenix.models.User;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.security.hashing.HashingService;
 import javax.persistence.EntityExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Class implements {@link AccountManagementService} interface.
+ * It's a default implementation for account maintaining system.
+ */
 @Service
 public class AccountManager implements AccountManagementService {
 
-    //Beans
+    //Spring beans
     private AccountRepository repository;
     private HashingService hasher;
 
-    @Autowired
+    /**
+     * Create new {@link AccountManager} object.
+     * @param a_repository - {@link AccountRepository} - basic CRUD account repository.
+     */
     public AccountManager(AccountRepository a_repository) {
             this.repository = a_repository;
     }
 
     @Override
     public int registerAccount(Account a_account, User a_user) throws EntityExistsException{
-
-        //Found account with same name
-        Account founded = this.repository.findAccountByAccountEmail(a_account.getAccountEmail());
-        if (founded != null) throw new EntityExistsException("Account already registered.");
 
         //Prepare account to persist
         a_account = this.prepareAccount(a_account);
@@ -35,6 +37,14 @@ public class AccountManager implements AccountManagementService {
 
         //Persist account
         return this.repository.save(a_account).getAccountId();
+    }
+
+    @Override
+    public boolean isRegistered(Account a_account) {
+
+        //Found account with same name
+        Account founded = this.repository.findAccountByAccountEmail(a_account.getAccountEmail());
+        return founded != null;
     }
 
     @Override
@@ -54,7 +64,11 @@ public class AccountManager implements AccountManagementService {
         return a_account;
     }
 
-    @Autowired
+    //Getters and Setters
+    /**
+     * Set {@link HashingService) service bean.
+     * @param service - {@link HashingService} bean.
+     */
     public void setHashingService(HashingService service) {
         this.hasher = service;
     }

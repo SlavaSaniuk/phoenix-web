@@ -1,5 +1,9 @@
 package com.phoenix.services.security.hashing;
 
+/**
+ * Enum contains all supported hash algorithm.
+ * Note: SHA-1 {@link HashAlgorithms#SHA_1} default hash algorithm.
+ */
 public enum HashAlgorithms {
 
     /**
