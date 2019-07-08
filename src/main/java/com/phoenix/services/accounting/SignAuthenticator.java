@@ -20,10 +20,13 @@ public class SignAuthenticator implements SigningService {
     private AccountManagementService ams; //Set in conf. class via setter method
 
     //Constructor
+
+    /**
+     * Construct new {@link SignAuthenticator} bean with already installed {@link UserRepository} repository bean.
+     * @param a_repository - Implementation of {@link UserRepository} bean.
+     */
     public SignAuthenticator(UserRepository a_repository) {
-        LOGGER.info("Create a " +SigningService.class.getName() +" bean implementation.");
         this.repository = a_repository;
-        LOGGER.info(getClass().getName() +" was created as Spring bean.");
     }
 
 
@@ -54,7 +57,6 @@ public class SignAuthenticator implements SigningService {
      * @param service - {@link AccountManagementService} bean implementation.
      */
     public void setAccountManagementService(AccountManagementService service) {
-        LOGGER.debug("Set " +AccountManagementService.class.getName() +" to " +SigningService.class.getName() +" bean.");
         this.ams = service;
     }
 }
