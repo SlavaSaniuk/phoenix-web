@@ -1,5 +1,6 @@
 package com.phoenix.models;
 
+import com.phoenix.validation.annotations.Password;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -28,7 +29,7 @@ public class Account {
     @Email(message = "{validemail.Account.email}")
     private String account_email;
 
-    @NotEmpty(message = "{notempty.Account.password}")
+    @Password(message = "{invalid.Account.password}")
     private transient String account_password;
 
     @Column(name = "account_password_hash", nullable = false)

@@ -5,10 +5,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordConstraintValidator implements ConstraintValidator<Password, String> {
+public class PasswordConstraintValidator implements ConstraintValidator<Password, String>, InitializingBean {
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(PasswordConstraintValidator.class);
@@ -60,23 +62,27 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
         return true;
     }
 
-    public void setMinPasswordLength(int min) {
-        this.min_password_length = min;
-    }
 
-    public void setUppercaseLetter(boolean uppercase) {
+    //Getters and Setters
+    public void setMinPasswordLength(@NonNull int min) {        if (min == 0 ) this.setMinPasswordLength(8);        this.min_password_length = min;    }
+    public void setUppercaseLetter(@NonNull boolean uppercase) {
         this.uppercase_letter = uppercase;
     }
-
-    public void setLowercaseLetter(boolean lowercase_letter) {
+    public void setLowercaseLetter(@NonNull boolean lowercase_letter) {
         this.lowercase_letter = lowercase_letter;
     }
-
-    public void setNumber(boolean numbers) {
+    public void setNumber(@NonNull boolean numbers) {
         this.number = numbers;
     }
+    public void setSpecialCharacter(@NonNull boolean special_characters) {        this.special_character = special_characters;    }
 
-    public void setSpecialCharacter(boolean special_characters) {
-        this.special_character = special_characters;
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LOGGER.debug(getClass().getName() +": Passwords minimum password length: " +this.min_password_length);
+        LOGGER.debug(getClass().getName() +": Passwords must contain uppercase letters " +this.uppercase_letter);
+        LOGGER.debug(getClass().getName() +": Passwords must contain lowercase letters: " +this.lowercase_letter);
+        LOGGER.debug(getClass().getName() +": Passwords must contain numbers: " +this.number);
+        LOGGER.debug(getClass().getName() +": Minimum must contain special characters: " +this.special_character);
     }
 }
