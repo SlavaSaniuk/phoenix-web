@@ -2,11 +2,26 @@ package com.phoenix.unittests.validationtests;
 
 import com.phoenix.validation.PasswordConstraintValidator;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.env.Environment;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class)
 class PasswordConstraintValidatorTestCase {
+
+
+    @Mock
+    Environment env;
+
+    @InjectMocks
+    PasswordConstraintValidator password_validator;
 
     @Test
     @Order(1)
@@ -111,6 +126,7 @@ class PasswordConstraintValidatorTestCase {
         Assertions.assertFalse(test.isValid(invalid, null));
     }
 
+    @Order(11)
     @ParameterizedTest
     @ValueSource(strings = {"1234567a", "aaaaaaaaaa", "asd@asdAssrr234", "!@#sdRaAsd$#%"})
     void isValid_notSetValidationRules_shouldUseDefault(String valid) {
@@ -118,4 +134,35 @@ class PasswordConstraintValidatorTestCase {
         Assertions.assertTrue(test.isValid(valid, null));
     }
 
+    @Test
+    void initializeProperties_notSetSecurityProperty_shouldUseDefault() {
+
+        Mockito.when(env.getProperty("com.phoenix.security.password.min_length","8")).thenReturn("");
+        Mockito.when(env.getProperty("com.phoenix.security.password.contain_uppercase","false")).thenReturn("");
+        Mockito.when(env.getProperty("com.phoenix.security.password.contain_lowercase","true")).thenReturn("");
+        Mockito.when(env.getProperty("com.phoenix.security.password.contain_numbers","false")).thenReturn("");
+        Mockito.when(env.getProperty("com.phoenix.security.password.contain_special_characters","false")).thenReturn("");
+
+        this.password_validator.initializeProperties();
+
+        Assertions.assertEquals(8, this.password_validator.getMinPasswordLength());
+        Assertions.assertFalse(this.password_validator.isUppercaseLetter());
+        Assertions.assertTrue(this.password_validator.isLowercaseLetter());
+        Assertions.assertFalse(this.password_validator.isNumber());
+        Assertions.assertFalse(this.password_validator.isSpecialCharacter());
+    }
+
+    @Test
+    void initializeProperties_invalidProperties_shouldUseDefault() {
+        BDDMockito.given(this.env.getProperty("com.phoenix.security.password.contain_uppercase","false")).willReturn("asdasd");
+        this.password_validator.initializeProperties();
+        Assertions.assertFalse(this.password_validator.isUppercaseLetter());
+    }
+
+    @Test
+    void initializeProperties_validProperties_shouldUseProperty() {
+        Mockito.when(env.getProperty("com.phoenix.security.password.contain_uppercase","false")).thenReturn("true");
+        this.password_validator.initializeProperties();
+        Assertions.assertTrue(this.password_validator.isUppercaseLetter());
+    }
 }
