@@ -1,4 +1,4 @@
-package com.phoenix.unittests.servicestest;
+package com.phoenix.unittestsdep.servicestest;
 
 import com.phoenix.services.security.hashing.HashAlgorithms;
 import com.phoenix.services.security.hashing.PasswordHasher;

@@ -1,4 +1,4 @@
-package com.phoenix.unittests.entitytest;
+package com.phoenix.unittestsdep.entitytest;
 
 import com.phoenix.models.Account;
 import com.phoenix.models.User;

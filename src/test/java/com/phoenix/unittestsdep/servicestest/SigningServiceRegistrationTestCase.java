@@ -1,4 +1,4 @@
-package com.phoenix.unittests.servicestest;
+package com.phoenix.unittestsdep.servicestest;
 
 
 import com.phoenix.exceptions.EmailAlreadyRegisterException;

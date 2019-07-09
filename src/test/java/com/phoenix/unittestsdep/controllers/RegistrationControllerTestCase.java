@@ -1,4 +1,4 @@
-package com.phoenix.unittests.controllers;
+package com.phoenix.unittestsdep.controllers;
 
 import com.phoenix.controllers.RegistrationController;
 import com.phoenix.services.accounting.SigningService;

@@ -1,6 +1,6 @@
-package com.phoenix.unittests.servicestest;
+package com.phoenix.unittestsdep.servicestest;
 
-import com.phoenix.services.utility.ConversionUtility;
+import com.phoenix.services.utilities.ConversionUtility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
