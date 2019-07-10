@@ -1,19 +1,26 @@
 package com.phoenix.integrationtests.configurationfortests;
 
+import com.phoenix.validation.PasswordProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@PropertySource("classpath:/configuration-files/security.properties")
 public class ValidationTestConfiguration implements WebMvcConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationTestConfiguration.class);
+
+    private Environment environment;
 
     /**
      * {@link MessageSource} bean. User as messages provider for validation logic
@@ -46,6 +53,18 @@ public class ValidationTestConfiguration implements WebMvcConfigurer {
 
         LOGGER.debug(Validator.class.getName() +" was created.");
         return validator;
+    }
+
+    @Bean
+    public PasswordProperties passwordProperties() {
+        LOGGER.info("Create " +PasswordProperties.class.getName() +" properties bean.");
+        return new PasswordProperties(this.environment);
+    }
+
+    @Autowired
+    public void setEnvironment(Environment env) {
+        this.environment = env;
+
     }
 
 }
