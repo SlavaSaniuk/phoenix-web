@@ -1,6 +1,7 @@
 package com.phoenix.unittests.validationtests;
 
 import com.phoenix.validation.PasswordConstraintValidator;
+import com.phoenix.validation.PasswordProperties;
 import com.phoenix.validation.annotations.Password;
 import java.lang.annotation.Annotation;
 import javax.validation.Payload;
@@ -24,7 +25,7 @@ class PasswordConstraintValidatorTestCase {
 
 
     @Mock
-    private Environment env;
+    private PasswordProperties properties;
 
     @InjectMocks
     private PasswordConstraintValidator password_validator;
@@ -236,38 +237,33 @@ class PasswordConstraintValidatorTestCase {
         Assertions.assertTrue(test.isValid(valid, null));
     }
 
-    @Test
-    void initialize_propertyMinPasswordLengthIsNull_shouldUseDefault() {
-        BDDMockito.given(env.getProperty("com.phoenix.security.password.min_length")).willReturn(null);
+    @ParameterizedTest()
+    @ValueSource(ints = {0, -3})
+    void initialize_minLengthIsInvalid_shouldUseDefault(int invalid) {
+        BDDMockito.given(this.properties.getPasswordMinLength()).willReturn(invalid);
         this.password_validator.initialize(this.valid_impl);
         Assertions.assertEquals(8, this.password_validator.getMinPasswordLength());
     }
 
-    @Test
-    void initialize_propertyMinPasswordLengthLessThanZero_shouldUseDefault() {
-        BDDMockito.given(env.getProperty("com.phoenix.security.password.min_length")).willReturn("-3");
-        this.password_validator.initialize(this.valid_impl);
-        Assertions.assertEquals(8, this.password_validator.getMinPasswordLength());
-    }
-
-    @Test
-    void initialize_propertyMinPasswordLengthIsNotInt_shouldUseDefault() {
-        BDDMockito.given(env.getProperty("com.phoenix.security.password.min_length")).willReturn("asdedf");
-        this.password_validator.initialize(this.valid_impl);
-        Assertions.assertEquals(8, this.password_validator.getMinPasswordLength());
-    }
-
-    @Test
-    void initialize_propertyMinPasswordLengthInvalidAndAnnotationsInvalidToo_shouldUseDefault() {
-        BDDMockito.given(env.getProperty("com.phoenix.security.password.min_length")).willReturn("-3");
+    @ParameterizedTest()
+    @ValueSource(ints = {0, -3})
+    void initialize_minLengthAndAnnotationAreInvalid_shouldUseDefault(int invalid) {
+        BDDMockito.given(this.properties.getPasswordMinLength()).willReturn(invalid);
         this.password_validator.initialize(this.invalid_impl);
         Assertions.assertEquals(8, this.password_validator.getMinPasswordLength());
     }
 
+    @Test
+    void initialize_minLengthValid_shouldUseThis() {
+        BDDMockito.given(this.properties.getPasswordMinLength()).willReturn(23);
+        this.password_validator.initialize(this.valid_impl);
+        Assertions.assertEquals(23, this.password_validator.getMinPasswordLength());
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"", "sadas"})
-    void initialize_propertyUppercaseLettersInvalid_shouldUseDefault(String invalid) {
-        BDDMockito.given(env.getProperty("com.phoenix.security.password.uppercase_letters")).willReturn(invalid);
+    @ValueSource(strings = {"sadasd", "False", ""})
+    void initialize_booleanPropertiesNotValid_shouldUseDefault(String invalid) {
+        BDDMockito.given(this.properties.getPasswordUppercase()).willReturn(invalid);
         this.password_validator.initialize(this.valid_impl);
         Assertions.assertFalse(this.password_validator.isUppercaseLetter());
     }
