@@ -18,4 +18,10 @@ public @interface Password {
     String message() default "Password field is invalid";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+
+    int min_length() default 8;
+    boolean uppercase() default false;
+    boolean lowercase() default true;
+    boolean numbers() default false;
+    boolean special() default false;
 }
