@@ -1,15 +1,21 @@
 package com.phoenix.validation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@PropertySource("classpath:/configuration-files/security.properties")
 public class ValidationConfiguration implements WebMvcConfigurer {
+
+    private Environment environment;
 
     /**
      * {@link MessageSource} bean. User as messages provider for validation logic
@@ -34,5 +40,15 @@ public class ValidationConfiguration implements WebMvcConfigurer {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(this.validationMessageSource());
         return validator;
+    }
+
+    @Bean("PasswordProperties")
+    public PasswordProperties initPasswordProperties() {
+        return new PasswordProperties(this.environment);
+    }
+
+    @Autowired
+    public void setEnvironment(Environment env) {
+        this.environment = env;
     }
 }

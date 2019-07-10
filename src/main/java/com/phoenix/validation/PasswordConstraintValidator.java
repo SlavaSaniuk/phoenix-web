@@ -1,25 +1,21 @@
 package com.phoenix.validation;
 
 import com.phoenix.validation.annotations.Password;
-import javax.annotation.PostConstruct;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 
-@Component
-public class PasswordConstraintValidator implements ConstraintValidator<Password, String>, InitializingBean {
+
+public class PasswordConstraintValidator implements ConstraintValidator<Password, String>{
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(PasswordConstraintValidator.class);
 
     //Spring beans
-    private Environment environment;
+    private PasswordProperties properties;
 
     private int min_password_length = 8;
     private boolean uppercase_letter = false;
@@ -34,35 +30,48 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     @Override
     public void initialize(Password constraintAnnotation) {
 
-    }
-
-    @SuppressWarnings("CatchMayIgnoreException")
-    @PostConstruct
-    public void initializeProperties() {
+        LOGGER.warn("Password properties: " +this.properties);
 
         //Set minimum password length
-        String min_pass_length = this.environment.getProperty("com.phoenix.security.password.min_length","8");
-        try {
-            int i = Integer.parseInt(min_pass_length);
-            if(i>0)  this.setMinPasswordLength(i);
-        }catch (NumberFormatException exc) { }
+        int i = this.properties.getPasswordMinLength();
+        if (i > 0) this.min_password_length = i;
+        else {
+            i = constraintAnnotation.min_length();
+            if (i > 0) this.min_password_length = i;
+        }
 
-        //Set 'must contain uppercase letters'
-        String contain_uppercase = this.environment.getProperty("com.phoenix.security.password.contain_uppercase", "false");
-        if (contain_uppercase.equals("true")) this.setUppercaseLetter(Boolean.valueOf(contain_uppercase));
+        //Set uppercase letters
+        String s = this.properties.getPasswordUppercase();
+        if (s == null || s.isEmpty()) this.uppercase_letter = constraintAnnotation.uppercase();
+        else if (s.equals("true") || s.equals("false")) this.uppercase_letter = Boolean.parseBoolean(s);
+        else this.uppercase_letter = constraintAnnotation.uppercase();
 
-        //Set 'must contain lowercase letters'
-        String contain_lowercase = this.environment.getProperty("com.phoenix.security.password.contain_lowercase", "true");
-        if (contain_lowercase.equals("false")) this.setLowercaseLetter(Boolean.valueOf(contain_lowercase));
+        //Set lowercase letters
+        s = this.properties.getPasswordLowercase();
+        if (s == null || s.isEmpty()) this.lowercase_letter = constraintAnnotation.lowercase();
+        else if (s.equals("true") || s.equals("false")) this.lowercase_letter = Boolean.parseBoolean(s);
+        else this.lowercase_letter = constraintAnnotation.lowercase();
 
-        //Set 'must contain numbers'
-        String contain_number = this.environment.getProperty("com.phoenix.security.password.contain_numbers", "false");
-        if (contain_number.equals("true")) this.setNumber(Boolean.valueOf(contain_number));
+        //Set numbers
+        s = this.properties.getPasswordNumbers();
+        if (s == null || s.isEmpty()) this.number = constraintAnnotation.numbers();
+        else if (s.equals("true") || s.equals("false")) this.number = Boolean.parseBoolean(s);
+        else this.number = constraintAnnotation.numbers();
 
-        //Set 'must contain special characters'
-        String contain_special = this.environment.getProperty("com.phoenix.security.password.contain_special_characters", "false");
-        if (contain_special.equals("true")) this.setSpecialCharacter(Boolean.valueOf(contain_special));
+        //Set lowercase letters
+        s = this.properties.getPasswordSpecial();
+        if (s == null || s.isEmpty()) this.special_character = constraintAnnotation.special();
+        else if (s.equals("true") || s.equals("false")) this.special_character = Boolean.parseBoolean(s);
+        else this.special_character = constraintAnnotation.special();
+
+        //Log properties
+        LOGGER.debug(getClass().getName() +": minimum password length: " +this.min_password_length);
+        LOGGER.debug(getClass().getName() +": must contain uppercase letters: " +this.uppercase_letter);
+        LOGGER.debug(getClass().getName() +": must contain lowercase letters: " +this.lowercase_letter);
+        LOGGER.debug(getClass().getName() +": must contain numbers: " +this.number);
+        LOGGER.debug(getClass().getName() +": must contain special characters: " +this.special_character);
     }
+
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
@@ -96,13 +105,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
         return true;
     }
 
-
     //Getters and Setters
     public int getMinPasswordLength() {        return min_password_length;    }
     public boolean isUppercaseLetter() {        return uppercase_letter;    }
-    public boolean isLowercaseLetter() {        return lowercase_letter;    }
-    public boolean isNumber() {        return number;    }
-    public boolean isSpecialCharacter() {        return special_character;    }
 
     public void setMinPasswordLength(@NonNull int min) {        if (min == 0 ) this.setMinPasswordLength(8);        this.min_password_length = min;    }
     public void setUppercaseLetter(@NonNull boolean uppercase) {
@@ -117,17 +122,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     public void setSpecialCharacter(@NonNull boolean special_characters) {        this.special_character = special_characters;    }
 
     @Autowired
-    public void setEnvironment(Environment env) {
-        this.environment = env;
+    public void setProperties(PasswordProperties props) {
+        this.properties = props;
     }
 
-    @SuppressWarnings("RedundantThrows")
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        LOGGER.debug(getClass().getName() +": Passwords minimum password length: " +this.min_password_length);
-        LOGGER.debug(getClass().getName() +": Passwords must contain uppercase letters " +this.uppercase_letter);
-        LOGGER.debug(getClass().getName() +": Passwords must contain lowercase letters: " +this.lowercase_letter);
-        LOGGER.debug(getClass().getName() +": Passwords must contain numbers: " +this.number);
-        LOGGER.debug(getClass().getName() +": Minimum must contain special characters: " +this.special_character);
-    }
 }
