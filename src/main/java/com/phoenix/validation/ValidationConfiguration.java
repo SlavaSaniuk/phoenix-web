@@ -1,5 +1,7 @@
 package com.phoenix.validation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +13,34 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ResourceBundle;
+
+/**
+ * {@link Configuration} class. This class define all beans that implements validation annotations.
+ * Class {@link Override} method to configure application {@link Validator} bean.
+ */
 @Configuration
 @PropertySource("classpath:/configuration-files/security.properties")
 public class ValidationConfiguration implements WebMvcConfigurer {
 
-    private Environment environment;
+    //logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationConfiguration.class);
+
+    //Spring beans
+    private Environment environment; //autowired
+
+    /**
+     * Constructor uses to inform admin about validation initialization process.
+     * Application load security properties from "security.properties" file in this {@link Environment} environment.
+     * @param env - Spring {@link Environment}. Autowired.
+     */
+    @Autowired
+    public ValidationConfiguration(Environment env) {
+        LOGGER.info("Start to initialize " +getClass().getName() +" configuration class.");
+
+        LOGGER.debug(getClass().getName() +": Load security properties.");
+        this.environment = env;
+    }
 
     /**
      * {@link MessageSource} bean. User as messages provider for validation logic
@@ -25,13 +50,20 @@ public class ValidationConfiguration implements WebMvcConfigurer {
     @Bean("validationMessageSource")
     public MessageSource validationMessageSource() {
 
+        LOGGER.info("Create " + ResourceBundle.class.getName() +" for validation localized messages.");
         ReloadableResourceBundleMessageSource msg_src = new ReloadableResourceBundleMessageSource();
 
         //Set parameters
+        LOGGER.debug(msg_src.getClass().getName() +": Cache seconds: 60");
         msg_src.setCacheSeconds(60);
+
+        LOGGER.debug(msg_src.getClass().getName() +": Basename - resources/static/lang/validation.*");
         msg_src.setBasename("classpath:static/lang/validation");
+
+        LOGGER.debug(msg_src.getClass().getName() +": Default encoding: UTF-8" );
         msg_src.setDefaultEncoding("UTF-8");
 
+        LOGGER.debug(msg_src.getClass().getName() +"was created.");
         return msg_src;
     }
 
@@ -42,13 +74,14 @@ public class ValidationConfiguration implements WebMvcConfigurer {
         return validator;
     }
 
+    /**
+     * {@link PasswordProperties} bean load and hold password constraints thats defined in security.properties file
+     * with "com.phoenix.security.password.*" properties.
+     * @return - {@link PasswordProperties} properties bean, that contain password properties.
+     */
     @Bean("PasswordProperties")
     public PasswordProperties initPasswordProperties() {
         return new PasswordProperties(this.environment);
     }
 
-    @Autowired
-    public void setEnvironment(Environment env) {
-        this.environment = env;
-    }
 }
