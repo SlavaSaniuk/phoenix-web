@@ -20,7 +20,11 @@ public class PasswordProperties {
     private String password_numbers;
     private String password_special;
 
-
+    /**
+     * Create new PasswordProperties properties bean that contain all password constraints e.g.
+     * minimum password length, must contain uppercase letters, ...
+     * @param env - {@link Environment} - with defined password properties.
+     */
     public PasswordProperties(@NonNull Environment env) {
         LOGGER.debug("Start to create " +getClass().getName() +" properties bean.");
 
@@ -44,7 +48,9 @@ public class PasswordProperties {
         LOGGER.debug(getClass().getName() +": password properties was initialized.");
     }
 
-    //Getters
+    /*
+        Standard getters
+     */
     public int getPasswordMinLength() {        return password_min_length;    }
     public String getPasswordUppercase() {        return password_uppercase;    }
     public String getPasswordLowercase() {        return password_lowercase;    }
