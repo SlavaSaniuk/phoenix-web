@@ -6,6 +6,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+/**
+ * {@link PasswordProperties} bean load and hold password constraints defined in security.properties file.
+ * This class load password properties from {@link Environment} bean.
+ */
 @Component
 public class PasswordProperties {
 
