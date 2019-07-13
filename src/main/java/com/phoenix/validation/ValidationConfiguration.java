@@ -69,18 +69,27 @@ public class ValidationConfiguration implements WebMvcConfigurer {
 
     @Override
     public Validator getValidator() {
+        LOGGER.info("Create " +Validator.class.getName() +" validation bean.");
+
+
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        LOGGER.debug(Validator.class.getName() +" is implemented by " +validator.getClass().getName() +" class.");
+
         validator.setValidationMessageSource(this.validationMessageSource());
+        LOGGER.debug(validator.getClass().getName() +": Message source - validation.");
+
+        LOGGER.debug(validator.getClass().getName() +" was created.");
         return validator;
     }
 
     /**
-     * {@link PasswordProperties} bean load and hold password constraints thats defined in security.properties file
-     * with "com.phoenix.security.password.*" properties.
+     * {@link PasswordProperties} bean load and hold password constraints that's defined in security.properties file
+     * with "com.phoenix.security.password.*" keys.
      * @return - {@link PasswordProperties} properties bean, that contain password properties.
      */
     @Bean("PasswordProperties")
     public PasswordProperties initPasswordProperties() {
+        LOGGER.info("Create " +PasswordProperties.class.getName() +" properties bean.");
         return new PasswordProperties(this.environment);
     }
 
