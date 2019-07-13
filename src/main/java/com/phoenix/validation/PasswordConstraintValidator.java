@@ -7,22 +7,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
-
+/**
+ * {@link PasswordConstraintValidator} bean is validation bean that's define
+ * business logic for validating users passwords. Bean holds password properties defined
+ * in security.properties file in this inner {@link PasswordConstraintValidator#setProperties(PasswordProperties)}
+ * bean.
+ */
+@Component
 public class PasswordConstraintValidator implements ConstraintValidator<Password, String>{
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(PasswordConstraintValidator.class);
 
     //Spring beans
-    private PasswordProperties properties;
+    private PasswordProperties properties; //Autowired
 
+    //Local password constraints
     private int min_password_length = 8;
     private boolean uppercase_letter = false;
     private boolean lowercase_letter = true;
     private boolean number = false;
     private boolean special_character = false;
 
+    /**
+     * Default constructor. Construct new PasswordConstraintValidator bean.
+     */
     public PasswordConstraintValidator() {
         LOGGER.debug("Start to create " +getClass().getName() +" class.");
     }
@@ -105,7 +116,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
         return true;
     }
 
-    //Getters and Setters
+    /*
+        Standard getters and setters
+     */
     public int getMinPasswordLength() {        return min_password_length;    }
     public boolean isUppercaseLetter() {        return uppercase_letter;    }
 
@@ -121,8 +134,14 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     }
     public void setSpecialCharacter(@NonNull boolean special_characters) {        this.special_character = special_characters;    }
 
+    /**
+     * Spring autowiring. Autowire {@link PasswordProperties} bean that
+     * hold password constraints to this bean.
+     * @param props - {@link PasswordProperties} bean.
+     */
     @Autowired
     public void setProperties(PasswordProperties props) {
+        LOGGER.debug("AUTOWIRING:" +props.getClass().getName() + " to " +getClass().getName());
         this.properties = props;
     }
 
