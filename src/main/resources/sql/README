@@ -8,3 +8,8 @@ File 'mysql-empty-actual.sql' is the empty phoenix database dump for MySQL serve
     *user
     *account
     *user_detail
+
+File 'phoenix.mv.db' is the empty phoenix database dump for H2 testing server.
+'phoenix.mv.db' contains table definition:
+    *user
+    *account
