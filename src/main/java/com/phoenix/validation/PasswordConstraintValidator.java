@@ -6,7 +6,6 @@ import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
@@ -115,24 +114,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
 
         return true;
     }
-
-    /*
-        Standard getters and setters
-     */
-    public int getMinPasswordLength() {        return min_password_length;    }
-    public boolean isUppercaseLetter() {        return uppercase_letter;    }
-
-    public void setMinPasswordLength(@NonNull int min) {        if (min == 0 ) this.setMinPasswordLength(8);        this.min_password_length = min;    }
-    public void setUppercaseLetter(@NonNull boolean uppercase) {
-        this.uppercase_letter = uppercase;
-    }
-    public void setLowercaseLetter(@NonNull boolean lowercase_letter) {
-        this.lowercase_letter = lowercase_letter;
-    }
-    public void setNumber(@NonNull boolean numbers) {
-        this.number = numbers;
-    }
-    public void setSpecialCharacter(@NonNull boolean special_characters) {        this.special_character = special_characters;    }
 
     /**
      * Spring autowiring. Autowire {@link PasswordProperties} bean that

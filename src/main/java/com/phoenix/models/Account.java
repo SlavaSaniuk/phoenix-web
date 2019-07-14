@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
  * When new account registered in application, application automatically create new {@link User} entity
  * and generate it its unique ID, which is the same as {@link Account#account_id}.
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "account")
 public class Account {
@@ -40,7 +41,6 @@ public class Account {
 
     //Getters and setters
     public int getAccountId() {        return account_id;    }
-    public void setAccountId(int account_id) {        this.account_id = account_id;    }
 
     public User getAccountOwner() {        return account_owner;    }
     public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }

@@ -3,8 +3,6 @@ package com.phoenix.services.accounting;
 import com.phoenix.models.Account;
 import com.phoenix.models.User;
 
-import javax.persistence.EntityExistsException;
-
 /**
  * Main service {@link org.springframework.context.annotation.Bean} for maintaining account system of whole application.
  * Contains method for registration, generating password hash, validation {@link Account} entities. Default

@@ -41,12 +41,6 @@ public class Hasher extends AbstractHashingServiceImpl {
     }
 
     /**
-     * Return hash salt length.
-     * @return - hash salt length.
-     */
-    public int getSaltLength() {        return super.hash_length;    }
-
-    /**
      * Return current used bt this hasher hash algorithm.
      * @return - hash algorithm.
      */

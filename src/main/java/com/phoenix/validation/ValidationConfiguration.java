@@ -42,6 +42,21 @@ public class ValidationConfiguration implements WebMvcConfigurer {
         this.environment = env;
     }
 
+    @Override
+    public Validator getValidator() {
+        LOGGER.info("Create " +Validator.class.getName() +" validation bean.");
+
+
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        LOGGER.debug(Validator.class.getName() +" is implemented by " +validator.getClass().getName() +" class.");
+
+        validator.setValidationMessageSource(this.validationMessageSource());
+        LOGGER.debug(validator.getClass().getName() +": Message source - validation.");
+
+        LOGGER.debug(validator.getClass().getName() +" was created.");
+        return validator;
+    }
+
     /**
      * {@link MessageSource} bean. User as messages provider for validation logic
      * in application. Basename link on "classpath:static/lang/validation" resource bundle.
@@ -65,21 +80,6 @@ public class ValidationConfiguration implements WebMvcConfigurer {
 
         LOGGER.debug(msg_src.getClass().getName() +"was created.");
         return msg_src;
-    }
-
-    @Override
-    public Validator getValidator() {
-        LOGGER.info("Create " +Validator.class.getName() +" validation bean.");
-
-
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        LOGGER.debug(Validator.class.getName() +" is implemented by " +validator.getClass().getName() +" class.");
-
-        validator.setValidationMessageSource(this.validationMessageSource());
-        LOGGER.debug(validator.getClass().getName() +": Message source - validation.");
-
-        LOGGER.debug(validator.getClass().getName() +" was created.");
-        return validator;
     }
 
     /**

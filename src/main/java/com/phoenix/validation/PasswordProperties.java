@@ -55,9 +55,9 @@ public class PasswordProperties {
     /*
         Standard getters
      */
-    public int getPasswordMinLength() {        return password_min_length;    }
-    public String getPasswordUppercase() {        return password_uppercase;    }
-    public String getPasswordLowercase() {        return password_lowercase;    }
-    public String getPasswordNumbers() {        return password_numbers;    }
-    public String getPasswordSpecial() {        return password_special;    }
+    int getPasswordMinLength() {        return password_min_length;    }
+    String getPasswordUppercase() {        return password_uppercase;    }
+    String getPasswordLowercase() {        return password_lowercase;    }
+    String getPasswordNumbers() {        return password_numbers;    }
+    String getPasswordSpecial() {        return password_special;    }
 }

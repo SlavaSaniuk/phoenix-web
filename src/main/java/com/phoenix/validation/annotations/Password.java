@@ -15,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
  * {@link PasswordConstraintValidator} class holds validation logic for password fields.
  * Note: Properties defined in "security.properties" prefer than annotations properties.
  */
+@SuppressWarnings("unused")
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordConstraintValidator.class)

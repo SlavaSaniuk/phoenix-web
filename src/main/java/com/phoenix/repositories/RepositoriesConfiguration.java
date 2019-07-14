@@ -23,6 +23,7 @@ public class RepositoriesConfiguration {
     @PersistenceContext
     EntityManager em; //Autowired
 
+    //Spring beans
     //Factory that's create a repository implementation
     private JpaRepositoryFactory factory;
 

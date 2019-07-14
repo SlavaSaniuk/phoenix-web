@@ -9,6 +9,8 @@ import java.util.Objects;
  * When user want to register in application, he register it's account in {@link com.phoenix.services.accounting.SigningService#signUp(Account)} method.
  * Method automatically create new user entity and generate unique ID to it {@link User#user_id}.
  */
+
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "user")
 public class User {
@@ -27,7 +29,6 @@ public class User {
 
     //Getters and Setters
     public int getUserId() {        return user_id;    }
-    public void setUserId(int user_id) {        this.user_id = user_id;    }
 
     public String getUserIdAlias() {        return user_id_alias;    }
     public void setUserIdAlias(String user_id_alias) {        this.user_id_alias = user_id_alias;    }
