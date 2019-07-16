@@ -14,12 +14,21 @@
         <form th:action="@{/registration}" th:object="${registration}" method="post">
 
             <input type="text" placeholder="Your email" th:field="*{email}" id="account_email" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
+
             <input type="text" placeholder="Your password" th:field="*{password}" id="account_password" />
             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+
             <input type="text" placeholder="Your first name" th:field="*{fName}" id="user_fname" />
+            <p th:if="${#fields.hasErrors('fName')}" th:errors="*{fName}" ></p>
+
             <input type="text" placeholder="Your last name" th:field="*{lName}" id="user_lname" />
+            <p th:if="${#fields.hasErrors('lName')}" th:errors="*{lName}" ></p>
+
             <input type="text" placeholder="Your birthday"  id="user_birthday"
                    th:field="*{{birthDay}}" th:placeholder="#{registration.form.user-birthday} "/>
+            <p th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}" ></p>
+
             <input type="text" placeholder="Your sex" th:field="*{sex}" id="user_sex" />
 
             <input type="submit" value="Go" >

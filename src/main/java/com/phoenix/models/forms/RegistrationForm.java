@@ -1,19 +1,35 @@
 package com.phoenix.models.forms;
 
 import com.phoenix.webmvc.validation.annotations.Password;
+import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class RegistrationForm {
 
     //Registration form inputs
-    private String fName;
-    private String lName;
-    private LocalDate birthDay;
-    private char sex;
+    @Email(message = "{invalid.Account.email}")
     private String email;
+
     @Password(message = "{invalid.Account.password}")
     private String password;
+
+    @NotEmpty(message = "{not_empty.Account.fname}")
+    @Size(min = 2, max = 255, message = "{invalid.Account.fname}")
+    private String fName;
+
+    @NotEmpty(message = "{not_empty.Account.lname}")
+    @Size(min = 2, max = 255, message = "{invalid.Account.lname}")
+    private String lName;
+
+    @NotNull(message = "{not_null.Account.birthday}")
+    @Past(message = "{past.Account.birthday}")
+    @ValidLocalDate(message = "{localdate.Account.birthday}")
+    private LocalDate birthDay;
+
+    private char sex;
+
 
     //Getters
     public String getfName() {        return fName;    }
