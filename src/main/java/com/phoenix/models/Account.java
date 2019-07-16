@@ -1,10 +1,8 @@
 package com.phoenix.models;
 
-import com.phoenix.webmvc.validation.annotations.Password;
+import com.phoenix.models.forms.RegistrationForm;
 import java.util.Objects;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * Account entity. Database holds all application account in relation form in 'account' table.
@@ -26,8 +24,6 @@ public class Account {
     private User account_owner;
 
     @Column(name = "account_email", nullable = false, unique = true)
-    @NotEmpty(message = "{notempty.Account.email}")
-    @Email(message = "{validemail.Account.email}")
     private String account_email;
 
     private transient String account_password;
@@ -38,6 +34,16 @@ public class Account {
     @Column(name = "account_password_salt", nullable = false)
     private String account_password_salt;
 
+    //Constructors
+    public Account() {}
+
+    public Account(RegistrationForm form) {
+
+        this.account_email = form.getEmail();
+        this.account_password = form.getPassword();
+
+    }
+
     //Getters and setters
     public int getAccountId() {        return account_id;    }
 
@@ -45,12 +51,12 @@ public class Account {
     public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
 
     public String getAccountEmail() {        return account_email;    }
-    public void setAccountEmail(@NotEmpty String account_email)  {
+    public void setAccountEmail(String account_email)  {
         this.account_email = account_email;
     }
 
     public String getAccountPassword() {        return account_password;    }
-    public void setAccountPassword(@NotEmpty  String account_password) {        this.account_password = account_password;    }
+    public void setAccountPassword(String account_password) {        this.account_password = account_password;    }
 
     public String getAccountPasswordHash() {        return account_password_hash;    }
     public void setAccountPasswordHash(String account_password_hash) {        this.account_password_hash = account_password_hash;    }

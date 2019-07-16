@@ -1,5 +1,6 @@
 package com.phoenix.models.forms;
 
+import com.phoenix.models.Account;
 import com.phoenix.webmvc.validation.annotations.Password;
 import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 
@@ -33,6 +34,12 @@ public class RegistrationForm {
     @Length(min = 1, max = 1)
     private String sex;
 
+    public Account createAccount() {
+        Account account = new Account();
+        account.setAccountEmail(this.email);
+        account.setAccountPassword(this.password);
+        return account;
+    }
 
     //Getters
     public String getfName() {        return fName;    }
