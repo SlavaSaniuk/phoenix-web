@@ -9,19 +9,16 @@
     <h3 th:text="#{registration.welcome}"> Please, sign up </h3>
 
     <div>
-        <form action="#" th:action="@{/registration}" th:object="${account}" method="post">
+        <form th:action="@{/registration}" th:object="${registration}" method="post">
 
-            <label> <input type="text" id="account_email" placeholder="Your email"
-                           th:placeholder="#{registration.form.account-email}" th:field="*{accountEmail}" />
-            </label>
-            <label> <input type="text" id="account_password" placeholder="Your password"
-                           th:placeholder="#{registration.form.account-password}" th:field="*{accountPassword}" />
-            </label>
-            <input type="submit" value="sign up" th:value="#{registration.form.submit}" />
+            <input type="text" placeholder="Your email" th:field="*{email}" id="account_email" />
+            <input type="text" placeholder="Your password" th:field="*{password}" id="account_password" />
+            <input type="text" placeholder="Your first name" th:field="*{fName}" id="user_fname" />
+            <input type="text" placeholder="Your last name" th:field="*{lName}" id="user_lname" />
+            <input type="text" placeholder="Your birthday" th:field="*{birthDay}" id="user_birthday" />
+            <input type="text" placeholder="Your sex" th:field="*{sex}" id="user_sex" />
 
-            <div th:if="${#fields.hasErrors('*')}" >
-                <p th:each="er : ${#fields.errors()}" th:text="${er}"></p>
-            </div>
+            <input type="submit" value="Go" >
         </form>
 
         <p th:text="#{registration.link.login.msg}"> Already registered? </p>
