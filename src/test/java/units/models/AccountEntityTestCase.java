@@ -33,4 +33,16 @@ class AccountEntityTestCase {
         Assertions.assertEquals("123456789", created.getAccountPassword());
 
     }
+
+    @Test
+    void constructor_validRegistrationForm_shouldResetFormPassowrd() {
+
+        this.form.setEmail("test@test.com");
+        this.form.setPassword("123456789");
+
+        new Account(this.form);
+
+        Assertions.assertNull(this.form.getPassword());
+
+    }
 }

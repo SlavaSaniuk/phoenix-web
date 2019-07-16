@@ -34,5 +34,15 @@ class RegistrationFormTestCase {
 
     }
 
+    @Test
+    void createAccount_allFieldsAreValid_shouldResetFormPassword() {
 
+        this.form.setEmail("test@test.com");
+        this.form.setPassword("123456789");
+
+        this.form.createAccount();
+
+        Assertions.assertNull(this.form.getPassword());
+
+    }
 }

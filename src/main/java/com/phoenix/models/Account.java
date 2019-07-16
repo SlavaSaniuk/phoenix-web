@@ -39,9 +39,12 @@ public class Account {
 
     public Account(RegistrationForm form) {
 
+        //Map fields
         this.account_email = form.getEmail();
         this.account_password = form.getPassword();
 
+        //Reset account password
+        form.setPassword(null);
     }
 
     //Getters and setters

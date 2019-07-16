@@ -35,9 +35,15 @@ public class RegistrationForm {
     private String sex;
 
     public Account createAccount() {
+
+        //Map fields
         Account account = new Account();
         account.setAccountEmail(this.email);
         account.setAccountPassword(this.password);
+
+        //Reset password
+        this.password = null;
+
         return account;
     }
 
