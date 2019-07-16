@@ -28,6 +28,7 @@
           <dependency>fileset</dependency>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/WebContextConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/webmvc/WebMvcConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
