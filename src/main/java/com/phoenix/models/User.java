@@ -26,14 +26,18 @@ public class User {
     @OneToOne(mappedBy = "account_owner")
     private Account user_account;
 
+    @OneToOne(mappedBy = "detail_owner")
+    private UserDetail user_detail;
+
 
     //Getters and Setters
     public int getUserId() {        return user_id;    }
-
     public String getUserIdAlias() {        return user_id_alias;    }
-    public void setUserIdAlias(String user_id_alias) {        this.user_id_alias = user_id_alias;    }
-
     public Account getUserAccount() {        return user_account;    }
+    public UserDetail getUserDetail() {        return user_detail;    }
+
+    public void setUserDetail(UserDetail user_detail) {        this.user_detail = user_detail;    }
+    public void setUserIdAlias(String user_id_alias) {        this.user_id_alias = user_id_alias;    }
     public void setUserAccount(Account user_account) {        this.user_account = user_account;    }
 
     @Override
