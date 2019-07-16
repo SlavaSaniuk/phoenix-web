@@ -59,9 +59,8 @@ public class RegistrationController {
         //Create mav
         ModelAndView mav = new ModelAndView();
 
-
-
-
+        //Debug
+        LOGGER.warn(form.toString());
 
         //Return mav
         mav.setViewName("registration");

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection, HtmlFormInputWithoutLabel -->
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -9,6 +10,7 @@
     <h3 th:text="#{registration.welcome}"> Please, sign up </h3>
 
     <div>
+        <!-- Registration form start -->
         <form th:action="@{/registration}" th:object="${registration}" method="post">
 
             <input type="text" placeholder="Your email" th:field="*{email}" id="account_email" />
@@ -20,6 +22,9 @@
 
             <input type="submit" value="Go" >
         </form>
+        <!-- End of registration form -->
+
+
 
         <p th:text="#{registration.link.login.msg}"> Already registered? </p>
         <a th:href="@{/login.html}" th:text="#{registration.link.login}"> Sign In </a>
