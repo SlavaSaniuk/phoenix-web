@@ -17,7 +17,8 @@
             <input type="text" placeholder="Your password" th:field="*{password}" id="account_password" />
             <input type="text" placeholder="Your first name" th:field="*{fName}" id="user_fname" />
             <input type="text" placeholder="Your last name" th:field="*{lName}" id="user_lname" />
-            <input type="text" placeholder="Your birthday" th:field="*{{birthDay}}" id="user_birthday" />
+            <input type="text" placeholder="Your birthday"  id="user_birthday"
+                   th:field="*{{birthDay}}" th:placeholder="#{registration.form.user-birthday} "/>
             <input type="text" placeholder="Your sex" th:field="*{sex}" id="user_sex" />
 
             <input type="submit" value="Go" >
