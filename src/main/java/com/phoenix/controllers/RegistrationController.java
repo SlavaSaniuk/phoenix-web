@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 
 
 /**
@@ -54,7 +55,7 @@ public class RegistrationController {
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/registration")
-    public ModelAndView handleRegistrationRequest(@ModelAttribute("registration") RegistrationForm form, BindingResult result) {
+    public ModelAndView handleRegistrationRequest(@Valid @ModelAttribute("registration") RegistrationForm form, BindingResult result) {
 
         //Create mav
         ModelAndView mav = new ModelAndView();
@@ -62,8 +63,15 @@ public class RegistrationController {
         //Debug
         LOGGER.warn(form.toString());
 
+        //Check on fields errors
+        if (result.hasFieldErrors()) {
+            mav.setViewName("registration");
+            return mav;
+        }
+
+
         //Return mav
-        mav.setViewName("registration");
+        mav.setViewName("login");
         return mav;
     }
 

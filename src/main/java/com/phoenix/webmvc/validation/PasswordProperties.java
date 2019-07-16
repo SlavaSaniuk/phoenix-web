@@ -1,4 +1,4 @@
-package com.phoenix.validation;
+package com.phoenix.webmvc.validation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

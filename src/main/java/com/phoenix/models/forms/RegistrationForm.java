@@ -1,5 +1,7 @@
 package com.phoenix.models.forms;
 
+import com.phoenix.webmvc.validation.annotations.Password;
+
 import java.time.LocalDate;
 
 public class RegistrationForm {
@@ -10,6 +12,7 @@ public class RegistrationForm {
     private LocalDate birthDay;
     private char sex;
     private String email;
+    @Password(message = "{invalid.Account.password}")
     private String password;
 
     //Getters

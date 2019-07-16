@@ -1,6 +1,6 @@
-package com.phoenix.validation;
+package com.phoenix.webmvc.validation;
 
-import com.phoenix.validation.annotations.Password;
+import com.phoenix.webmvc.validation.annotations.Password;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;

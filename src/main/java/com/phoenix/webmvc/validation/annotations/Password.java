@@ -1,6 +1,6 @@
-package com.phoenix.validation.annotations;
+package com.phoenix.webmvc.validation.annotations;
 
-import com.phoenix.validation.PasswordConstraintValidator;
+import com.phoenix.webmvc.validation.PasswordConstraintValidator;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordConstraintValidator.class)
-@NotEmpty(message = "{notempty.Account.password}")
+@NotEmpty(message = "{not_empty.Account.password}")
 public @interface Password {
 
     /**
