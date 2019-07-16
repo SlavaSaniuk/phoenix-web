@@ -4,6 +4,7 @@ import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
 import com.phoenix.models.Account;
 import com.phoenix.models.User;
+import com.phoenix.models.forms.RegistrationForm;
 import com.phoenix.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +38,12 @@ public class SignAuthenticator implements SigningService {
 
     @Override
     @Transactional(rollbackFor = EmailAlreadyRegisterException.class)
-    public int signUp(Account account) throws EmailAlreadyRegisterException, JpaEngineException {
+    public int signUp(RegistrationForm form) throws EmailAlreadyRegisterException, JpaEngineException {
 
+        //Create account entity
+        Account account = form.createAccount();
+
+        //Check if account already registered
         if (this.ams.isRegistered(account)) throw new EmailAlreadyRegisterException(account.getAccountEmail());
 
         User created_user = this.repository.save(new User());
