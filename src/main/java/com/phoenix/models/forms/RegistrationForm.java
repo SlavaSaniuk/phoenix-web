@@ -1,6 +1,7 @@
 package com.phoenix.models.forms;
 
 import com.phoenix.models.Account;
+import com.phoenix.models.UserDetail;
 import com.phoenix.webmvc.validation.annotations.Password;
 import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 
@@ -45,6 +46,15 @@ public class RegistrationForm {
         this.password = null;
 
         return account;
+    }
+
+    public UserDetail createUserDetail() {
+        UserDetail detail = new UserDetail();
+        detail.setUserFname(this.fName);
+        detail.setUserLname(this.lName);
+        detail.setUserBirthday(this.birthDay);
+        detail.setUserSex(this.sex.charAt(0));
+        return detail;
     }
 
     //Getters
