@@ -2,6 +2,7 @@ package com.phoenix.models.forms;
 
 import com.phoenix.models.Account;
 import com.phoenix.models.UserDetail;
+import com.phoenix.webmvc.validation.annotations.Char;
 import com.phoenix.webmvc.validation.annotations.Password;
 import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 
@@ -30,6 +31,7 @@ public class RegistrationForm {
     @ValidLocalDate(message = "{localdate.Account.birthday}")
     private LocalDate birthDay;
 
+    @Char(available = {'f','m'})
     private char sex;
 
     public Account createAccount() {
