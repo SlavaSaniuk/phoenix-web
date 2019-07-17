@@ -55,7 +55,7 @@ class RegistrationFormTestCase {
         this.form.setfName("fname");
         this.form.setlName("lname");
         this.form.setBirthDay(LocalDate.now());
-        this.form.setSex("F");
+        this.form.setSex('f');
 
         UserDetail test = this.form.createUserDetail();
 
@@ -67,7 +67,7 @@ class RegistrationFormTestCase {
     void createUserDetail_birthdayIsInvalid_shouldSetUserAgeToZero() {
 
         this.form.setBirthDay(LocalDateFormatter.INVALID);
-        this.form.setSex("Female");
+        this.form.setSex('F');
 
         UserDetail test = this.form.createUserDetail();
 
@@ -79,7 +79,7 @@ class RegistrationFormTestCase {
     @Test
     void createUserDetail_allFieldsAreValid_shouldCalculateUserAge() {
         this.form.setBirthDay(LocalDate.of(1997, 1, 10));
-        this.form.setSex("Male");
+        this.form.setSex('M');
         UserDetail test = this.form.createUserDetail();
 
         Assertions.assertEquals(22, test.getUserAge());

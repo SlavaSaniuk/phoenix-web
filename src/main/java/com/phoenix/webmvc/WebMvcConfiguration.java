@@ -1,5 +1,6 @@
 package com.phoenix.webmvc;
 
+import com.phoenix.webmvc.formatters.CharFormatter;
 import com.phoenix.webmvc.validation.PasswordProperties;
 import com.phoenix.webmvc.formatters.LocalDateFormatter;
 import org.slf4j.Logger;
@@ -40,10 +41,16 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
 
         LOGGER.info("Create " +Formatter.class.getName() +" formatter bean for " +LocalDate.class.getName() +" type.");
-        Formatter<LocalDate> localDateFormatter = new LocalDateFormatter();
+        Formatter<LocalDate> localDate_formatter = new LocalDateFormatter();
 
-        LOGGER.debug("Add " +localDateFormatter.getClass().getName() +" to " +FormatterRegistry.class.getName() +" bean registry.");
-        registry.addFormatter(localDateFormatter);
+        LOGGER.debug("Add " +localDate_formatter.getClass().getName() +" to " +FormatterRegistry.class.getName() +" formatters bean registry.");
+        registry.addFormatter(localDate_formatter);
+
+        LOGGER.info("Create " +Formatter.class.getName() +" formatter bean for " +Character.class.getName() +" type.");
+        Formatter<Character> character_formatter = new CharFormatter();
+
+        LOGGER.debug("Add " +character_formatter.getClass().getName() +" to " +FormatterRegistry.class.getName() +" formatters bean registry.");
+        registry.addFormatter(character_formatter);
 
     }
 

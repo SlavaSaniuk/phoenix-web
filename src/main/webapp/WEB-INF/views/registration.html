@@ -29,8 +29,8 @@
                    th:field="*{{birthDay}}" th:placeholder="#{registration.form.user-birthday} "/>
             <p th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}" ></p>
 
-            <label> male: <input type="radio" name="sex" value="m" th:field="*{sex}"/> </label>
-            <label> female: <input type="radio" name="sex" value="f" th:field="*{sex}" /> </label>
+            <label> male: <input type="radio" name="sex" value="m" th:field="*{{sex}}"/> </label>
+            <label> female: <input type="radio" name="sex" value="f" th:field="*{{sex}}" /> </label>
             <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" ></p>
 
             <input type="submit" value="Go" >

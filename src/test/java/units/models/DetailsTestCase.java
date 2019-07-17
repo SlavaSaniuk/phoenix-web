@@ -17,7 +17,7 @@ class DetailsTestCase {
         form.setfName("test");
         form.setlName("test2");
         form.setBirthDay(LocalDate.now());
-        form.setSex("f");
+        form.setSex('f');
 
         UserDetail test = new UserDetail(form);
 

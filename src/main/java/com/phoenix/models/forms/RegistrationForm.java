@@ -7,7 +7,6 @@ import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import org.hibernate.validator.constraints.Length;
 
 public class RegistrationForm {
 
@@ -31,9 +30,7 @@ public class RegistrationForm {
     @ValidLocalDate(message = "{localdate.Account.birthday}")
     private LocalDate birthDay;
 
-    @NotEmpty(message = "{not_empty.Account.sex}")
-    @Length(min = 1, max = 1)
-    private String sex;
+    private char sex;
 
     public Account createAccount() {
 
@@ -53,7 +50,7 @@ public class RegistrationForm {
         detail.setUserFname(this.fName);
         detail.setUserLname(this.lName);
         detail.setUserBirthday(this.birthDay);
-        detail.setUserSex(this.sex.charAt(0));
+        detail.setUserSex(this.sex);
         return detail;
     }
 
@@ -61,7 +58,7 @@ public class RegistrationForm {
     public String getfName() {        return fName;    }
     public String getlName() {        return lName;    }
     public LocalDate getBirthDay() {        return birthDay;    }
-    public String getSex() {        return sex;    }
+    public char getSex() {        return sex;    }
     public String getEmail() {        return email;    }
     public String getPassword() {        return password;    }
 
@@ -69,7 +66,7 @@ public class RegistrationForm {
     public void setfName(String fName) {        this.fName = fName;    }
     public void setlName(String lName) {        this.lName = lName;    }
     public void setBirthDay(LocalDate birthDay) {        this.birthDay = birthDay;    }
-    public void setSex(String sex) {        this.sex = sex;    }
+    public void setSex(char sex) {        this.sex = sex;    }
     public void setEmail(String email) {        this.email = email;    }
     public void setPassword(String password) {        this.password = password;    }
 

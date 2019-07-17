@@ -43,7 +43,7 @@ public class UserDetail {
         this.user_fname = form.getfName();
         this.user_lname = form.getlName();
         this.setUserBirthday(form.getBirthDay());
-        this.setUserSex(form.getSex().charAt(0));
+        this.setUserSex(form.getSex());
 
     }
 
