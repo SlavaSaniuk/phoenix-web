@@ -1,6 +1,7 @@
 package com.phoenix.services;
 
 import com.phoenix.repositories.AccountRepository;
+import com.phoenix.repositories.UserDetailRepository;
 import com.phoenix.repositories.UserRepository;
 import com.phoenix.services.accounting.AccountManagementService;
 import com.phoenix.services.accounting.AccountManager;
@@ -10,6 +11,8 @@ import com.phoenix.services.security.hashing.HashAlgorithms;
 import com.phoenix.services.security.hashing.Hasher;
 import com.phoenix.services.security.hashing.HashingService;
 
+import com.phoenix.services.users.DetailsManager;
+import com.phoenix.services.users.DetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ public class ServicesConfiguration {
     //Spring repositories
     private UserRepository user_repository;
     private AccountRepository account_repository;
+    private UserDetailRepository detail_repository;
 
     /**
      * Default constructor. Uses to logging about start of initialization services beans.
@@ -93,6 +97,17 @@ public class ServicesConfiguration {
         return hasher;
     }
 
+    @Bean("UserDetailsService")
+    public DetailsService detailsService() {
+
+        LOGGER.info("Create " +DetailsService.class.getName() +" service bean.");
+
+        DetailsManager manager = new DetailsManager(this.detail_repository);
+        LOGGER.debug(DetailsService.class.getName() +" is implemented by " +manager.getClass().getName() +" service bean");
+
+        return manager;
+    }
+
     //Spring autowiring
     @Autowired
     private void setUserRepository(UserRepository user_repository) {
@@ -100,6 +115,12 @@ public class ServicesConfiguration {
         this.user_repository = user_repository;    }
     @Autowired
     public void setAccountRepository(AccountRepository account_repository) {
-        LOGGER.debug("AUTOWIRING: " +AccountRepository.class.getName() +" in " +getClass().getName());
-        this.account_repository = account_repository;    }
+        LOGGER.debug("AUTOWIRING: " + AccountRepository.class.getName() + " in " + getClass().getName());
+        this.account_repository = account_repository;
+    }
+    @Autowired
+    public void setDetailRepository(UserDetailRepository detail_repository) {
+        LOGGER.debug("Autowire: " +detail_repository.getClass().getName() +" in " +getClass().getName());
+        this.detail_repository = detail_repository;
+    }
 }
