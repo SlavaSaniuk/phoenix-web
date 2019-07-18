@@ -47,7 +47,7 @@ public class RepositoriesConfiguration {
 
     /**
      * {@link AccountRepository} bean. Spring automatically create this interface
-     *      * implementation and return it as spring bean
+     * implementation and return it as spring bean
      * @return {@link AccountRepository} repository bean.
      */
     @Bean("AccountRepository")
@@ -56,6 +56,11 @@ public class RepositoriesConfiguration {
         return factory.getRepository(AccountRepository.class);
     }
 
+    /**
+     * {@link UserDetailRepository} repository bean. Spring automatically create this interface
+     *      * implementation and return it as spring bean
+     * @return - {@link UserDetailRepository} repository bean.
+     */
     @Bean("UserDetailRepository")
     public UserDetailRepository detailsRepository() {
         LOGGER.info("Create " +UserDetailRepository.class.getName() +" repository bean.");

@@ -25,12 +25,11 @@ public class SignAuthenticator implements SigningService, InitializingBean {
     private AccountManagementService ams; //Set in conf. class via setter method
     private DetailsService details; //Set in services configuration class via setter method
 
-    //Constructor
-
     /**
      * Construct new {@link SignAuthenticator} bean with already installed {@link UserRepository} repository bean.
      * @param a_repository - Implementation of {@link UserRepository} bean.
      */
+    //Constructor
     public SignAuthenticator(UserRepository a_repository) {
         LOGGER.debug("Start to create " +getClass().getName() +" service bean.");
 
@@ -83,6 +82,10 @@ public class SignAuthenticator implements SigningService, InitializingBean {
         this.ams = service;
     }
 
+    /**
+     * Set {@link DetailsService} service bean.
+     * @param details - {@link DetailsService} bean implementation.
+     */
     public void setDetailsService(DetailsService details) {
         LOGGER.debug("Mapping: " +details.getClass().getName() +" to: " +getClass().getName());
         this.details = details;

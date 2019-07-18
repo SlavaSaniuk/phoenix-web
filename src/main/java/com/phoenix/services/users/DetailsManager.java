@@ -9,15 +9,21 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+/**
+ * Implementation {@link DetailsService} service bean.
+ */
 @Service
 public class DetailsManager implements DetailsService {
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(DetailsManager.class);
-
     //Spring beans
     private UserDetailRepository repository; //Autowired in constructor
 
+    /**
+     * Constructor new {@link DetailsManager} service bean. Map {@link UserDetailRepository} repository to this bean.
+     * @param repository - {@link UserDetailRepository} bean implementation.
+     */
     //Constructor
     public DetailsManager(UserDetailRepository repository) {
 

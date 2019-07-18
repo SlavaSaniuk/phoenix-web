@@ -45,6 +45,12 @@ public class RegistrationController implements InitializingBean {
     private MessageSource error_message_source; //Autowired via setters
     private LocaleResolver resolver; //Autowired via setters
 
+    /**
+     * Spring automatically create registration controller bean and
+     * autowire {@link SigningService} service bean to them. Service used to
+     * register user in application.
+     * @param a_service {@link SigningService} registration service bean.
+     */
     //Constructor
     public RegistrationController(SigningService a_service) {
         LOGGER.info("Create " +getClass().getName() +" controller bean.");
@@ -53,6 +59,12 @@ public class RegistrationController implements InitializingBean {
         this.service = a_service;
     }
 
+    /**
+     * {@link RegistrationForm} model attribute used by thymeleaf to set users inputs to this form fields.
+     * Model attribute with empty fields send as request attribute in HTTP get request on this controller.
+     * With POST HTTP request this model attribute hold users inputs.
+     * @return - new {@link RegistrationForm} form object.
+     */
     @ModelAttribute("registration")
     public RegistrationForm createRegistrationForm() {
         return new RegistrationForm();
@@ -72,7 +84,17 @@ public class RegistrationController implements InitializingBean {
         return mav;
     }
 
-
+    /**
+     * Register user in application. Method get filled {@link RegistrationForm} and validate them.
+     * If form has fields error, {@link BindingResult} has this errors and method return user back
+     * to registration page. If user input are valid methods try to register new user in application.
+     * @param form - Filled {@link RegistrationForm} users registration form.
+     * @param result - {@link BindingResult} hold validation errors.
+     * @param req - {@link HttpServletRequest) used to define user locale, and return localized error
+     * message if user email already registered.
+     * @return {@link ModelAndView} object which redirect user to it's own user page if form fields are valid, or else
+     * return back to registration with fields errors.
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/registration")
     public ModelAndView handleRegistrationRequest(@Valid @ModelAttribute("registration") RegistrationForm form, BindingResult result, HttpServletRequest req) {
 
@@ -112,6 +134,10 @@ public class RegistrationController implements InitializingBean {
         return mav;
     }
 
+    /**
+     * Validate this spring beans fields. Check whether this fields has been initialized.
+     * @throws Exception - If {@link SigningService} service bean has been not autowired.
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         if (this.service == null) {
@@ -131,7 +157,7 @@ public class RegistrationController implements InitializingBean {
     }
 
     @Autowired(required = false)
-    public void autowire(@Qualifier("ValidationSource") MessageSource src,  LocaleResolver resolver) {
+    private void autowire(@Qualifier("ValidationSource") MessageSource src,  LocaleResolver resolver) {
         this.error_message_source = src;
         this.resolver = resolver;
     }

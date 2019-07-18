@@ -7,6 +7,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
+/**
+ * This class contains validation logic for {@link ValidLocalDate} annotation.
+ */
 public class ValidLocalDateConstraintValidator implements ConstraintValidator<ValidLocalDate, LocalDate> {
 
     private final LocalDate INVALID = LocalDateFormatter.INVALID;

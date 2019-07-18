@@ -9,11 +9,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+/**
+ * Formatter used to convert String to LocalDate object and vise versa. Used to map html date input with
+ * this birthday registration form field.
+ */
 public class LocalDateFormatter implements Formatter<LocalDate> {
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(LocalDateFormatter.class);
 
+    /**
+     * Map invalid LocalDate fields with this values.
+     */
     //Invalid LocalDate format
     public static final LocalDate INVALID = LocalDate.of(1,1,1);
 

@@ -7,6 +7,12 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 
+/**
+ * Hibernate user details entity. This entity holds users person private information such as first name,
+ * last name, birthday, sex. When new user person register in application this details
+ * associate with new registered user.
+ */
+@SuppressWarnings("unused")
 @Entity(name = "UserDetail")
 @Table(name = "user_detail")
 public class UserDetail {
@@ -35,8 +41,16 @@ public class UserDetail {
     private char user_sex;
 
     //Constructors
-    public UserDetail() {};
 
+    /**
+     * Default constructor create new empty UserDetails entity.
+     */
+    public UserDetail() {}
+
+    /**
+     * Create new UserDetails entity with fields values defined in {@link RegistrationForm}.
+     * @param form - Filled {@link RegistrationForm} form.
+     */
     public UserDetail(RegistrationForm form) {
 
         //Map fields

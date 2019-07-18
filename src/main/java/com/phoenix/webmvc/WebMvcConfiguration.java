@@ -30,6 +30,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     private Environment environment;
 
     //Constructor
+
+    /**
+     * Default constructor. Uses to log about start of initialization web beans.
+     * @param env - autowired spring {@link Environment}.
+     */
     @Autowired
     public WebMvcConfiguration(Environment env) {
         LOGGER.info("Start to initialize " +getClass().getName() +" configuration class.");
@@ -70,6 +75,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return validator;
     }
 
+    /**
+     * {@link MessageSource} for getting validation messages.
+     * This message source links on "classpath:static/lang/validation" basename
+     * with UTF-8 characters encoding. Basename contains all localized messages
+     * for supported fields errors.
+     * @return - {@link ResourceBundleMessageSource} with localization messages.
+     */
     @Bean("ValidationSource")
     public MessageSource validationMessageSource() {
 
@@ -89,10 +101,40 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return src;
     }
 
+    /**
+     * Bean hold password constraint defined in 'security.properties'.
+     * @return - {@link PasswordProperties} properties bean.
+     */
     @Bean("PasswordProperties")
     public PasswordProperties initPasswordProperties() {
         LOGGER.info("Create " +PasswordProperties.class.getName() +" properties bean.");
         return new PasswordProperties(this.environment);
+    }
+
+    /**
+     * {@link MessageSource} for getting localization messages.
+     * This message source links on "classpath:static/lang/localization" basename
+     * with UTF-8 characters encoding. Basename contains all service html text
+     * for supported locales.
+     * @return - {@link ResourceBundleMessageSource} with localization messages.
+     */
+    @Bean(name = "LocalizationSource")
+    public MessageSource createMessageSource() {
+
+        LOGGER.info("Create " +MessageSource.class.getName() +" localization properties bean.");
+
+        ResourceBundleMessageSource msg_src = new ResourceBundleMessageSource();
+        LOGGER.debug(MessageSource.class.getName() +" is implemented by " +msg_src.getClass().getName() +" class.");
+
+        //Set parameters
+        msg_src.setBasename("static/lang/localization");
+        LOGGER.debug(msg_src.getClass().getName() +": Basename -" +msg_src.getBasenameSet());
+
+        msg_src.setDefaultEncoding("UTF-8");
+        LOGGER.debug(msg_src.getClass().getName() +": Default encoding - UTF-8.");
+
+        LOGGER.debug(msg_src.getClass().getName() +" was created.");
+        return msg_src;
     }
 
 }

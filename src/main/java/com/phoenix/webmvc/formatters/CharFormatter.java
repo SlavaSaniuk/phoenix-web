@@ -4,6 +4,10 @@ import org.springframework.format.Formatter;
 
 import java.util.Locale;
 
+/**
+ * Formatter used to convert String to Character object and vise versa. Used to map html radio buttons input with
+ * 'sex' registration form field.
+ */
 public class CharFormatter implements Formatter<Character> {
 
     @Override
