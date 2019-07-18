@@ -4,7 +4,8 @@ import com.phoenix.models.Account;
 import com.phoenix.models.User;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.security.hashing.HashingService;
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,7 +28,9 @@ public class AccountManager implements AccountManagementService {
     }
 
     @Override
-    public int registerAccount(Account a_account, User a_user) throws EntityExistsException{
+    public int registerAccount(Account a_account, User a_user) throws EntityNotFoundException {
+
+        if (a_user.getUserId() == 0) throw new EntityNotFoundException("User entity must before persisted");
 
         //Prepare account to persist
         a_account = this.prepareAccount(a_account);

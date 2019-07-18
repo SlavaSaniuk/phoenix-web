@@ -6,7 +6,6 @@ import java.util.Objects;
 /**
  * User entity. Database holds all application account in relation form in 'user' table.
  * Every user must have only one {@link Account}, because JPA used {@link OneToOne} annotation on {@link User#user_account} account.
- * When user want to register in application, he register it's account in {@link com.phoenix.services.accounting.SigningService#signUp(Account)} method.
  * Method automatically create new user entity and generate unique ID to it {@link User#user_id}.
  */
 
@@ -36,6 +35,7 @@ public class User {
     public Account getUserAccount() {        return user_account;    }
     public UserDetail getUserDetail() {        return user_detail;    }
 
+    public void setUserId(int user_id) {        this.user_id = user_id;    }
     public void setUserDetail(UserDetail user_detail) {        this.user_detail = user_detail;    }
     public void setUserIdAlias(String user_id_alias) {        this.user_id_alias = user_id_alias;    }
     public void setUserAccount(Account user_account) {        this.user_account = user_account;    }
