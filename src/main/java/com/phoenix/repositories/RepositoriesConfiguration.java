@@ -56,6 +56,12 @@ public class RepositoriesConfiguration {
         return factory.getRepository(AccountRepository.class);
     }
 
+    @Bean("UserDetailRepository")
+    public UserDetailRepository detailsRepository() {
+        LOGGER.info("Create " +UserDetailRepository.class.getName() +" repository bean.");
+        return this.factory.getRepository(UserDetailRepository.class);
+    }
+
     /**
      * JPA {@link EntityManager} autowiring.
      * @param em - {@link EntityManager} for default unit.
