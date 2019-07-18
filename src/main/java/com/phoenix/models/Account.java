@@ -7,7 +7,7 @@ import javax.persistence.*;
 /**
  * Account entity. Database holds all application account in relation form in 'account' table.
  * When new account registered in application, application automatically create new {@link User} entity
- * and generate it its unique ID, which is the same as {@link Account#account_id}.
+ * and generate its unique ID, which is the same as {@link Account#account_id}.
  */
 @SuppressWarnings("unused")
 @Entity
@@ -35,8 +35,16 @@ public class Account {
     private String account_password_salt;
 
     //Constructors
+
+    /**
+     * Construct new empty {@link Account} entity.
+     */
     public Account() {}
 
+    /**
+     * Construct not empty {@link Account} entity, with fields values defined in {@link RegistrationForm}.
+     * @param form - {@link RegistrationForm} with filled account fields.
+     */
     public Account(RegistrationForm form) {
 
         //Map fields
@@ -57,9 +65,7 @@ public class Account {
 
     public void setAccountId(int account_id) {        this.account_id = account_id;    }
     public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
-    public void setAccountEmail(String account_email)  {
-        this.account_email = account_email;
-    }
+    public void setAccountEmail(String account_email)  {        this.account_email = account_email;    }
     public void setAccountPassword(String account_password) {        this.account_password = account_password;    }
     public void setAccountPasswordHash(String account_password_hash) {        this.account_password_hash = account_password_hash;    }
     public void setAccountPasswordSalt(String account_password_salt) {        this.account_password_salt = account_password_salt;    }

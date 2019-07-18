@@ -5,6 +5,9 @@ import com.phoenix.webmvc.validation.annotations.Char;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * This class contains validation logic for {@link Char} annotation.
+ */
 public class CharConstraintValidator implements ConstraintValidator<Char, Character> {
 
     private char[] available_chars = new char[]{};

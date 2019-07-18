@@ -3,12 +3,12 @@ package com.phoenix.models;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * User entity. Database holds all application account in relation form in 'user' table.
- * Every user must have only one {@link Account}, because JPA used {@link OneToOne} annotation on {@link User#user_account} account.
- * Method automatically create new user entity and generate unique ID to it {@link User#user_id}.
- */
 
+/**
+ * Hibernate user entity. This entity identifier user person by it's {@link User#user_id}.
+ * When new user peron registered new account application automatically create new user entity
+ * and associate account and users details with created user.
+ */
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "user")

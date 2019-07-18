@@ -34,7 +34,7 @@ public class ServicesConfiguration {
     private UserDetailRepository detail_repository;
 
     /**
-     * Default constructor. Uses to logging about start of initialization services beans.
+     * Default constructor. Uses to log about start of initialization services beans.
      */
     //Constructor
     public ServicesConfiguration() {
@@ -100,6 +100,10 @@ public class ServicesConfiguration {
         return hasher;
     }
 
+    /**
+     * {@link DetailsService} service bean. {@link DetailsManager} implements this bean.
+     * @return {@link DetailsService} service bean.
+     */
     @Bean("UserDetailsService")
     public DetailsService detailsService() {
 
@@ -117,12 +121,12 @@ public class ServicesConfiguration {
         LOGGER.debug("AUTOWIRING: " +UserRepository.class.getName() +" in " +getClass().getName());
         this.user_repository = user_repository;    }
     @Autowired
-    public void setAccountRepository(AccountRepository account_repository) {
+    private void setAccountRepository(AccountRepository account_repository) {
         LOGGER.debug("AUTOWIRING: " + AccountRepository.class.getName() + " in " + getClass().getName());
         this.account_repository = account_repository;
     }
     @Autowired
-    public void setDetailRepository(UserDetailRepository detail_repository) {
+    private void setDetailRepository(UserDetailRepository detail_repository) {
         LOGGER.debug("Autowire: " +detail_repository.getClass().getName() +" in " +getClass().getName());
         this.detail_repository = detail_repository;
     }

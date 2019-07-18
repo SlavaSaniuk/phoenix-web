@@ -122,6 +122,4 @@ public class WebContextConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
-
-
 }

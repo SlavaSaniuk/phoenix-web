@@ -3,11 +3,11 @@ package com.phoenix.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -26,6 +26,7 @@ public class ThymeleafConfiguration {
 
     //Spring beans
     private ApplicationContext application_context;
+    private MessageSource localization_source; //Autowire via set method
 
     /**
      * Default constructor. Inform about loading of this configuration file.
@@ -78,7 +79,8 @@ public class ThymeleafConfiguration {
         engine.addTemplateResolver(this.templateResolver());
 
         //Add message source to template resolver
-        engine.setMessageSource(this.createMessageSource());
+        LOGGER.debug(engine.getClass().getName() +": Set localization message source");
+        engine.setMessageSource(this.localization_source);
 
         //Return
         return engine;
@@ -104,26 +106,16 @@ public class ThymeleafConfiguration {
         return resolver;
     }
 
-    /**
-     * Create {@link MessageSource} implementation. Message source load internalized messages from property file.
-     * This messages used as text in HTML tags.
-     * @return - {@link ResourceBundleMessageSource} configured object.
-     */
-    @Bean(name = "messageSource")
-    public MessageSource createMessageSource() {
-
-        ResourceBundleMessageSource msg_src = new ResourceBundleMessageSource();
-
-        //Set parameters
-        msg_src.setBasename("static/lang/localization");
-        msg_src.setDefaultEncoding("UTF-8");
-
-        return msg_src;
-    }
-
     //Spring autowiring
     @Autowired
     private void autowire(ApplicationContext ctx) {
         this.application_context = ctx;
+    }
+
+    @Autowired
+    @Qualifier("LocalizationSource")
+    private void setLocalizationSource(MessageSource localization_source) {
+        LOGGER.debug("Autowire: " +localization_source.getClass().getName() +" in " +getClass().getName());
+        this.localization_source = localization_source;
     }
 }

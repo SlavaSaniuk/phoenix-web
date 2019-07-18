@@ -9,6 +9,12 @@ import com.phoenix.webmvc.validation.annotations.ValidLocalDate;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * Registration form object represent a HTML registration form. Used by
+ * Thymeleaf framework to bind users inputs to this form fields and validate this fields.
+ * Hibernate entities can be created with {@link RegistrationForm#createAccount()} and
+ * {@link RegistrationForm#createUserDetail()} methods.
+ */
 public class RegistrationForm {
 
     //Registration form inputs
@@ -35,6 +41,10 @@ public class RegistrationForm {
     @Char(available = {'f','m'}, message = "{char.Account.sex}")
     private char sex;
 
+    /**
+     * Create new not empty {@link Account} entity with values defined in in this fields.
+     * @return - Filled {@link Account} entity.
+     */
     public Account createAccount() {
 
         //Map fields
@@ -48,6 +58,10 @@ public class RegistrationForm {
         return account;
     }
 
+    /**
+     * Create new not empty {@link UserDetail} entity with values defined in in this fields.
+     * @return - Filled {@link UserDetail} entity.
+     */
     public UserDetail createUserDetail() {
         UserDetail detail = new UserDetail();
         detail.setUserFname(this.fName);
