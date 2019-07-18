@@ -75,6 +75,9 @@ public class ServicesConfiguration {
         LOGGER.debug(SignAuthenticator.class.getName() +": set " +AccountManagementService.class.getName() +"service bean.");
         service.setAccountManagementService(this.accountManagementService());
 
+        LOGGER.debug(SignAuthenticator.class.getName() +": set " +DetailsService.class.getName() +"service bean.");
+        service.setDetailsService(this.detailsService());
+
         LOGGER.debug(SigningService.class.getName() +" was created.");
         return service;
     }

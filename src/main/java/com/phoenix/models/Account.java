@@ -49,22 +49,19 @@ public class Account {
 
     //Getters and setters
     public int getAccountId() {        return account_id;    }
-
     public User getAccountOwner() {        return account_owner;    }
-    public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
-
     public String getAccountEmail() {        return account_email;    }
+    public String getAccountPassword() {        return account_password;    }
+    public String getAccountPasswordHash() {        return account_password_hash;    }
+    public String getAccountPasswordSalt() {        return account_password_salt;    }
+
+    public void setAccountId(int account_id) {        this.account_id = account_id;    }
+    public void setAccountOwner(User account_owner) {        this.account_owner = account_owner;    }
     public void setAccountEmail(String account_email)  {
         this.account_email = account_email;
     }
-
-    public String getAccountPassword() {        return account_password;    }
     public void setAccountPassword(String account_password) {        this.account_password = account_password;    }
-
-    public String getAccountPasswordHash() {        return account_password_hash;    }
     public void setAccountPasswordHash(String account_password_hash) {        this.account_password_hash = account_password_hash;    }
-
-    public String getAccountPasswordSalt() {        return account_password_salt;    }
     public void setAccountPasswordSalt(String account_password_salt) {        this.account_password_salt = account_password_salt;    }
 
     @Override

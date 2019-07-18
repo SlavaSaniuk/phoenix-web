@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import units.setup.InitMockitoMocks;
+import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityNotFoundException;
 
-class DetailManagerTestCase extends InitMockitoMocks {
+class DetailManagerTestCase{
 
     @Mock
     private UserDetailRepository repository;
@@ -24,7 +24,7 @@ class DetailManagerTestCase extends InitMockitoMocks {
 
     @BeforeEach
     void setUpBeforeEach() {
-        super.init();
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

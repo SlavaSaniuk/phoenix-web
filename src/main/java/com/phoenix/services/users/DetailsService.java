@@ -7,6 +7,6 @@ import javax.persistence.EntityNotFoundException;
 
 public interface DetailsService {
 
-    UserDetail registerNewDetail(UserDetail detail, User user) throws EntityNotFoundException;
+    int registerNewDetail(UserDetail detail, User user) throws EntityNotFoundException;
 
 }

@@ -27,7 +27,7 @@ public class DetailsManager implements DetailsService {
     }
 
     @Override
-    public UserDetail registerNewDetail(UserDetail detail, User user) throws EntityNotFoundException {
+    public int registerNewDetail(UserDetail detail, User user) throws EntityNotFoundException {
 
         if (user.getUserId() == 0) throw new EntityNotFoundException("User entity must before persisted");
 
@@ -38,6 +38,6 @@ public class DetailsManager implements DetailsService {
         //Persist details
         detail = this.repository.save(detail);
 
-        return detail;
+        return detail.getDetailId();
     }
 }

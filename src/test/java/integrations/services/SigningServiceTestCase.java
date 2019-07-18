@@ -14,6 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @SpringJUnitConfig(classes = {TestDataSource.class, PersistenceConfiguration.class, RepositoriesConfiguration.class, ServicesConfiguration.class})
 @ActiveProfiles("TEST")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -30,8 +32,12 @@ class SigningServiceTestCase {
     void signUp_newRegistrationForm_shouldReturnGeneratedId() {
 
         RegistrationForm form = new RegistrationForm();
-        form.setEmail("test1@mail.ru");
-        form.setPassword("123456789");
+        form.setEmail("email-service@mail.ru");
+        form.setPassword("password-service");
+        form.setfName("fname-service");
+        form.setlName("lname-service");
+        form.setBirthDay(LocalDate.of(1993, 6, 22));
+        form.setSex('m');
 
         int id = this.service.signUp(form);
 
@@ -44,7 +50,7 @@ class SigningServiceTestCase {
     void signUp_accountAlreadyRegister_shouldThrowEmailAlreadyExistException() {
 
         RegistrationForm form = new RegistrationForm();
-        form.setEmail("test1@mail.ru");
+        form.setEmail("email-service@mail.ru");
         form.setPassword("12345678910");
 
         Assertions.assertThrows(EmailAlreadyRegisterException.class, () -> this.service.signUp(form));

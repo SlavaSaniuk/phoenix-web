@@ -50,8 +50,8 @@ class DetailsServiceTestCase {
         detail.setUserBirthday(LocalDate.of(1972,2,10));
         detail.setUserSex('m');
 
-        detail = this.service.registerNewDetail(detail, user);
+        int id = this.service.registerNewDetail(detail, user);
 
-        Assertions.assertEquals(user.getUserId(), detail.getDetailId());
+        Assertions.assertEquals(user.getUserId(), id);
     }
 }
