@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class RegistrationForm {
 
     //Registration form inputs
+    @NotEmpty(message = "{not_empty.Account.email}")
     @Email(message = "{invalid.Account.email}")
     private String email;
 
@@ -31,7 +32,7 @@ public class RegistrationForm {
     @ValidLocalDate(message = "{localdate.Account.birthday}")
     private LocalDate birthDay;
 
-    @Char(available = {'f','m'})
+    @Char(available = {'f','m'}, message = "{char.Account.sex}")
     private char sex;
 
     public Account createAccount() {
