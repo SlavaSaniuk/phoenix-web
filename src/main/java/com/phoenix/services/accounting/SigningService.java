@@ -3,6 +3,7 @@ package com.phoenix.services.accounting;
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
 import com.phoenix.models.Account;
+import com.phoenix.models.User;
 import com.phoenix.models.forms.RegistrationForm;
 
 /**
@@ -13,16 +14,8 @@ import com.phoenix.models.forms.RegistrationForm;
  */
 public interface SigningService{
 
-    /**
-     * Authenticate user in application runtime. Check whether is this user
-     * registered in application by founding it's account by email address.
-     * Compare it's entered password with password hash.
-     * @param account - Valid {@link Account} entity with defined email
-     *                and password fields.
-     * @return - 'true' - if user entered correct account email and
-     * password fields. In other wise - 'false'.
-     */
-    boolean signIn(Account account);
+
+    User signIn(Account account);
 
     /**
      * Register user account in application system. Check whether entered

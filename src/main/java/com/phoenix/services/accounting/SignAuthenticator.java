@@ -39,8 +39,8 @@ public class SignAuthenticator implements SigningService, InitializingBean {
 
 
     @Override
-    public boolean signIn(Account account) {
-        return false;
+    public User signIn(Account account) {
+        return null;
     }
 
     @Override

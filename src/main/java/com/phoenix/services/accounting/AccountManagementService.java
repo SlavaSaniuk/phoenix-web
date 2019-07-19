@@ -33,11 +33,11 @@ public interface AccountManagementService {
     boolean isRegistered(Account a_account);
 
     /**
-     *  Method perform some validation logic for created account before it is will be persisted in database
-     * {@link AccountManagementService#registerAccount(Account, User)}. Method validate user password with
-     * properties defined in configuration file. Generate password hash and password salt. Reset password field.
-     * @param a_account - {@link Account} which will be registered.
-     * @return - Valid {@link Account} entity.
+     * Authenticate account by email and passwords field. Method find account by email address in database
+     * . In case, if account not founded method return false. If account founded method generate account password
+     * hash with salt of founded account, reset password field and compare two password hashes.
+     * @param a_account - {@link Account} entity to authenticate.
+     * @return -  "true" - if account password is same as founded account password, in otherwise - "false".
      */
-    Account prepareAccount(Account a_account);
+    boolean authenticateAccount(Account a_account);
 }
