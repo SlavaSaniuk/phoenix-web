@@ -118,7 +118,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      * for supported locales.
      * @return - {@link ResourceBundleMessageSource} with localization messages.
      */
-    @Bean(name = "LocalizationSource")
+    @Bean(name = "messageSource")
     public MessageSource createMessageSource() {
 
         LOGGER.info("Create " +MessageSource.class.getName() +" localization properties bean.");

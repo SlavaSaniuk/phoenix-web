@@ -113,7 +113,7 @@ public class ThymeleafConfiguration {
     }
 
     @Autowired
-    @Qualifier("LocalizationSource")
+    @Qualifier("messageSource")
     private void setLocalizationSource(MessageSource localization_source) {
         LOGGER.debug("Autowire: " +localization_source.getClass().getName() +" in " +getClass().getName());
         this.localization_source = localization_source;
