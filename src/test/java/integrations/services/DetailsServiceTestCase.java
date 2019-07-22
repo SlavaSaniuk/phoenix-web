@@ -24,7 +24,6 @@ import java.time.LocalDate;
 @SpringJUnitConfig(classes = {TestDataSource.class, PersistenceConfiguration.class, RepositoriesConfiguration.class, ServicesConfiguration.class})
 class DetailsServiceTestCase {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private DetailsService service;
 

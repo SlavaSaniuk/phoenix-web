@@ -62,7 +62,7 @@ public class AccountManager implements AccountManagementService, InitializingBea
 
         //Compare passwords
         if (this.comparePassword(a_account, founded)) {
-            a_account = founded;
+            a_account.setAccountId(founded.getAccountId());
             return true;
         }else return false;
     }
