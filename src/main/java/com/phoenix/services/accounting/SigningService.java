@@ -15,7 +15,7 @@ import com.phoenix.models.forms.RegistrationForm;
 public interface SigningService{
 
 
-    User signIn(Account account);
+    User signIn(Account account) throws JpaEngineException, IllegalArgumentException;
 
     /**
      * Register user account in application system. Check whether entered

@@ -8,10 +8,12 @@ import com.phoenix.models.UserDetail;
 import com.phoenix.models.forms.RegistrationForm;
 import com.phoenix.repositories.UserRepository;
 import com.phoenix.services.users.DetailsService;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +41,19 @@ public class SignAuthenticator implements SigningService, InitializingBean {
 
 
     @Override
-    public User signIn(Account account) {
-        return null;
+    @Nullable public User signIn(Account account) throws JpaEngineException, IllegalArgumentException {
+
+        if (account == null || account.getAccountEmail() == null) throw new IllegalArgumentException("Form or email field is not valid(null)");
+
+        if (!this.ams.authenticateAccount(account)) return null;
+
+        Optional<User> account_owner_optional = this.repository.findById(account.getAccountId());
+        if (!account_owner_optional.isPresent()) throw new JpaEngineException("User not founded in database by it's ID");
+        User account_owner = account_owner_optional.get();
+
+        if (account_owner.getUserId() != account.getAccountId()) throw new JpaEngineException("User and Account ID is not same");
+
+        return account_owner;
     }
 
     @Override
