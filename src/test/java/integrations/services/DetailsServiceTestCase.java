@@ -39,7 +39,7 @@ class DetailsServiceTestCase {
     @Test
     @Transactional(rollbackFor = EntityNotFoundException.class)
     @Commit
-    void registerNewUserDetail_userIsPersisted_shouldReturnUserDetailWithGeneratedId() {
+    void registerNewUserDetail_userPersisted_shouldReturnUserDetailWithGeneratedId() {
         User user = new User();
         user = this.repository.save(user);
 
