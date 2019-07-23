@@ -52,4 +52,12 @@ public class User {
     public int hashCode() {
         return Objects.hash(user_id);
     }
+
+    @Override
+    public String toString() {
+        return "User: "
+                    +"ID: " +user_id
+                    +", Id_alias: " +user_id_alias;
+
+    }
 }

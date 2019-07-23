@@ -7,6 +7,8 @@ import com.phoenix.services.accounting.AccountManagementService;
 import com.phoenix.services.accounting.AccountManager;
 import com.phoenix.services.accounting.SignAuthenticator;
 import com.phoenix.services.accounting.SigningService;
+import com.phoenix.services.authorization.Authorization;
+import com.phoenix.services.authorization.CommonAuthorizationService;
 import com.phoenix.services.security.hashing.HashAlgorithms;
 import com.phoenix.services.security.hashing.Hasher;
 import com.phoenix.services.security.hashing.HashingService;
@@ -113,6 +115,18 @@ public class ServicesConfiguration {
         LOGGER.debug(DetailsService.class.getName() +" is implemented by " +manager.getClass().getName() +" service bean");
 
         return manager;
+    }
+
+    /**
+     * {@link Authorization} service bean. {@link CommonAuthorizationService} implement this bean.
+     * @return {@link Authorization} service bean.
+     */
+    @Bean("AuthorizationService")
+    public Authorization authorizationService() {
+        LOGGER.info("Create " +Authorization.class.getName() +" service bean.");
+
+        LOGGER.debug(CommonAuthorizationService.class.getName() +" class implements " +Authorization.class.getName() +" service bean.");
+        return new CommonAuthorizationService();
     }
 
     //Spring autowiring
