@@ -58,7 +58,7 @@ public class SignAuthenticator implements SigningService, InitializingBean {
 
     @Override
     @Transactional(rollbackFor = EmailAlreadyRegisterException.class)
-    public int signUp(RegistrationForm form) throws EmailAlreadyRegisterException, JpaEngineException {
+    public User signUp(RegistrationForm form) throws EmailAlreadyRegisterException, JpaEngineException {
 
         //Create account and details entities
         Account account = form.createAccount();
@@ -83,7 +83,7 @@ public class SignAuthenticator implements SigningService, InitializingBean {
         LOGGER.debug("Registered details ID: " +detail_id);
         if (generated_id != detail_id) throw new JpaEngineException("User ID is not same as associated user details.");
 
-        return generated_id;
+        return created_user;
     }
 
     /**

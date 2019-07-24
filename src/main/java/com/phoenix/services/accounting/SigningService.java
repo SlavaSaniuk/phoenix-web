@@ -28,5 +28,5 @@ public interface SigningService{
      * @throws EmailAlreadyRegisterException - throws if account email founded in database.
      * @throws JpaEngineException - throws if user / account ID is not the same.
      */
-    int signUp(RegistrationForm form) throws EmailAlreadyRegisterException, JpaEngineException;
+    User signUp(RegistrationForm form) throws EmailAlreadyRegisterException, JpaEngineException;
 }

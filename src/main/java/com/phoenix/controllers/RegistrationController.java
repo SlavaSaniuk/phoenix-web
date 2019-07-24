@@ -2,6 +2,7 @@ package com.phoenix.controllers;
 
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
+import com.phoenix.models.User;
 import com.phoenix.models.forms.RegistrationForm;
 
 
@@ -111,9 +112,9 @@ public class RegistrationController implements InitializingBean {
         }
 
         //Try to register user
-        int common_id;
+        User cuurent_user;
         try {
-            common_id = this.service.signUp(form);
+            cuurent_user = this.service.signUp(form);
         }catch (EmailAlreadyRegisterException exc) {
             LOGGER.debug(exc.toString());
 
@@ -132,8 +133,11 @@ public class RegistrationController implements InitializingBean {
             return mav;
         }
 
+        //Authorize user
+        this.cas.authorizate(cuurent_user, req.getSession(true));
+
         //Return mav
-        mav.setViewName("redirect:/user_" +common_id);
+        mav.setViewName("redirect:/user_" +cuurent_user.getUserId());
         return mav;
     }
 
