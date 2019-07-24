@@ -25,7 +25,8 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `account_id` int(9) NOT NULL,
   `account_email` varchar(255) NOT NULL,
-  `account_password` varchar(255) NOT NULL,
+  `account_password_hash` varchar(128) NOT NULL,
+  `account_password_salt` varchar(128) NOT NULL,
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_email` (`account_email`),
   CONSTRAINT `account_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `user` (`user_id`)
@@ -38,6 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1,'admin@phoenix.com','78bfb94c804c2bd6ff5e42ae92a55b3d600390ea40fd91a68d181e3abfb8025365928f5b7e9ea1a12153fc5a5a976c3cee3daf29758440a6b746db962b276d5a','6999615972bc5f2a07fa66c8e4e7ed55d374cd2b50bb6712add1f7f2f3495f2ae7d9a3dac6ed2414315ab6e2292f3e19457687f4b3e719424fafd24a3c871a7f');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +55,7 @@ CREATE TABLE `user` (
   `user_id_alias` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_alias` (`user_id_alias`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +64,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,6 +93,7 @@ CREATE TABLE `user_detail` (
 
 LOCK TABLES `user_detail` WRITE;
 /*!40000 ALTER TABLE `user_detail` DISABLE KEYS */;
+INSERT INTO `user_detail` VALUES (1,'Administrator','Phoenix','1970-01-01',49,'m');
 /*!40000 ALTER TABLE `user_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -102,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-05 18:33:26
+-- Dump completed on 2019-07-25  0:37:19
