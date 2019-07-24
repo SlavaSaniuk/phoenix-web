@@ -6,6 +6,7 @@ import com.phoenix.models.forms.RegistrationForm;
 
 
 import com.phoenix.services.accounting.SigningService;
+import com.phoenix.services.authorization.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +41,10 @@ public class RegistrationController implements InitializingBean {
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
+
     //Spring beans
     private SigningService service; //Autowired via constructor
+    private Authorization cas; //Autowired via setter
     private MessageSource error_message_source; //Autowired via setters
     private LocaleResolver resolver; //Autowired via setters
 
@@ -160,5 +163,11 @@ public class RegistrationController implements InitializingBean {
     private void autowire(@Qualifier("ValidationSource") MessageSource src,  LocaleResolver resolver) {
         this.error_message_source = src;
         this.resolver = resolver;
+    }
+
+    @Autowired
+    private void setCas(Authorization authorization) {
+        LOGGER.debug("Autowire: " +authorization.getClass().getName() + " to " +getClass());
+        this.cas = authorization;
     }
 }

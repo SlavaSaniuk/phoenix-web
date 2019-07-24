@@ -4,9 +4,9 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${given_wrapper.getFullName()}"> Hello user name </title>
-</head>
+    <title th:text="${current_wrapper.getFullName()}"> user name </title>
+        </head>
 <body>
-    <h3> Welcome <span th:text="${given_wrapper.getFullName()}"> </span> </h3>
+    <h3> Welcome <span th:text="${current_wrapper.getFullName()}"> </span> </h3>
 </body>
 </html>
