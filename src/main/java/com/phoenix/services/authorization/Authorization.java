@@ -11,7 +11,11 @@ public interface Authorization {
      * @param user - {@link User} entity to authorize.
      * @param session - Given user {@link HttpSession} session.
      */
-    void authorizate(User user, HttpSession session);
+    void authorize(User user, HttpSession session);
 
-
+    /**
+     * Deautorize user in application runtime. Method terminate user session.
+     * @param session - user {@link HttpSession} session.
+     */
+    void deAuthorize(HttpSession session);
 }

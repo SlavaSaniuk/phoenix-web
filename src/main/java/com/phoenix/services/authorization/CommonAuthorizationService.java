@@ -19,12 +19,12 @@ public class CommonAuthorizationService implements Authorization, InitializingBe
     }
 
     @Override
-    public void authorizate(User user, HttpSession session) throws IllegalArgumentException {
+    public void authorize(User user, HttpSession session) throws IllegalArgumentException {
 
         //Check whether users session is created
         if (session == null) throw new IllegalArgumentException("User session parameter is null.");
 
-        //Authorizate user
+        //Authorize user
         if (user == null) {
             session.setAttribute("authenticated", false);
             session.setAttribute("current_user", new User());
@@ -33,6 +33,16 @@ public class CommonAuthorizationService implements Authorization, InitializingBe
             session.setAttribute("current_user", user);
         }
 
+    }
+
+    @Override
+    public void deAuthorize(HttpSession session) {
+
+        //Check whether session is exist
+        if (session == null) throw new IllegalArgumentException("Session object is null");
+
+        //invalidate session
+        session.invalidate();
     }
 
     @Override

@@ -134,7 +134,7 @@ public class RegistrationController implements InitializingBean {
         }
 
         //Authorize user
-        this.cas.authorizate(cuurent_user, req.getSession(true));
+        this.cas.authorize(cuurent_user, req.getSession(true));
 
         //Return mav
         mav.setViewName("redirect:/user_" +cuurent_user.getUserId());

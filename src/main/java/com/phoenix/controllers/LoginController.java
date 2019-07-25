@@ -88,12 +88,12 @@ public class LoginController implements InitializingBean {
 
         //Authorize user
         try {
-            this.authorization.authorizate(user, request.getSession());
+            this.authorization.authorize(user, request.getSession());
         }
         catch (IllegalArgumentException exc) {
             LOGGER.warn(exc.getMessage());
             HttpSession session = request.getSession(true);
-            this.authorization.authorizate(user, session);
+            this.authorization.authorize(user, session);
         }
 
         mav.setViewName("redirect:/user_" +user.getUserId());
