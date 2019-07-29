@@ -1,6 +1,7 @@
 package com.phoenix.webmvc;
 
 import com.phoenix.webmvc.formatters.CharFormatter;
+import com.phoenix.webmvc.interceptors.AuthenticationInterceptor;
 import com.phoenix.webmvc.validation.PasswordProperties;
 import com.phoenix.webmvc.formatters.LocalDateFormatter;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
@@ -73,6 +76,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
         LOGGER.debug(validator.getClass().getName() +" was created.");
         return validator;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+       InterceptorRegistration auth_registration = registry.addInterceptor(new AuthenticationInterceptor());
+       auth_registration.addPathPatterns("/user_**");
+       auth_registration.excludePathPatterns("/", "login", "/registration");
+
     }
 
     /**
