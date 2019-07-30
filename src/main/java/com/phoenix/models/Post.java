@@ -30,7 +30,7 @@ public class Post {
     private LocalTime post_time;
 
     //Default constructor
-    public Post() {    }
+    public Post() {}
 
     //Getters
     public int getPostId() {        return post_id;    }
@@ -43,8 +43,12 @@ public class Post {
     public void setPostId(int post_id) {        this.post_id = post_id;    }
     public void setPostOwner(User post_owner) {        this.post_owner = post_owner;    }
     public void setPostText(String post_text) {        this.post_text = post_text;    }
-    public void setPostDate(LocalDate post_date) {        this.post_date = post_date;    }
-    public void setPostTime(LocalTime post_time) {        this.post_time = post_time;    }
+    public void setPostDate() {
+        this.post_date = LocalDate.now();
+    }
+    public void setPostTime() {
+        this.post_time = LocalTime.now();
+    }
 
 
 }
