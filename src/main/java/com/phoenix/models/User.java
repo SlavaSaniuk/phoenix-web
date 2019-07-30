@@ -1,8 +1,8 @@
 package com.phoenix.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
-
 
 /**
  * Hibernate user entity. This entity identifier user person by it's {@link User#user_id}.
@@ -28,17 +28,22 @@ public class User {
     @OneToOne(mappedBy = "detail_owner")
     private UserDetail user_detail;
 
+    @OneToMany(mappedBy = "post_owner", fetch = FetchType.LAZY)
+    private List<Post> user_posts;
 
-    //Getters and Setters
+    //Getters
     public int getUserId() {        return user_id;    }
     public String getUserIdAlias() {        return user_id_alias;    }
     public Account getUserAccount() {        return user_account;    }
     public UserDetail getUserDetail() {        return user_detail;    }
+    public List<Post> getUserPosts() {        return this.user_posts;    }
 
+    //Setter
     public void setUserId(int user_id) {        this.user_id = user_id;    }
     public void setUserDetail(UserDetail user_detail) {        this.user_detail = user_detail;    }
     public void setUserIdAlias(String user_id_alias) {        this.user_id_alias = user_id_alias;    }
     public void setUserAccount(Account user_account) {        this.user_account = user_account;    }
+    public void setUserPosts(List<Post> posts) {        this.user_posts = posts;    }
 
     @Override
     public boolean equals(Object o) {
