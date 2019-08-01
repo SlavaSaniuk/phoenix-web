@@ -39,6 +39,8 @@ public class PostServiceImpl implements PostService, InitializingBean {
 
         //Set post owner
         a_post.setPostOwner(a_owner);
+        //Add post to user posts
+        a_owner.getUserPosts().add(a_post);
 
         //Save and return post entity
         return this.repository.save(a_post);
