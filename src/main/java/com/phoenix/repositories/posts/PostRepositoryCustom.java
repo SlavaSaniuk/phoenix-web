@@ -6,6 +6,10 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
+/**
+ * Custom {@link Post} entity repository. Repository define methods for retrieve post entities
+ * from database by user owner.
+ */
 @NoRepositoryBean
 public interface PostRepositoryCustom {
 
