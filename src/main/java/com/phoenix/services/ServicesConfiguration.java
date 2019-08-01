@@ -3,12 +3,15 @@ package com.phoenix.services;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.repositories.UserDetailRepository;
 import com.phoenix.repositories.UserRepository;
+import com.phoenix.repositories.posts.PostRepository;
 import com.phoenix.services.accounting.AccountManagementService;
 import com.phoenix.services.accounting.AccountManager;
 import com.phoenix.services.accounting.SignAuthenticator;
 import com.phoenix.services.accounting.SigningService;
 import com.phoenix.services.authorization.Authorization;
 import com.phoenix.services.authorization.CommonAuthorizationService;
+import com.phoenix.services.posts.PostService;
+import com.phoenix.services.posts.PostServiceImpl;
 import com.phoenix.services.security.hashing.HashAlgorithms;
 import com.phoenix.services.security.hashing.Hasher;
 import com.phoenix.services.security.hashing.HashingService;
@@ -34,6 +37,7 @@ public class ServicesConfiguration {
     private UserRepository user_repository;
     private AccountRepository account_repository;
     private UserDetailRepository detail_repository;
+    private PostRepository post_repository;
 
     /**
      * Default constructor. Uses to log about start of initialization services beans.
@@ -129,6 +133,14 @@ public class ServicesConfiguration {
         return new CommonAuthorizationService();
     }
 
+    @Bean("PostService")
+    public PostService postService() {
+        LOGGER.info("Create " +PostService.class.getName() +" service bean.");
+
+        LOGGER.debug(PostServiceImpl.class.getName() +" class implements " +PostService.class.getName() +" service bean.");
+        return new PostServiceImpl(this.post_repository);
+    }
+
     //Spring autowiring
     @Autowired
     private void setUserRepository(UserRepository user_repository) {
@@ -143,5 +155,10 @@ public class ServicesConfiguration {
     private void setDetailRepository(UserDetailRepository detail_repository) {
         LOGGER.debug("Autowire: " +detail_repository.getClass().getName() +" in " +getClass().getName());
         this.detail_repository = detail_repository;
+    }
+    @Autowired
+    private void setPostRepository(PostRepository post_repository) {
+        LOGGER.debug("Autowire: " +post_repository.getClass().getName() + " to " +getClass().getName());
+        this.post_repository = post_repository;
     }
 }
