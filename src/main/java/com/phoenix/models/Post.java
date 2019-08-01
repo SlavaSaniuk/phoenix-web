@@ -7,17 +7,17 @@ import java.time.LocalTime;
 /**
  * Post entity. Used to save, retrieve text posts in/from database.
  */
-@Entity(name = "post")
+@Entity(name = "Post")
 @Table(name = "post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id", nullable = false, unique = true)
+    @Column(name = "post_ id", nullable = false, unique = true)
     private int post_id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "post_owner", referencedColumnName = "user_id", nullable = false)
     private User post_owner;
 
     @Column(name = "post_text", nullable = false)

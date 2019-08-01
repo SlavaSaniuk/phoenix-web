@@ -22,7 +22,6 @@
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/repositories/RepositoriesConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/RootContextConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/services/ServicesConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/com/phoenix/validation/ValidationConfiguration.java</file>
         </fileset>
         <fileset id="fileset2" name="Web Application Context" removed="false">
           <dependency>fileset</dependency>
@@ -30,6 +29,16 @@
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/configuration/ThymeleafConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/phoenix/webmvc/WebMvcConfiguration.java</file>
         </fileset>
+      </configuration>
+    </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" value="162f1325-025d-4a78-bcd5-13403f16d1f1" />
+        </datasource-mapping>
+        <naming-strategy-map />
       </configuration>
     </facet>
   </component>

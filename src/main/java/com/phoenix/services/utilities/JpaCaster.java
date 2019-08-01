@@ -5,26 +5,24 @@ import java.util.List;
 
 public class JpaCaster {
 
-    public static <T> List<T> castObjectListToType(List list) throws IllegalArgumentException {
+    public static <T> List<T> castObjectsListToType(Class<T> type, List list) throws IllegalArgumentException, ClassCastException {
 
-        if (list == null) throw new IllegalArgumentException("Parameter 'list' is null.");
+        //Check whether parameters are null
+        if (type == null || list == null) throw new IllegalArgumentException(" One of parameters is null");
 
-        if (list.size() != 0){
+        //Create result array
+        List<T> result = new ArrayList<>();
 
-            //Result list
-            List<t> res;
-            if (clazz.isInstance(list.get(0).getClass())) {
-                for (Object obj : list) {
-
-                }
+        //Check whether list size is zero
+        if (list.size() == 0) return result;
+        else {
+            //Cast to "type" parameter
+            for (Object obj : list) {
+                T res = type.cast(obj);
+                result.add(res);
             }
-
-        }else {
-            return new ArrayList<T>();
+            return result;
         }
 
-
-
-        return List<T>;
     }
 }
