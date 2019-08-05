@@ -6,8 +6,8 @@ import com.phoenix.models.User;
 import com.phoenix.repositories.posts.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("PostService")
@@ -20,7 +20,6 @@ public class PostServiceImpl implements PostService, InitializingBean {
     private PostRepository repository; //Autowired via constructor
 
     //Constructor
-    @Autowired
     public PostServiceImpl(PostRepository repository) {
         LOGGER.debug("Start to create " +getClass().getName() +" service implementation bean.");
 
@@ -29,25 +28,31 @@ public class PostServiceImpl implements PostService, InitializingBean {
     }
 
     @Override
-    public Post createPost(Post a_post, User a_owner) {
+    public Post createPost(Post a_post, User a_owner) throws NotPersistedEntity {
 
-        //Check whether parameters are not null
-        if (a_post == null || a_owner == null) throw new IllegalArgumentException("One of parameters is null.");
+        //Check whether parameters are non null
+        if (a_owner == null || a_post == null) throw new IllegalArgumentException("One of parameters is null.");
 
-        //Check whether owner has an ID
+        //Check whether user entity persisted before
         if (a_owner.getUserId() == 0) throw new NotPersistedEntity(a_owner);
 
-        //Set post owner
+        //Set user owner
         a_post.setPostOwner(a_owner);
-        //Add post to user posts
-        a_owner.getUserPosts().add(a_post);
 
-        //Save and return post entity
-        return this.repository.save(a_post);
+        //Persist post
+        Post persisted = this.repository.save(a_post);
+
+        //Set post to user post list
+        a_owner.getUserPosts().add(0, persisted);
+
+        return persisted;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
+        if (this.repository == null) {
+            LOGGER.error("Not initializing bean:  " +PostRepository.class.getName() +" in " +getClass().getName() +" service bean.");
+            throw new Exception(new BeanDefinitionStoreException("Not Initializing " +PostRepository.class.getName() +" repository bean."));
+        }
     }
 }
