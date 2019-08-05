@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel, ThymeleafVariablesResolveInspection -->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div>
+        <form th:fragment="post_form" th:action="@{/createPost}" method="post" th:object="${post_form}">
+            <textarea id="post_text" rows="4" cols="40" placeholder="What's new?" th:field="*{postText}"> </textarea>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+</body>
+</html>

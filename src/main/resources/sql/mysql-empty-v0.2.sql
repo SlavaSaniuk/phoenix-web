@@ -39,36 +39,8 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'admin@phoenix.com','78bfb94c804c2bd6ff5e42ae92a55b3d600390ea40fd91a68d181e3abfb8025365928f5b7e9ea1a12153fc5a5a976c3cee3daf29758440a6b746db962b276d5a','6999615972bc5f2a07fa66c8e4e7ed55d374cd2b50bb6712add1f7f2f3495f2ae7d9a3dac6ed2414315ab6e2292f3e19457687f4b3e719424fafd24a3c871a7f'),(2,'admin@admin.com','ac23d3eec375b2faa144652d3e575358080befa9b4c682b08ae018390aef93359b0ded147f1ad0d03ee1d05022ad8b19e48e5b8567620ff0b6e2d9c650cc2fea','4edf5474177b92b42477b35732aac4575883611e284cd4919180442e9bdee85c3256852f15de05a323d80d2225192d0e48743e41c46f0e9578c13e4cb95a87f1');
+INSERT INTO `account` VALUES (1,'admin@phoenix.com','78bfb94c804c2bd6ff5e42ae92a55b3d600390ea40fd91a68d181e3abfb8025365928f5b7e9ea1a12153fc5a5a976c3cee3daf29758440a6b746db962b276d5a','6999615972bc5f2a07fa66c8e4e7ed55d374cd2b50bb6712add1f7f2f3495f2ae7d9a3dac6ed2414315ab6e2292f3e19457687f4b3e719424fafd24a3c871a7f');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `post`
---
-
-DROP TABLE IF EXISTS `post`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `post` (
-  `post_id` int(9) NOT NULL AUTO_INCREMENT,
-  `post_owner` int(9) NOT NULL,
-  `post_text` varchar(255) NOT NULL,
-  `post_date` date NOT NULL,
-  `post_time` time NOT NULL,
-  PRIMARY KEY (`post_id`),
-  KEY `post_owner` (`post_owner`),
-  CONSTRAINT `post_ibfk_1` FOREIGN KEY (`post_owner`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `post`
---
-
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -83,7 +55,7 @@ CREATE TABLE `user` (
   `user_id_alias` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_alias` (`user_id_alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +64,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,NULL),(2,NULL);
+INSERT INTO `user` VALUES (1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +93,7 @@ CREATE TABLE `user_detail` (
 
 LOCK TABLES `user_detail` WRITE;
 /*!40000 ALTER TABLE `user_detail` DISABLE KEYS */;
-INSERT INTO `user_detail` VALUES (1,'Administrator','Phoenix','1970-01-01',49,'m'),(2,'Slavka','Saniuk','1997-01-10',22,'m');
+INSERT INTO `user_detail` VALUES (1,'Administrator','Phoenix','1970-01-01',49,'m');
 /*!40000 ALTER TABLE `user_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-05 23:11:16
+-- Dump completed on 2019-07-25  0:37:19
