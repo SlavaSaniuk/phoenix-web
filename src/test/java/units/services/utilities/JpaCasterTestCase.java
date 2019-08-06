@@ -1,57 +1,53 @@
 package units.services.utilities;
 
-import com.phoenix.models.Post;
-import com.phoenix.models.User;
-import com.phoenix.services.utilities.JpaCaster;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
+import com.phoenix.services.utilities.JpaCaster;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class JpaCasterTestCase {
 
     @Test
-    void castObjectsListToType_parameterOneIsNull_shouldThrowIllegalArgumentException() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> JpaCaster.castObjectsListToType(null, new ArrayList()));
+    void castObjectsListToType_typeParameterIsNull_shouldThrowNullPointerException() {
+        Assertions.assertThrows(NullPointerException.class, () -> JpaCaster.castObjectsListToType(null, new ArrayList()));
     }
 
     @Test
-    void castObjectsListToType_parameterTwoIsNull_shouldThrowIllegalArgumentException() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> JpaCaster.castObjectsListToType(User.class, null));
+    void castObjectsListToType_listParameterIsNull_shouldThrowNullPointerException() {
+        Assertions.assertThrows(NullPointerException.class, () -> JpaCaster.castObjectsListToType(Integer.class, null));
     }
 
     @Test
-    void castObjectsListToType_emptyList_shouldReturnAnEmptyList() {
-        List test = new ArrayList();
-        List<User> result = JpaCaster.castObjectsListToType(User.class, test);
+    void castObjectsListToType_emptyList_shouldReturnEmptyList() {
+        List<Integer> result = JpaCaster.castObjectsListToType(Integer.class, new ArrayList());
         Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
-    void castObjectsListToType_listContainANonTypeElement_shouldThrowAClassCastException() {
+    void castObjectsListToType_oneOfListArgumentIsDifferentType_shouldSkipThisElement() {
 
         List test = new ArrayList();
+        test.add(1);
+        test.add("Wrong type");
+        test.add(3);
 
-        test.add(new User());
-        test.add(new Post());
+        List<Integer> result = JpaCaster.castObjectsListToType(Integer.class, test);
 
-        Assertions.assertThrows(ClassCastException.class, () -> JpaCaster.castObjectsListToType(User.class, test));
+        Assertions.assertEquals(2, result.size());
     }
 
     @Test
-    void castObjectsListToType_newListOfUserType_shouldReturnTypedList() {
+    void castObjectsListToType_newList_shouldReturnTypedList() {
 
         List test = new ArrayList();
+        test.add(1);
+        test.add(3);
 
-        test.add(new User());
-        test.add(new User());
+        List<Integer> result = JpaCaster.castObjectsListToType(Integer.class, test);
 
-        List<User> result = JpaCaster.castObjectsListToType(User.class, test);
-
-        Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals(User.class, result.get(0).getClass());
+        Assertions.assertEquals(Integer.class, result.get(0).getClass());
     }
 
 
