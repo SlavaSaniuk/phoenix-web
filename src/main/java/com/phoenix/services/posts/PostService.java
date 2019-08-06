@@ -27,6 +27,14 @@ public interface PostService {
      */
     List<Post> getUserPosts(User a_owner) throws NotPersistedEntity;
 
+    /**
+     * Method retrieve some user_owner post entities from database. Resulting list size
+     * can be specified with "limit" parameter.
+     * @param a_owner - {@link User} post owner.
+     * @param limit - size of resulting list.
+     * @return - Resulting {@link List<Post>} list.
+     * @throws NotPersistedEntity - if user entity don't have a defined (non-default) ID parameter.
+     */
     List<Post> getSomeUserPosts(User a_owner, int limit) throws NotPersistedEntity;
 
 

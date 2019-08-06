@@ -54,20 +54,25 @@ public class PostServiceImpl implements PostService, InitializingBean {
     public List<Post> getUserPosts(User a_owner) throws NotPersistedEntity {
 
         //Check input parameters
-        if (a_owner == null) throw new IllegalArgumentException("User entity parameter is null.");
+        if (a_owner == null) throw new NullPointerException("User entity parameter is null.");
         if (a_owner.getUserId() == 0) throw new NotPersistedEntity(a_owner);
 
         //Get posts
-        List<Post> user_posts = this.repository.findAllPostsByOwner(a_owner);
-        //Check whether result list in non null
-        if (user_posts != null) return user_posts;
+        return this.repository.findAllPostsByOwner(a_owner);
 
-        return null;
     }
 
     @Override
     public List<Post> getSomeUserPosts(User a_owner, int limit) throws NotPersistedEntity {
-        return null;
+
+        //Check input parameters
+        if (a_owner == null) throw new NullPointerException("User entity parameter is null");
+        if (a_owner.getUserId() == 0) throw new NotPersistedEntity(a_owner);
+        if (limit <= 0) throw new IllegalArgumentException("Limit parameter less or equals zero");
+
+        //Get posts
+        return this.repository.findSomePostsByOwner(a_owner, limit);
+
     }
 
 
