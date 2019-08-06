@@ -35,7 +35,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom, InitializingBea
     public List<Post> findSomePostsByOwner(User owner, int limit) {
 
         //Check whether user or user_id is null
-        if (owner == null || owner.getUserId() == 0 ) throw new IllegalArgumentException("User ID parameter can not be zero.");
+        if (owner == null || owner.getUserId() == 0 ) throw new IllegalArgumentException("User ID parameter can't to be zero.");
 
         //Create query
         Query query = this.em.createQuery("SELECT p FROM Post p WHERE p.post_owner = :user");
@@ -47,12 +47,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom, InitializingBea
 
         //Get list of post and return them
         List result = query.getResultList();
-        try {
-            return JpaCaster.castObjectsListToType(Post.class, result);
-        }catch (ClassCastException exc) {
-            LOGGER.error(exc.toString());
-            return null;
-        }
+
+        //Cast resulting list to Post type
+        return JpaCaster.castObjectsListToType(Post.class, result);
 
     }
 

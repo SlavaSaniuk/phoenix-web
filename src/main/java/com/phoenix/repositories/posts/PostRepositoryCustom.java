@@ -23,7 +23,7 @@ public interface PostRepositoryCustom {
     List<Post> findSomePostsByOwner(User owner, int limit);
 
     /**
-     * Retrieve all post entities from database.
+     * Retrieve all user post entities from database.
      * @param owner - {@link User} owner.
      * @return - {@link List<Post>} of users posts, or null - if {@link ClassCastException} occurs.     */
     List<Post> findAllPostsByOwner(User owner);
