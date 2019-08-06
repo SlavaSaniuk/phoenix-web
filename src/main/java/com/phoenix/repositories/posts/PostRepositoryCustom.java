@@ -15,6 +15,7 @@ public interface PostRepositoryCustom {
 
     /**
      * Retrieve some post entities from database. Limit may be specified by define {@code int limit }  parameters.
+     * If limit parameter is zero or below zero, methods return all user posts as same as {@link PostRepositoryCustom#findAllPostsByOwner(User)}.
      * @param owner - {@link User} owner.
      * @param limit - resulting list size.
      * @return - {@link List<Post>} of users post, or null - if {@link ClassCastException} occurs.

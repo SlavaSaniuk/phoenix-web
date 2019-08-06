@@ -41,7 +41,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom, InitializingBea
         Query query = this.em.createQuery("SELECT p FROM Post p WHERE p.post_owner = :user");
         //Set parameters
         query.setParameter("user", owner);
-        query.setMaxResults(limit);
+
+        //Check whether limit lower than zero
+        if (limit > 0) query.setMaxResults(limit);
 
         //Get list of post and return them
         List result = query.getResultList();
@@ -56,7 +58,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom, InitializingBea
 
     @Override
     public List<Post> findAllPostsByOwner(User owner) {
-        return this.findSomePostsByOwner(owner, Integer.MAX_VALUE);
+        return this.findSomePostsByOwner(owner, 0);
     }
 
     @Override

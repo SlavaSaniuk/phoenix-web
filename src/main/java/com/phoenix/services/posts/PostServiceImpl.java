@@ -10,6 +10,8 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("PostService")
 public class PostServiceImpl implements PostService, InitializingBean {
 
@@ -47,6 +49,28 @@ public class PostServiceImpl implements PostService, InitializingBean {
 
         return persisted;
     }
+
+    @Override
+    public List<Post> getUserPosts(User a_owner) throws NotPersistedEntity {
+
+        //Check input parameters
+        if (a_owner == null) throw new IllegalArgumentException("User entity parameter is null.");
+        if (a_owner.getUserId() == 0) throw new NotPersistedEntity(a_owner);
+
+        //Get posts
+        List<Post> user_posts = this.repository.findAllPostsByOwner(a_owner);
+        //Check whether result list in non null
+        if (user_posts != null) return user_posts;
+
+        return null;
+    }
+
+    @Override
+    public List<Post> getSomeUserPosts(User a_owner, int limit) throws NotPersistedEntity {
+        return null;
+    }
+
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

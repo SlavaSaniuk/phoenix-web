@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -91,6 +93,27 @@ class FindPostRepositoryTestCase {
         Assertions.assertFalse(result.isEmpty());
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(Post.class, result.get(0).getClass());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -2, -123})
+    void findSomePostsByUser_limitIsZero_shouldReturnTypedList(int limit) {
+
+        User user = new User();
+        user.setUserId(3);
+
+        List test = new ArrayList<>();
+        test.add(new Post());
+        test.add(new Post());
+
+        Query mock = Mockito.mock(Query.class);
+        BDDMockito.given(this.em.createQuery(Mockito.anyString())).willReturn(mock);
+        BDDMockito.given(mock.getResultList()).willReturn(test);
+
+        List<Post> result = this.repository.findSomePostsByOwner(user, limit);
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(2, result.size());
     }
 
 }
