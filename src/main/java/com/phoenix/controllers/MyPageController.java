@@ -1,10 +1,13 @@
 package com.phoenix.controllers;
 
+import com.phoenix.exceptions.NotPersistedEntity;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
 import com.phoenix.models.forms.PostForm;
 import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.services.posts.PostService;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,20 @@ public class MyPageController {
 
         //Create post model object
         mav.getModel().put("post_form", new PostForm());
+
+        //Get user posts
+        try {
+            List<Post> user_posts = this.service.getSomeUserPosts(current_user, 5);
+            List<PostForm> posts_forms = new ArrayList<>();
+            for (Post p : user_posts) {
+                posts_forms.add(new PostForm(p));
+            }
+            mav.getModel().put("user_posts", posts_forms);
+        }catch (NotPersistedEntity exc) {
+            LOGGER.debug(exc.getMessage());
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
 
         mav.setViewName("users/my_page");
         return mav;
