@@ -18,7 +18,7 @@
         <hr>
         <div th:each="post : ${user_posts}">
             <p th:text="${post.postText}"></p> <br>
-            <p th:text="${post.postDate}"> </p>
+            <p th:text="${post.getFullTime()}"> </p>
             <hr>
         </div>
     </div>

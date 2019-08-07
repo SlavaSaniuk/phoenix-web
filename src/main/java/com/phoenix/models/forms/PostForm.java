@@ -28,11 +28,18 @@ public class PostForm {
         return post;
     }
 
+    /**
+     * Method return time and date fields as string
+     * @return - "HH:mm DD-MM-YYYY"
+     */
+    public String getFullTime() {
+        return postTime.getHour() +":" +postTime.getMinute() +" " +postDate.toString();
+    }
+
     //Getters
     public String getPostText() {
         return postText;
     }
-
     public LocalDate getPostDate() {        return postDate;    }
     public LocalTime getPostTime() {        return postTime;    }
 
