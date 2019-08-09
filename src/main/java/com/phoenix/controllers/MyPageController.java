@@ -4,7 +4,6 @@ import com.phoenix.exceptions.NotPersistedEntity;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
 import com.phoenix.models.forms.PostForm;
-import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.services.posts.PostService;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class MyPageController {
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(MyPageController.class);
     //Spring beans
-    private PostService service;
+    private PostService service; //Autowired via setter
 
     @GetMapping(value = "/my_page")
     public ModelAndView getMyPage(@SessionAttribute("current_user") User current_user) {
@@ -33,9 +32,6 @@ public class MyPageController {
             mav.setViewName("login");
             return mav;
         }
-
-        //Create model object
-        mav.getModel().put("current_wrapper", new UserWrapper(current_user));
 
         //Create post model object
         mav.getModel().put("post_form", new PostForm());

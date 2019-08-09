@@ -1,6 +1,7 @@
 package com.phoenix.services.posts;
 
 import com.phoenix.exceptions.NotPersistedEntity;
+import com.phoenix.exceptions.NotPersistentEntityException;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
 
@@ -30,12 +31,20 @@ public interface PostService {
     /**
      * Method retrieve some user_owner post entities from database. Resulting list size
      * can be specified with "limit" parameter.
-     * @param a_owner - {@link User} post owner.
+     * @param a_owner - {@link User} posts owner.
      * @param limit - size of resulting list.
      * @return - Resulting {@link List<Post>} list.
      * @throws NotPersistedEntity - if user entity don't have a defined (non-default) ID parameter.
      */
     List<Post> getSomeUserPosts(User a_owner, int limit) throws NotPersistedEntity;
 
-
+    /**
+     * Method retrieve some user_owner posts entities from database. Resulting list size
+     * can be specified with "limit" parameter.
+     * @param a_owner - {@link User} posts owner.
+     * @param limit - How much posts to retrieve.
+     * @return - Resulting {@link List<Post>} list;
+     * @throws NotPersistentEntityException - if user entity not in persistence context or it's not detached.
+     */
+    List<Post> getSomeUserPostsFromTheEnd(User a_owner, int limit) throws NotPersistentEntityException;
 }

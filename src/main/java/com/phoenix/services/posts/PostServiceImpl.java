@@ -1,6 +1,7 @@
 package com.phoenix.services.posts;
 
 import com.phoenix.exceptions.NotPersistedEntity;
+import com.phoenix.exceptions.NotPersistentEntityException;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
 import com.phoenix.repositories.posts.PostRepository;
@@ -19,7 +20,7 @@ public class PostServiceImpl implements PostService, InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostServiceImpl.class);
 
     //Spring beans
-    private PostRepository repository; //Autowired via constructor
+    private PostRepository repository; //Set in constructor
 
     //Constructor
     public PostServiceImpl(PostRepository repository) {
@@ -75,7 +76,17 @@ public class PostServiceImpl implements PostService, InitializingBean {
 
     }
 
+    @Override
+    public List<Post> getSomeUserPostsFromTheEnd(User a_owner, int limit) throws NotPersistentEntityException {
 
+        if (a_owner == null) throw new NullPointerException(User.class.getName() +" parameter is null.");
+        if (a_owner.getUserId() == 0) throw new NotPersistentEntityException(a_owner.getClass());
+
+        if (limit <= 0) throw new IllegalArgumentException("'limit' parameter must be more than zero.");
+
+        return this.repository.findSomePostsByOwnerFromTheEnd(a_owner, limit);
+
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

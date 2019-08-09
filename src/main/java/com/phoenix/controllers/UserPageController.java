@@ -1,7 +1,6 @@
 package com.phoenix.controllers;
 
 import com.phoenix.models.User;
-import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +48,6 @@ public class UserPageController implements InitializingBean {
             mav.setViewName("forward:/my_page");
             return mav;
         }
-
-        //Create user wrapper
-        mav.getModel().put("given_wrapper", new UserWrapper(given_user));
 
         mav.setViewName("users/user_page");
         return mav;
