@@ -10,7 +10,6 @@ import com.phoenix.services.ServicesConfiguration;
 import com.phoenix.services.posts.PostService;
 import integrations.beans.TestDataSource;
 import java.util.List;
-import javafx.geometry.Pos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

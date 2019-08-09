@@ -1,5 +1,6 @@
 package com.phoenix.repositories.posts;
 
+import com.phoenix.exceptions.NotPersistentEntityException;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -18,7 +19,7 @@ public interface PostRepositoryCustom {
      * If limit parameter is zero or below zero, methods return all user posts as same as {@link PostRepositoryCustom#findAllPostsByOwner(User)}.
      * @param owner - {@link User} owner.
      * @param limit - resulting list size.
-     * @return - {@link List<Post>} of users post, or null - if {@link ClassCastException} occurs.
+     * @return - {@link List<Post>} of users post.
      */
     List<Post> findSomePostsByOwner(User owner, int limit);
 
@@ -27,4 +28,22 @@ public interface PostRepositoryCustom {
      * @param owner - {@link User} owner.
      * @return - {@link List<Post>} of users posts, or null - if {@link ClassCastException} occurs.     */
     List<Post> findAllPostsByOwner(User owner);
+
+    /**
+     * Retrieve some posts entities from database started from the end.  Limit may be specified by define {@code int limit }  parameters.
+     * If limit parameter is zero or below zero, methods return all user posts as same as {@link PostRepositoryCustom#findAllPostEntitiesByUserFromTheEnd(User)}.
+     * @param owner - {@link User} owner.
+     * @param limit - resulting list size.
+     * @return - {@link List<User>} of user posts.
+     * @throws NotPersistentEntityException - if 'owner' entity has a default ID(0).
+     */
+    List<Post> findSomePostsByOwnerFromTheEnd(User owner, int limit) throws NotPersistentEntityException;
+
+    /**
+     * Retrieve all posts entities from database started from the end.
+     * @param owner = {@link User} owner.
+     * @return - {@link List<Post>} of user posts.
+     * @throws NotPersistentEntityException - if 'owner' entity has a default ID(0).
+     */
+    List<Post> findAllPostEntitiesByUserFromTheEnd(User owner) throws NotPersistentEntityException;
 }

@@ -1,5 +1,6 @@
 package units.repositories;
 
+import com.phoenix.exceptions.NotPersistentEntityException;
 import com.phoenix.models.Account;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
@@ -70,10 +71,11 @@ class FindPostRepositoryTestCase {
         Query mock = Mockito.mock(Query.class);
         BDDMockito.given(this.em.createQuery(Mockito.anyString())).willReturn(mock);
         BDDMockito.given(mock.getResultList()).willReturn(test);
-        Assertions.assertNull(this.repository.findSomePostsByOwner(user, 2));
 
+        List<Post> result = this.repository.findSomePostsByOwner(user, 2);
+
+        Assertions.assertEquals(0, result.size());
     }
-
 
     @Test
     void findSomePostsByUser_resultArrayContainAPost_shouldReturnTypedList() {
@@ -114,6 +116,93 @@ class FindPostRepositoryTestCase {
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
         Assertions.assertEquals(2, result.size());
+    }
+
+    @Test
+    void findSomePostsByUserFromTheEnd_userIsNull_shouldThrowNPE() {
+        Assertions.assertThrows(NullPointerException.class, () -> this.repository.findSomePostsByOwnerFromTheEnd(null, 0));
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_userIsNotPersistent_shouldThrowNotPersistentEntityException() {
+        User user= new User();
+        Assertions.assertThrows(NotPersistentEntityException.class, () -> this.repository.findSomePostsByOwnerFromTheEnd(user,  2));
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_notPostFound_shouldReturnEmptyList() {
+
+        User user = new User();
+        user.setUserId(3);
+
+        Query mock = Mockito.mock(Query.class);
+        BDDMockito.given(this.em.createQuery(Mockito.anyString())).willReturn(mock);
+        BDDMockito.given(mock.getResultList()).willReturn(new ArrayList());
+        Assertions.assertTrue(this.repository.findSomePostsByOwnerFromTheEnd(user, 2).isEmpty());
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_listOfPost_shouldReturnTypedListWhichStartWithEnd() {
+
+        User user = new User();
+        user.setUserId(3);
+
+        List posts = new ArrayList();
+
+        Post p1 = new Post();
+        p1.setPostId(1);
+        Post p2 = new Post();
+        p2.setPostId(2);
+        Post p3 = new Post();
+        p3.setPostId(3);
+
+        posts.add(p2);
+        posts.add(p1);
+
+
+        Query mock = Mockito.mock(Query.class);
+        BDDMockito.given(this.em.createQuery(Mockito.anyString())).willReturn(mock);
+        BDDMockito.given(mock.getResultList()).willReturn(posts);
+
+        List<Post> result = this.repository.findSomePostsByOwnerFromTheEnd(user, 2);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(Post.class, result.get(0).getClass());
+        Assertions.assertEquals(2, result.get(0).getPostId());
+
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_limitSetTo0_shouldReturnTypedListWhichStartWithEndOfAllPosts() {
+
+        User user = new User();
+        user.setUserId(3);
+
+        List posts = new ArrayList();
+
+        Post p1 = new Post();
+        p1.setPostId(1);
+        Post p2 = new Post();
+        p2.setPostId(2);
+        Post p3 = new Post();
+        p3.setPostId(3);
+
+        posts.add(p3);
+        posts.add(p2);
+        posts.add(p1);
+
+        Query mock = Mockito.mock(Query.class);
+        BDDMockito.given(this.em.createQuery(Mockito.anyString())).willReturn(mock);
+        BDDMockito.given(mock.getResultList()).willReturn(posts);
+
+        List<Post> result = this.repository.findSomePostsByOwnerFromTheEnd(user, 0);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(3, result.size());
+        Assertions.assertEquals(Post.class, result.get(0).getClass());
+        Assertions.assertEquals(3, result.get(0).getPostId());
+
     }
 
 }

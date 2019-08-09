@@ -79,7 +79,7 @@ class PostRepositoryTestCase {
     }
 
     @Test
-    void findSomePostsByOwner_limitIsSet_shouldReturnListWithSpecidiedSize() {
+    void findSomePostsByOwner_limitIsSet_shouldReturnListWithSpecifiedSize() {
 
         Optional<User> opt = this.user_repository.findById(1);
         User user = opt.get();
@@ -121,7 +121,29 @@ class PostRepositoryTestCase {
             LOGGER.debug("Post " +current.getPostId() +": " +current.getPostText());
         }
 
-        Assertions.assertEquals(6, posts.size());
+        Assertions.assertEquals(7, posts.size());
+
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_limitIsSet_shouldReturnListWithDefinedSize() {
+
+        User user = this.user_repository.findById(1).get();
+        List<Post> result = this.repository.findSomePostsByOwnerFromTheEnd(user, 5);
+
+        Assertions.assertEquals(5, result.size());
+        Assertions.assertEquals(7, result.get(0).getPostId());
+
+    }
+
+    @Test
+    void findSomePostsByOwnerFromTheEnd_limitIsNotSet_shouldReturnListWithAllPaosts() {
+
+        User user = this.user_repository.findById(1).get();
+        List<Post> result = this.repository.findSomePostsByOwnerFromTheEnd(user, 0);
+
+        Assertions.assertEquals(7, result.size());
+        Assertions.assertEquals(7, result.get(0).getPostId());
 
     }
 
