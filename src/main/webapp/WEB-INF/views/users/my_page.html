@@ -13,14 +13,13 @@
     <p> Create post: </p>
     <div th:insert="~{fragments/post_form.html :: post_form}"></div>
 
-    <div th:if="${user_posts}">
-        <p> My posts: </p>
+    <br>
+
+    <p> My posts: </p>
+    <div th:each="post : ${session.posts_wrapper.getUsersPosts()}" >
+        <p th:text="${post.getPostText()}"> </p>
+        <p th:text="${post.getPostDate()}"> </p>
         <hr>
-        <div th:each="post : ${user_posts}">
-            <p th:text="${post.postText}"></p> <br>
-            <p th:text="${post.getFullTime()}"> </p>
-            <hr>
-        </div>
     </div>
 
     <a th:href="@{/logout}" > Log out </a>

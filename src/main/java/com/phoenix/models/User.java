@@ -28,7 +28,7 @@ public class User {
     @OneToOne(mappedBy = "detail_owner")
     private UserDetail user_detail;
 
-    @OneToMany(mappedBy = "post_owner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post_owner", fetch = FetchType.LAZY)
     private List<Post> user_posts;
 
     //Getters

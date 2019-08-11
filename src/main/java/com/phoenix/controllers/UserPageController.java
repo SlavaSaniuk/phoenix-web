@@ -1,7 +1,14 @@
 package com.phoenix.controllers;
 
+import com.phoenix.models.Post;
 import com.phoenix.models.User;
+import com.phoenix.models.forms.PostForm;
+import com.phoenix.models.wrappers.PostsWrapper;
 import com.phoenix.repositories.UserRepository;
+import com.phoenix.services.posts.PostService;
+import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -11,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -23,6 +29,7 @@ public class UserPageController implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserPageController.class);
     //Spring beans
     private UserRepository repository; //Autowired via constructor
+    private PostService post_service; //Autowired via setter
 
     //Constructor
     @Autowired
@@ -33,24 +40,69 @@ public class UserPageController implements InitializingBean {
         this.repository = repository;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/user_{user_id}")
-    public ModelAndView getUserPage(@PathVariable("user_id") int user_id, @SessionAttribute("current_user") User current_user) {
 
+    @RequestMapping(method = RequestMethod.GET, path = "/user_{user_id}")
+    public ModelAndView getUserPage(@PathVariable("user_id") int user_id, HttpSession user_session) {
+
+        //Create model and view object
         ModelAndView mav = new ModelAndView();
 
-        //Get user by ID
-        Optional<User> given_user_optional = this.repository.findById(user_id);
-        if (!given_user_optional.isPresent()) throw new IllegalArgumentException("Can't to find user by ID: " +user_id);
-        User given_user = given_user_optional.get();
+        //Get "current_user" session attribute
+        User current_user = (User) user_session.getAttribute("current_user");
 
-        //Check whether user want to access it's own page
-        if (user_id == current_user.getUserId()) {
-            mav.setViewName("forward:/my_page");
-            return mav;
+        //Check whether user want to access your own page
+        if (current_user.getUserId() == user_id) {
+
+            //User want to access your own page
+
+            //Posts model
+            //Access via session attribute
+            //Check whether post wrapper is initialized
+            PostsWrapper posts_wrapper = (PostsWrapper) user_session.getAttribute("posts_wrapper");
+            if (!posts_wrapper.isInitialized()) {
+                //if not initialized -> initialize with basic(minimal) size
+                List<Post> users_posts = this.post_service.getSomeUserPostsFromTheEnd(current_user, 5);
+                posts_wrapper.addSomePosts(users_posts);
+            }
+
+            //Model to handle "create_post" request
+            mav.getModel().put("post_form", new PostForm());
+
+            //View name
+            mav.setViewName("users/my_page");
+
+        }else {
+
+            //User want to access other users page
+            //Get user from database
+            Optional<User> given_user_opt = this.repository.findById(user_id);
+            if (!given_user_opt.isPresent()) throw new EntityNotFoundException("404");
+
+            User given_user = given_user_opt.get();
+
+            //Posts model
+            //Access via model attribute
+            List<Post> given_user_posts = this.post_service.getSomeUserPostsFromTheEnd(given_user, 5);
+            mav.getModel().put("users_posts", given_user_posts);
+
+            //View name
+            mav.setViewName("users/user_page");
         }
 
-        mav.setViewName("users/user_page");
+
         return mav;
+    }
+
+
+
+
+
+
+
+    @Autowired
+    private void setPostService(PostService a_service) {
+        LOGGER.info("Autowire " +a_service.getClass().getName() + " to " +getClass().getName() +" controller bean.");
+        this.post_service = a_service;
     }
 
 

@@ -1,6 +1,7 @@
 package com.phoenix.services.authorization;
 
 import com.phoenix.models.User;
+import com.phoenix.models.wrappers.PostsWrapper;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,11 @@ public class CommonAuthorizationService implements Authorization, InitializingBe
         }else {
             session.setAttribute("authenticated", true);
             session.setAttribute("current_user", user);
+
+            //Create wrappers
+            //Empty posts wrapper
+            PostsWrapper post_wrapper = new PostsWrapper(user);
+            session.setAttribute("posts_wrapper", post_wrapper);
         }
 
     }
