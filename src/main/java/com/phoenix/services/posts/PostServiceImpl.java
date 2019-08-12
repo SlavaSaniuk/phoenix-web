@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class PostServiceImpl implements PostService, InitializingBean {
     }
 
     @Override
+    @Transactional
     public Post createPost(Post a_post, User a_owner) throws NotPersistedEntity {
 
         //Check whether parameters are non null
@@ -46,7 +48,7 @@ public class PostServiceImpl implements PostService, InitializingBean {
         Post persisted = this.repository.save(a_post);
 
         //Set post to user post list
-        a_owner.getUserPosts().add(0, persisted);
+        //a_owner.getUserPosts().add(0, persisted);
 
         return persisted;
     }

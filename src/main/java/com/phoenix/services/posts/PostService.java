@@ -4,6 +4,7 @@ import com.phoenix.exceptions.NotPersistedEntity;
 import com.phoenix.exceptions.NotPersistentEntityException;
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public interface PostService {
      * @param a_owner - post user owner.
      * @return - created post with generated ID.
      */
+    @Transactional
     Post createPost(Post a_post, User a_owner) throws NotPersistedEntity;
 
     /**

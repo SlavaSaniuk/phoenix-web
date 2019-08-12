@@ -8,12 +8,11 @@
 <body>
 
 
-    <div th:if="${user_posts}">
-        <p th:text="My posts"> </p>
-        <div th:each="post : ${user_posts}">
-            <p th:text="${post.postText}"></p> <br>
-            <p th:text="${post.postDate}"> </p>
-        </div>
+    <p> Users posts: </p>
+    <div th:each="post : ${users_posts}" >
+        <p th:text="${post.getPostText()}"> </p>
+        <p th:text="${post.getPostDate()}"> </p>
+        <hr>
     </div>
 
     <a th:href="@{/logout}" > Log out </a>

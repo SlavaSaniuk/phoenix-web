@@ -9,15 +9,15 @@ import com.phoenix.services.posts.PostService;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -38,6 +38,19 @@ public class UserPageController implements InitializingBean {
 
         LOGGER.debug("Autowire: " +repository.getClass().getName() +" to " +getClass().getName() +" controller bean");
         this.repository = repository;
+    }
+
+    /*
+      *** Model attributes ***
+     */
+
+    /**
+     * Model bean to create user's posts.
+     * @return - empty {@link PostForm} model bean.
+     */
+    @ModelAttribute("post_form")
+    public PostForm modelPostForm() {
+        return new PostForm();
     }
 
 
@@ -65,9 +78,6 @@ public class UserPageController implements InitializingBean {
                 posts_wrapper.addSomePosts(users_posts);
             }
 
-            //Model to handle "create_post" request
-            mav.getModel().put("post_form", new PostForm());
-
             //View name
             mav.setViewName("users/my_page");
 
@@ -89,7 +99,27 @@ public class UserPageController implements InitializingBean {
             mav.setViewName("users/user_page");
         }
 
+        return mav;
+    }
 
+    @PostMapping(path = "/create_post")
+    public ModelAndView createPostRequest(@Valid @ModelAttribute("post_form") PostForm post_form,
+                                          @SessionAttribute("current_user") User current_user, @SessionAttribute("posts_wrapper") PostsWrapper posts_wrapper) {
+
+        ModelAndView mav = new ModelAndView();
+
+        //Validate post form
+        //...
+
+        //Create post from post form
+        Post p = post_form.createPost();
+
+        //Save post
+        p = this.post_service.createPost(p, current_user);
+        //Add it to posts wrapper
+        posts_wrapper.addPost(p);
+
+        mav.setViewName("redirect:/user_" +current_user.getUserId());
         return mav;
     }
 
