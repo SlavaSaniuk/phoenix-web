@@ -35,9 +35,6 @@ public class LoginController implements InitializingBean {
     private SigningService service; //Autowired in constructor
     private Authorization authorization; //Autowired via setter
 
-    @Autowired
-    private UserWrapper user_wrapper;
-
     public LoginController(SigningService a_service) {
         LOGGER.info("Create " +getClass().getName() +" controller bean.");
         LOGGER.debug("Autowire: " +a_service.getClass().getName() +" to " +getClass().getName() +" controller bean");
@@ -99,9 +96,6 @@ public class LoginController implements InitializingBean {
             HttpSession session = request.getSession(true);
             this.authorization.authorize(user, session);
         }
-
-        LOGGER.info("Set user entity in user wrapper bean.");
-        this.user_wrapper.setUser(user);
 
         mav.setViewName("redirect:/user_" +user.getUserId());
         return mav;
