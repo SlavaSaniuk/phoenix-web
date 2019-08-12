@@ -2,23 +2,15 @@ package com.phoenix.models.wrappers;
 
 import com.phoenix.models.Post;
 import com.phoenix.models.User;
-import com.phoenix.services.posts.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Component("PostsWrapper")
-@Scope(value = "SCOPE_SESSION")
 public class PostsWrapper extends Wrapper {
 
     //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(PostsWrapper.class);
-
-    //Spring beans
-    private PostService service;
 
     //User posts
     private final List<Post> user_posts = new ArrayList<>();

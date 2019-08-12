@@ -32,9 +32,6 @@ public class UserPageController implements InitializingBean {
     private UserRepository repository; //Autowired via constructor
     private PostService post_service; //Autowired via setter
 
-    @Autowired
-    UserWrapper wrapper;
-
     //Constructor
     @Autowired
     public UserPageController(UserRepository repository) {
@@ -80,22 +77,6 @@ public class UserPageController implements InitializingBean {
                 //if not initialized -> initialize with basic(minimal) size
                 List<Post> users_posts = this.post_service.getSomeUserPostsFromTheEnd(current_user, 5);
                 posts_wrapper.addSomePosts(users_posts);
-            }
-
-
-            LOGGER.info("Autowired wrapper is null?");
-            if (wrapper == null) {
-                LOGGER.info("yes");
-            }else {
-                LOGGER.info("no");
-                User user = wrapper.getUser();
-                LOGGER.info("User in wrapper ?");
-                if (user == null) {
-                    LOGGER.info("no");
-                }else {
-                    LOGGER.info("Yes");
-                    LOGGER.info(user.toString());
-                }
             }
 
             //View name
