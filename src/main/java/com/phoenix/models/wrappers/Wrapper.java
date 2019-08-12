@@ -4,7 +4,7 @@ import com.phoenix.models.User;
 
 public class Wrapper {
 
-    private User user;
+    protected User user;
 
     //Constructors
     public Wrapper() {}

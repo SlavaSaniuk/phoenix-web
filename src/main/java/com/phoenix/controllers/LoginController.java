@@ -3,6 +3,7 @@ package com.phoenix.controllers;
 import com.phoenix.exceptions.JpaEngineException;
 import com.phoenix.models.User;
 import com.phoenix.models.forms.LoginForm;
+import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.services.accounting.SigningService;
 import com.phoenix.services.authorization.Authorization;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,9 @@ public class LoginController implements InitializingBean {
     //Spring beans
     private SigningService service; //Autowired in constructor
     private Authorization authorization; //Autowired via setter
+
+    @Autowired
+    private UserWrapper user_wrapper;
 
     public LoginController(SigningService a_service) {
         LOGGER.info("Create " +getClass().getName() +" controller bean.");
@@ -95,6 +99,9 @@ public class LoginController implements InitializingBean {
             HttpSession session = request.getSession(true);
             this.authorization.authorize(user, session);
         }
+
+        LOGGER.info("Set user entity in user wrapper bean.");
+        this.user_wrapper.setUser(user);
 
         mav.setViewName("redirect:/user_" +user.getUserId());
         return mav;

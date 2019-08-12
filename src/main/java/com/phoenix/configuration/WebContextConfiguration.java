@@ -26,7 +26,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan( basePackageClasses = WebContextConfiguration.class, basePackages = "com.phoenix.controllers")
-@Import(WebMvcConfiguration.class)
+@Import({WebMvcConfiguration.class, WrappersConfiguration.class})
 public class WebContextConfiguration implements WebMvcConfigurer {
 
     //LOGGER
