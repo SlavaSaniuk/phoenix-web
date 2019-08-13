@@ -59,6 +59,8 @@ public class WebContextConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/styles/**").addResourceLocations("classpath:static/style/");
         //Add javascript libraries to view
         registry.addResourceHandler("/libs/**").addResourceLocations("classpath:static/lib/");
+        //Add javascript scripts
+        registry.addResourceHandler("/scripts/**").addResourceLocations("classpath:static/scripts/");
         //Add images to view as static resources
         registry.addResourceHandler("/img/**").addResourceLocations("classpath:static/img/");
         //Add localization messages files to thymeleaf message source

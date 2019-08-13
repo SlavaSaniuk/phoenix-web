@@ -5,13 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/scripts/PostsAjaxQueries.js}"> </script>
 </head>
 <body>
 
     <div>
-        <form th:fragment="post_form" th:action="@{/create_post}" method="post" th:object="${post_form}">
+        <form th:id="post_form" th:fragment="post_form" th:action="@{/create_post}" method="post" th:object="${post_form}">
             <textarea id="post_text" rows="4" cols="40" placeholder="What's new?" th:field="*{postText}"> </textarea>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
         </form>
     </div>
 

@@ -4,7 +4,6 @@ import com.phoenix.models.Post;
 import com.phoenix.models.User;
 import com.phoenix.models.forms.PostForm;
 import com.phoenix.models.wrappers.PostsWrapper;
-import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.repositories.UserRepository;
 import com.phoenix.services.posts.PostService;
 import java.util.List;
