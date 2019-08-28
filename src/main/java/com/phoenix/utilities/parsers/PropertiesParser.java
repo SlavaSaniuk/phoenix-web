@@ -1,6 +1,6 @@
 package com.phoenix.utilities.parsers;
 
-public interface Parser<T> {
+public interface PropertiesParser<T> {
 
     T getProperties();
 }
