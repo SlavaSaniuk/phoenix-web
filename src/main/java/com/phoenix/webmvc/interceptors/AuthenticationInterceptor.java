@@ -1,6 +1,6 @@
 package com.phoenix.webmvc.interceptors;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;

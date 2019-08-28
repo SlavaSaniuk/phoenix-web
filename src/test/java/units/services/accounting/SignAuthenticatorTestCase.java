@@ -1,9 +1,8 @@
 package units.services.accounting;
 
 import com.phoenix.exceptions.JpaEngineException;
-import com.phoenix.models.Account;
-import com.phoenix.models.User;
-import com.phoenix.models.forms.LoginForm;
+import com.phoenix.models.relation.users.Account;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.repositories.UserRepository;
 import com.phoenix.services.accounting.AccountManagementService;
 import com.phoenix.services.accounting.SignAuthenticator;

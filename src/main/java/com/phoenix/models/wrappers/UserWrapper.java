@@ -1,6 +1,6 @@
 package com.phoenix.models.wrappers;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import org.springframework.lang.NonNull;
 
 public class UserWrapper {

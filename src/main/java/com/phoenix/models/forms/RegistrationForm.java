@@ -1,7 +1,7 @@
 package com.phoenix.models.forms;
 
-import com.phoenix.models.Account;
-import com.phoenix.models.UserDetail;
+import com.phoenix.models.relation.users.Account;
+import com.phoenix.models.relation.users.UserDetail;
 import com.phoenix.webmvc.validation.annotations.Char;
 import com.phoenix.webmvc.validation.annotations.Password;
 import com.phoenix.webmvc.validation.annotations.ValidLocalDate;

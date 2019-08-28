@@ -1,6 +1,6 @@
 package com.phoenix.exceptions;
 
-import com.phoenix.models.Account;
+import com.phoenix.models.relation.users.Account;
 
 import javax.persistence.EntityExistsException;
 

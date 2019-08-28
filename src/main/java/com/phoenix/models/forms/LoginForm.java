@@ -1,6 +1,6 @@
 package com.phoenix.models.forms;
 
-import com.phoenix.models.Account;
+import com.phoenix.models.relation.users.Account;
 import com.phoenix.webmvc.validation.annotations.Password;
 
 import javax.validation.constraints.Email;

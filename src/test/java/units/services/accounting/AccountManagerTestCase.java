@@ -1,6 +1,6 @@
 package units.services.accounting;
 
-import com.phoenix.models.Account;
+import com.phoenix.models.relation.users.Account;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.accounting.AccountManager;
 import com.phoenix.services.security.hashing.HashAlgorithms;

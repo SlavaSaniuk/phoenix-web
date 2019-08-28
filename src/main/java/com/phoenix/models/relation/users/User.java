@@ -1,4 +1,4 @@
-package com.phoenix.models;
+package com.phoenix.models.relation.users;
 
 import javax.persistence.*;
 import java.util.Objects;

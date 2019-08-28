@@ -1,7 +1,7 @@
 package com.phoenix.services.accounting;
 
-import com.phoenix.models.Account;
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.Account;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.repositories.AccountRepository;
 import com.phoenix.services.security.hashing.HashingService;
 import javax.persistence.EntityNotFoundException;

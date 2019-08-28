@@ -2,9 +2,10 @@ package com.phoenix.services.accounting;
 
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
-import com.phoenix.models.Account;
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.Account;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.models.forms.RegistrationForm;
+import com.phoenix.models.relation.users.UserDetail;
 
 /**
  *  Signing service service bean. Common purposes of this service
@@ -22,7 +23,7 @@ public interface SigningService{
      * email already register. If not register validate user password with
      * constraints defined in configuration file. If account passwords valid reset
      * current account password, generate hash and salt, persist account
-     * in database. Also persist created {@link com.phoenix.models.UserDetail} entity.
+     * in database. Also persist created {@link UserDetail} entity.
      * @param form - {@link RegistrationForm} for registration.
      * @return - Generated user/account ID.
      * @throws EmailAlreadyRegisterException - throws if account email founded in database.

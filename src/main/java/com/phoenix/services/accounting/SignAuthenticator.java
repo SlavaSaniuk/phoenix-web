@@ -2,9 +2,9 @@ package com.phoenix.services.accounting;
 
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
-import com.phoenix.models.Account;
-import com.phoenix.models.User;
-import com.phoenix.models.UserDetail;
+import com.phoenix.models.relation.users.Account;
+import com.phoenix.models.relation.users.User;
+import com.phoenix.models.relation.users.UserDetail;
 import com.phoenix.models.forms.RegistrationForm;
 import com.phoenix.repositories.UserRepository;
 import com.phoenix.services.users.DetailsService;

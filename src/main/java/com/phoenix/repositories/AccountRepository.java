@@ -1,6 +1,6 @@
 package com.phoenix.repositories;
 
-import com.phoenix.models.Account;
+import com.phoenix.models.relation.users.Account;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;

@@ -2,7 +2,7 @@ package com.phoenix.controllers;
 
 import com.phoenix.exceptions.EmailAlreadyRegisterException;
 import com.phoenix.exceptions.JpaEngineException;
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.models.forms.RegistrationForm;
 
 

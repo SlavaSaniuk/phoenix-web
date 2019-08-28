@@ -1,6 +1,6 @@
 package units.models;
 
-import com.phoenix.models.Account;
+import com.phoenix.models.relation.users.Account;
 import com.phoenix.models.forms.LoginForm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

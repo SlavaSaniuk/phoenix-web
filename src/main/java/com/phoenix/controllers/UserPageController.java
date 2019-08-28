@@ -1,6 +1,6 @@
 package com.phoenix.controllers;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.models.wrappers.UserWrapper;
 import com.phoenix.repositories.UserRepository;
 import org.slf4j.Logger;

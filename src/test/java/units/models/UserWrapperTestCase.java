@@ -1,7 +1,7 @@
 package units.models;
 
-import com.phoenix.models.User;
-import com.phoenix.models.UserDetail;
+import com.phoenix.models.relation.users.User;
+import com.phoenix.models.relation.users.UserDetail;
 import com.phoenix.models.wrappers.UserWrapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

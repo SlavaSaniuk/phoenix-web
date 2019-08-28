@@ -1,6 +1,6 @@
 package com.phoenix.repositories;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import org.springframework.data.repository.CrudRepository;
 
 /**

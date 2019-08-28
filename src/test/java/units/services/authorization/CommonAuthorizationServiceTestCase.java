@@ -1,6 +1,6 @@
 package units.services.authorization;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.services.authorization.CommonAuthorizationService;
 
 import javax.servlet.http.HttpSession;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpSession;
 
 @SuppressWarnings("ConstantConditions")
 @ExtendWith(MockitoExtension.class)

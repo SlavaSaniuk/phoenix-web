@@ -1,7 +1,7 @@
 package com.phoenix.services.users;
 
-import com.phoenix.models.User;
-import com.phoenix.models.UserDetail;
+import com.phoenix.models.relation.users.User;
+import com.phoenix.models.relation.users.UserDetail;
 import com.phoenix.repositories.UserDetailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

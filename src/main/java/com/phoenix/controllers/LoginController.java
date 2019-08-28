@@ -1,7 +1,7 @@
 package com.phoenix.controllers;
 
 import com.phoenix.exceptions.JpaEngineException;
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.models.forms.LoginForm;
 import com.phoenix.services.accounting.SigningService;
 import com.phoenix.services.authorization.Authorization;

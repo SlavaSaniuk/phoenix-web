@@ -74,6 +74,12 @@
             <version>2.1.9.RELEASE</version>
             <optional>false</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-neo4j -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>5.1.10.RELEASE</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -94,6 +100,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-embedded-driver -->
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm-embedded-driver</artifactId>
+            <version>3.1.12</version>
         </dependency>
         <!-- End of database vendor connector dependencies -->
 
@@ -165,7 +177,24 @@
             <version>2.6.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-test -->
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm-test</artifactId>
+            <version>3.1.13</version>
+            <scope>test</scope>
+        </dependency>
         <!-- End of test dependencies -->
+
+        <!-- Other dependencies -->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- End of other dependencies -->
 
     </dependencies>
 

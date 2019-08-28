@@ -1,6 +1,6 @@
 package com.phoenix.services.authorization;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import javax.servlet.http.HttpSession;
 
 public interface Authorization {

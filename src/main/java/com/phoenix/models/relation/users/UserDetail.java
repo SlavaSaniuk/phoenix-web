@@ -1,4 +1,4 @@
-package com.phoenix.models;
+package com.phoenix.models.relation.users;
 
 import com.phoenix.models.forms.RegistrationForm;
 import com.phoenix.webmvc.formatters.LocalDateFormatter;

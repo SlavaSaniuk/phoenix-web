@@ -1,6 +1,6 @@
 package com.phoenix.controllers;
 
-import com.phoenix.models.User;
+import com.phoenix.models.relation.users.User;
 import com.phoenix.models.wrappers.UserWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
