@@ -1,11 +1,15 @@
 package com.phoenix.configuration.properties;
 
 import com.phoenix.utilities.parsers.SpringEnvironmentPropertiesParser;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Neo4jConfigurationProperties {
 
     //LOGGER
@@ -15,8 +19,9 @@ public class Neo4jConfigurationProperties {
     private enum PROTOCOLS {BOLT, HTTP}
 
     //Available properties
-    @Getter
     private String connection_protocol;
+    private int connection_pool_size;
+
 
 
 
@@ -41,6 +46,31 @@ public class Neo4jConfigurationProperties {
             }
         }
 
+        private void parseConnectionPoolSize() {
+
+            //Get "com.phoenix.databases.neo4j.connection.pool_size" property
+            String s = super.getEnvironment().getProperty("com.phoenix.databases.neo4j.connection.pool_size", "50");
+
+            //Check if property is set
+            if (s.isEmpty()) {
+                //Use default
+                LOGGER.warn("Connection pool size is not set. Use default value: 50.");
+                properties.connection_pool_size = 50;
+            }else {
+                //Use this property
+
+                try {
+                    int i = Integer.parseInt(s);
+                    LOGGER.debug("Connection pool size is set to \"" +i +"\".");
+                    properties.connection_pool_size = i;
+                }catch (NumberFormatException exc) {
+                    LOGGER.warn("Connection pool size is set in incorrect value. Use default value: 50.");
+                    properties.connection_pool_size = 50;
+                }
+
+            }
+        }
+
         public Neo4jEnvironmentParser environment(Environment environment) {
             super.setEnvironment(environment);
             return this;
@@ -51,6 +81,8 @@ public class Neo4jConfigurationProperties {
 
             //Parse properties
             parseConnectionProtocol();
+            parseConnectionPoolSize();
+
 
             return properties;
         }
